@@ -13,6 +13,20 @@ type guildMember = {
 	displayAvatarURL: string;
 };
 
+type discordUser = {
+	id: string;
+	username: string;
+	discriminator: string;
+	avatar: string;
+	displayAvatarURL: string;
+	bot: boolean;
+	system: boolean;
+	flags: number;
+	createdTimestamp: number;
+	defaultAvatarURL: string;
+	tag: string;
+};
+
 type user = {
 	id: string;
 	bot: boolean;

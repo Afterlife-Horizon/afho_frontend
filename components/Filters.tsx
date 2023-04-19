@@ -37,11 +37,11 @@ const Filters = () => {
 		<div className="flex flex-col gap-1 w-[90%] mx-auto mt-5">
 			<div className="flex flex-row gap-3">
 				<label htmlFor="speed">Speed</label>
-				<Input className="w-[20%]" id="speed" onChange={(e) => handleEffectChange("speed")} />
+				<Input className="w-[20%]" type="number" defaultValue={0} id="speed" onChange={(e) => handleEffectChange("speed")} />
 			</div>
 			<div className="flex flex-row gap-3">
 				<label htmlFor="bassboost">Speed</label>
-				<Input className="w-[20%]" id="bassboost" onChange={(e) => handleEffectChange("bassboost")} />
+				<Input className="w-[20%]" type="number" defaultValue={0} id="bassboost" onChange={(e) => handleEffectChange("bassboost")} />
 			</div>
 			{Object.keys(effects).map((effect) => {
 				if (typeof effects[effect] === "boolean") {

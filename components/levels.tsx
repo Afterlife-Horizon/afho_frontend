@@ -2,6 +2,7 @@ import useLevels from "@/hooks/useLevels";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { ScrollArea } from "./ui/scroll-area";
+import parseRank from "@/functions/parseRank";
 
 const Levels = () => {
 	const { data: levels, isLoading, error } = useLevels();
@@ -24,7 +25,10 @@ const Levels = () => {
 				<tbody>
 					{levels.map((level, index) => (
 						<tr key={level.user.userId} className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-pallete2" : "bg-pallete3"}`}>
-							<td className="text-right pr-[1rem]">{index + 1}</td>
+							<td className="text-right pr-[1rem]">
+								{index + 1}
+								{parseRank(index + 1)}
+							</td>
 							<td>
 								<div className="flex flex-row items-center gap-5 w-full h-full">
 									{level.user.displayAvatarURL ? (

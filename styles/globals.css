@@ -2,13 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-.MuiAutocomplete-popper {
-	background-color: #1d1d1d !important;
-}
-
 @layer base {
 	:root {
-		--background: 0 0% 100%;
+		--background: 0 0% 7%;
 		--foreground: 222.2 47.4% 11.2%;
 
 		--muted: 210 40% 96.1%;

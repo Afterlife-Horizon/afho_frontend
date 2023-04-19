@@ -1,10 +1,11 @@
 import useBrasilCounts from "@/hooks/useBrasilCounts";
 import { ScrollArea } from "./ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Autocomplete, TextField, makeStyles } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import { useState } from "react";
 import useConnectedMembers from "@/hooks/useConnectedMembers";
 import { Button } from "./ui/button";
+import parseRank from "@/functions/parseRank";
 
 const Brasil = () => {
 	const { data: brasils, isLoading, error } = useBrasilCounts();
@@ -74,7 +75,7 @@ const Brasil = () => {
 					)}
 				/>
 
-				<Button className="w-[30%] h-[3.3rem] bg-accent2" onClick={() => {}}>
+				<Button className="w-[30%] h-[3.3rem] bg-accent2 hover:bg-accent1" onClick={() => {}}>
 					bresil
 				</Button>
 			</div>
@@ -91,7 +92,10 @@ const Brasil = () => {
 					<tbody>
 						{brasils.map((brasil, index) => (
 							<tr key={brasil.user.userId} className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-pallete2" : "bg-pallete3"}`}>
-								<td className="text-right pr-[1rem]">{index + 1}</td>
+								<td className="text-right pr-[1rem]">
+									{index + 1}
+									{parseRank(index + 1)}
+								</td>
 								<td>
 									<div className="flex flex-row items-center gap-5 w-full h-full">
 										{brasil.user.displayAvatarURL ? (
