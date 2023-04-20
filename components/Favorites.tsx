@@ -43,14 +43,6 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 					},
 				}
 			)
-			.then((data) => {
-				const fav: { favorites: fav[] } | undefined = queryClient.getQueryData(["favorites", user.user_metadata.provider_id]);
-				if (fav) {
-					const newFavs = [...fav.favorites, data.data];
-					queryClient.setQueriesData(["favorites", user.user_metadata.provider_id], { favorites: newFavs });
-				}
-				setFavField("");
-			})
 			.catch((err: AxiosError) => {
 				const data = err.response?.data as { error: string };
 				setToastOpen(true);
@@ -58,6 +50,8 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 				setToastDescription(data.error);
 				setToastColor("destructive");
 			});
+		queryClient.invalidateQueries(["favorites", user.user_metadata.provider_id]);
+		setFavField("");
 		setIsAdding(false);
 	}
 
@@ -73,13 +67,6 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 					"Content-Type": "application/json",
 				},
 			})
-			.then(() => {
-				const fav: { favorites: fav[] } | undefined = queryClient.getQueryData(["favorites", userId]);
-				if (fav) {
-					const newFavs = fav.favorites.filter((fav) => fav.id !== id);
-					queryClient.setQueriesData(["favorites", userId], { favorites: newFavs });
-				}
-			})
 			.catch((err: AxiosError) => {
 				const data = err.response?.data as { error: string };
 				setToastOpen(true);
@@ -87,6 +74,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 				setToastDescription(data.error);
 				setToastColor("destructive");
 			});
+		queryClient.invalidateQueries(["favorites", user.user_metadata.provider_id]);
 	}
 
 	async function playFav(fav: fav) {
