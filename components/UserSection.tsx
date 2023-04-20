@@ -32,7 +32,7 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 						</AvatarFallback>
 					</Avatar>
 					<div className={`text-xl text-white ${windowSize.width && windowSize.width < 700 ? "text-[1rem]" : ""}`}>{user.user_metadata.full_name}</div>
-					{isAdmin && windowSize.width && windowSize.width > 700 ? <Badge className="bg-accent1 hover:bg-accent2 text-slate-800">admin</Badge> : null}
+					{isAdmin ? <Badge className="bg-accent1 hover:bg-accent2 text-slate-800">admin</Badge> : null}
 				</div>
 				<div className={`grid place-items-center  ${windowSize.width && windowSize.width < 600 ? "w-full" : "w-[30%]"}  mr-5`}>
 					<Button
@@ -44,7 +44,7 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 				</div>
 			</div>
 			<Tabs defaultValue="favorites">
-				<TabsList className="w-full gap-3 md:rounded-none p-[2rem] bg-pallete2 [&>*:hover]:bg-accent1 text-white">
+				<TabsList className={`w-full md:rounded-none ${windowSize.width && windowSize.width < 700 ? "p[0.5rem] gap-1" : "gap-3 p-[2rem]"} bg-pallete2 [&>*:hover]:bg-accent1 text-white`}>
 					<TabsTrigger value="favorites" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
 						Favorites
 					</TabsTrigger>
