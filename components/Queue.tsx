@@ -159,88 +159,84 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 	}
 
 	const handleRemove = (id: number) => {
-		return (_event: React.MouseEvent<HTMLButtonElement>) => {
-			async function remove() {
-				const url = "/api/remove";
-				await axios
-					.post(
-						url,
-						{
-							queuePos: id,
-							access_token: (await supabase.auth.getSession()).data?.session?.access_token,
-						},
-						{
-							headers: { "Content-Type": "application/json" },
-						}
-					)
-					.catch((err: AxiosError) => {
-						const data = err.response?.data as { error: string };
-						setToastOpen(true);
-						setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
-						setToastDescription(data.error);
-						setToastColor("destructive");
-					});
-			}
+		async function remove() {
+			const url = "/api/remove";
+			await axios
+				.post(
+					url,
+					{
+						queuePos: id,
+						access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+					},
+					{
+						headers: { "Content-Type": "application/json" },
+					}
+				)
+				.catch((err: AxiosError) => {
+					const data = err.response?.data as { error: string };
+					setToastOpen(true);
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+					setToastDescription(data.error);
+					setToastColor("destructive");
+				});
+		}
 
-			if (!isAdmin) {
-				setToastOpen(true);
-				setToastTitle(``);
-				setToastDescription("You are not an admin");
-				setToastColor("inform");
-				return;
-			}
+		if (!isAdmin) {
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("You are not an admin");
+			setToastColor("inform");
+			return;
+		}
 
-			if (!queue || queue.length === 0) {
-				setToastOpen(true);
-				setToastTitle(``);
-				setToastDescription("No songs to remove");
-				setToastColor("inform");
-				return;
-			}
-			remove();
-		};
+		if (!queue || queue.length === 0) {
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("No songs to remove");
+			setToastColor("inform");
+			return;
+		}
+		remove();
 	};
 
 	const handleskipto = (id: number) => {
-		return (_event: React.MouseEvent<HTMLButtonElement>) => {
-			async function skipto() {
-				await axios
-					.post(
-						"/api/skipto",
-						{
-							queuePos: id,
-							access_token: (await supabase.auth.getSession()).data?.session?.access_token,
-						},
-						{
-							headers: { "Content-Type": "application/json" },
-						}
-					)
-					.catch((err: AxiosError) => {
-						const data = err.response?.data as { error: string };
-						setToastOpen(true);
-						setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
-						setToastDescription(data.error);
-						setToastColor("destructive");
-					});
-			}
+		async function skipto() {
+			await axios
+				.post(
+					"/api/skipto",
+					{
+						queuePos: id,
+						access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+					},
+					{
+						headers: { "Content-Type": "application/json" },
+					}
+				)
+				.catch((err: AxiosError) => {
+					const data = err.response?.data as { error: string };
+					setToastOpen(true);
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+					setToastDescription(data.error);
+					setToastColor("destructive");
+				});
+		}
 
-			if (!isAdmin) {
-				setToastOpen(true);
-				setToastTitle(``);
-				setToastDescription("You are not an admin");
-				setToastColor("inform");
-				return;
-			}
+		if (!isAdmin) {
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("You are not an admin");
+			setToastColor("inform");
+			return;
+		}
 
-			if (!queue || queue.length === 0) {
-				setToastOpen(true);
-				setToastTitle(``);
-				setToastDescription("No songs to skip to");
-				setToastColor("inform");
-				return;
-			}
-			skipto();
-		};
+		if (!queue || queue.length === 0) {
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("No songs to skip to");
+			setToastColor("inform");
+			return;
+		}
+		skipto();
 	};
 
 	return (
