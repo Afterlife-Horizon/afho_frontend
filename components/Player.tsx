@@ -85,12 +85,15 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 				});
 		} else {
 			await axios
-				.post("/api/pause", {
-					headers: { "Content-Type": "application/json" },
-					data: JSON.stringify({
+				.post(
+					"/api/pause",
+					{
 						access_token: (await supabase.auth.getSession()).data?.session?.access_token,
-					}),
-				})
+					},
+					{
+						headers: { "Content-Type": "application/json" },
+					}
+				)
 				.catch((err: AxiosError) => {
 					const data = err.response?.data as { error: string };
 					setToastOpen(true);
