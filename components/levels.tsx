@@ -6,9 +6,8 @@ import parseRank from "@/functions/parseRank";
 import Spinner from "./ui/Spinner";
 import React from "react";
 import { User } from "lucide-react";
-import { Badge } from "./ui/badge";
 
-const Levels: React.FC<defaultProps> = ({ fetchInfo }) => {
+const Levels: React.FC<defaultProps> = ({}) => {
 	const { data: levels, isLoading, error } = useLevels();
 
 	if (isLoading) return <Spinner size={150} />;

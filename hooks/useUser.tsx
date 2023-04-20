@@ -7,6 +7,15 @@ const useUser = (): UseQueryResult<User, Error> => {
 		queryKey: ["user"],
 		queryFn: getUser,
 		select: (data) => data.user,
+		retry(failureCount, error) {
+			if (error.message === "invalid claim: missing sub claim") {
+				return false;
+			}
+			if (failureCount < 2) {
+				return true;
+			}
+			return false;
+		},
 	});
 };
 

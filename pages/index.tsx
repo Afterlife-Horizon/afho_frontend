@@ -7,8 +7,10 @@ import { Toast, ToastTitle, ToastDescription, ToastViewport } from "@/components
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import Spinner from "@/components/ui/Spinner";
+import useWindowSize from "@/hooks/useWindowSize";
+import { NextPage } from "next";
 
-const Home: React.FC<{}> = ({}) => {
+const Home: NextPage = () => {
 	const [toastOpen, setToastOpen] = useState(false);
 	const [toastTitle, setToastTitle] = useState("test");
 	const [toastDescription, setToastDescription] = useState("testtest");
@@ -16,6 +18,7 @@ const Home: React.FC<{}> = ({}) => {
 	const router = useRouter();
 	const { data: apiUser, isLoading, error } = useUser();
 	const { data: fetchInfo, isLoading: isFetchingInfo, error: fetchingInfoError } = useFetchInfo();
+	const windowSize = useWindowSize();
 
 	if (isLoading)
 		return (
@@ -43,8 +46,8 @@ const Home: React.FC<{}> = ({}) => {
 	const isAdmin = fetchInfo?.admins.usernames.includes(apiUser.user_metadata.full_name);
 
 	return (
-		<main className={"flex flex-wrap h-[100vh] bg-pallete1"}>
-			<div className="w-[50%]">
+		<main className={`flex ${windowSize.width && windowSize.width < 1200 ? "flex-col mb-[3rem]" : "h-[100vh]"} bg-pallete1`}>
+			<div className={`${windowSize.width && windowSize.width < 1200 ? "w-full" : "w-[50%]"}`}>
 				<Player
 					user={apiUser}
 					fetchInfo={fetchInfo}
@@ -64,7 +67,7 @@ const Home: React.FC<{}> = ({}) => {
 					setToastTitle={setToastTitle}
 				/>
 			</div>
-			<div className="w-[50%]">
+			<div className={`${windowSize.width && windowSize.width < 1200 ? "w-full" : "w-[50%]"}`}>
 				<UserSection
 					user={apiUser}
 					fetchInfo={fetchInfo}

@@ -9,9 +9,11 @@ import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { useRouter } from "next/router";
 import { User } from "lucide-react";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastDescription, setToastOpen, setToastTitle, setToastColor }) => {
 	const router = useRouter();
+	const windowSize = useWindowSize();
 
 	async function handleSignOut() {
 		const { error } = await supabase.auth.signOut();
@@ -23,14 +25,14 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 		<section className="flex flex-col flex-grow w-[90%] mx-auto mt-[1rem] shadow h-[97.2%] bg-pallete2 rounded-lg text-white">
 			<div className="flex flex-row justify-between w-full bg-pallete3 rounded-t-lg">
 				<div className="flex gap-3 w-full h-[10rem] items-center p-[2rem]">
-					<Avatar className="w-[5rem] h-[5rem] rounded-full">
+					<Avatar className={`rounded-full ${windowSize.width && windowSize.width < 700 ? "h-[3rem] w-[3rem]" : "h-[5rem] w-[5rem]"}`}>
 						<AvatarImage src={user.user_metadata.avatar_url} />
 						<AvatarFallback>
 							<User />
 						</AvatarFallback>
 					</Avatar>
-					<div className="text-xl text-white">{user.user_metadata.full_name}</div>
-					{isAdmin ? <Badge className="bg-accent1 hover:bg-accent2 text-slate-800">admin</Badge> : null}
+					<div className={`text-xl text-white ${windowSize.width && windowSize.width < 700 ? "text-[1rem]" : ""}`}>{user.user_metadata.full_name}</div>
+					{isAdmin && windowSize.width && windowSize.width > 700 ? <Badge className="bg-accent1 hover:bg-accent2 text-slate-800">admin</Badge> : null}
 				</div>
 				<div className="grid place-items-center w-[30%] mr-5">
 					<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95 px-10 py-5" onClick={handleSignOut}>

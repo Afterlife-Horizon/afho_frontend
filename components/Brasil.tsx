@@ -111,12 +111,11 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 					)}
 				/>
 
-				
 				<Button className="w-[30%] h-[3.3rem] bg-accent2 hover:bg-accent1" onClick={handleBresilClicked}>
 					{isMoving ? <Spinner size={30} /> : "Bresil"}
 				</Button>
 			</div>
-			<ScrollArea className="flex flex-col gap-3 max-h-[74vh]">
+			<ScrollArea className="flex flex-col gap-3 max-h-[60vh]">
 				<table className="w-full p-[5rem]">
 					<thead>
 						<tr className="[&>*]:px-[0.5rem] bg-pallete3 sticky top-0 z-10">

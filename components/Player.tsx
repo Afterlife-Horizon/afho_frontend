@@ -18,6 +18,7 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 	function handleMouseEnter() {
 		setPlayerInfoClasses((prev) => prev.replace("hidden", "grid"));
 	}
+
 	function handleMouseLeave() {
 		setPlayerInfoClasses((prev) => prev.replace("grid", "hidden"));
 	}
