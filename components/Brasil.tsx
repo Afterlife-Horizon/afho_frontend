@@ -2,17 +2,20 @@ import useBrasilCounts from "@/hooks/useBrasilCounts";
 import { ScrollArea } from "./ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Autocomplete, TextField } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 import useConnectedMembers from "@/hooks/useConnectedMembers";
 import { Button } from "./ui/button";
 import parseRank from "@/functions/parseRank";
+import Spinner from "./ui/Spinner";
+import axios, { AxiosError } from "axios";
 
-const Brasil = () => {
+const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, setToastOpen, setToastTitle, user }) => {
 	const { data: brasils, isLoading, error } = useBrasilCounts();
-	const [currentPlayer, setCurrentPlayer] = useState("");
 	const { data: connectedMembers, isLoading: isLoadingConnectedMembers, error: errorConnectedMembers } = useConnectedMembers();
+	const [currentPlayer, setCurrentPlayer] = useState("");
+	const [isMoving, setIsMoving] = useState(false);
 
-	if (isLoading || isLoadingConnectedMembers) return <div>Loading...</div>;
+	if (isLoading || isLoadingConnectedMembers) return <Spinner size={150} />;
 	if (error) return <div>Error: {error.message}</div>;
 	if (errorConnectedMembers) return <div>Error: {errorConnectedMembers.message}</div>;
 	if (!brasils) return <div></div>;
@@ -25,6 +28,39 @@ const Brasil = () => {
 
 	function handleChangeCurrentPlayer(event: any, values: any) {
 		setCurrentPlayer(values);
+	}
+
+	function handleBresilClicked() {
+		async function bresilMember(id: string) {
+			await axios
+				.post(
+					"/api/bresilMember",
+					{ moverId: user?.user_metadata.provider_id, movedId: id },
+					{
+						headers: { "Content-Type": "application/json" },
+					}
+				)
+				.catch((err: AxiosError) => {
+					const data = err.response?.data as { error: string };
+					setToastOpen(true);
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+					setToastDescription(data.error);
+					setToastColor("destructive");
+				});
+		}
+
+		const movedMemberId = connectedMembers?.find((m) => m.username === currentPlayer)?.id;
+		if (currentPlayer === "" || !movedMemberId) {
+			setToastOpen(true);
+			setToastTitle("");
+			setToastDescription("Please select a member");
+			setToastColor("inform");
+			return;
+		}
+
+		setIsMoving(true);
+		bresilMember(movedMemberId);
+		setIsMoving(false);
 	}
 
 	return (
@@ -75,8 +111,9 @@ const Brasil = () => {
 					)}
 				/>
 
-				<Button className="w-[30%] h-[3.3rem] bg-accent2 hover:bg-accent1" onClick={() => {}}>
-					bresil
+				
+				<Button className="w-[30%] h-[3.3rem] bg-accent2 hover:bg-accent1" onClick={handleBresilClicked}>
+					{isMoving ? <Spinner size={30} /> : "Bresil"}
 				</Button>
 			</div>
 			<ScrollArea className="flex flex-col gap-3 max-h-[74vh]">

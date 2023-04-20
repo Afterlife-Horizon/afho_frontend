@@ -1,18 +1,25 @@
 import React, { useState } from "react";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
-import { ChevronLastIcon, Plus, X } from "lucide-react";
+import { ChevronLastIcon, ListStart, Plus, ShuffleIcon, Trash, X } from "lucide-react";
 import Image from "next/image";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
 import { supabase } from "@/utils/supabaseUtils";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import Spinner from "./ui/Spinner";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
 
-const Queue: React.FC<defaultProps> = ({ fetchInfo }) => {
+const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [searchInput, setSearchInput] = useState<string>("");
 	const [isAdding, setIsAdding] = useState<boolean>(false);
+	const [isAddingFirst, setIsAddingFirst] = useState<boolean>(false);
+	const [isShuffling, setIsShuffling] = useState<boolean>(false);
+	const [isClearing, setIsClearing] = useState<boolean>(false);
 
-	function handleSearch() {
+	const queue = fetchInfo.queue[0]?.tracks || [];
+
+	function handleAdd() {
 		async function addSong() {
 			await axios
 				.post(
@@ -25,42 +32,248 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo }) => {
 						headers: { "Content-Type": "application/json" },
 					}
 				)
-				.catch((err) => {
-					console.error(err);
-				})
-				.finally(() => {
-					setSearchInput("");
-					setIsAdding(false);
+				.catch((err: AxiosError) => {
+					const data = err.response?.data as { error: string };
+					setToastOpen(true);
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+					setToastDescription(data.error);
+					setToastColor("destructive");
 				});
 		}
 
 		if (isAdding) return;
 		setIsAdding(true);
-		if (searchInput === "") return setIsAdding(false);
+		if (searchInput === "") {
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("Please enter a song name or url");
+			setToastColor("inform");
+			return setIsAdding(false);
+		}
 		addSong();
+		setIsAdding(false);
+		setSearchInput("");
 	}
+
+	function handleAddFirst() {
+		async function AddFirst() {
+			await axios
+				.post(
+					"/api/playfirst",
+					{
+						songs: searchInput,
+						access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+					},
+					{
+						headers: { "Content-Type": "application/json" },
+					}
+				)
+				.catch((err: AxiosError) => {
+					const data = err.response?.data as string;
+					setToastOpen(true);
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+					setToastDescription(data);
+					setToastColor("destructive");
+				});
+		}
+
+		if (isAddingFirst) return;
+		if (searchInput === "") {
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("Please enter a song name or url");
+			setToastColor("inform");
+			return setIsAddingFirst(false);
+		}
+		setIsAddingFirst(true);
+		AddFirst();
+		setSearchInput("");
+		setIsAddingFirst(false);
+	}
+
+	function handleShuffle() {
+		async function shuffleSongs() {
+			const url = "/api/shuffle";
+			await axios
+				.post(url, {
+					access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+				})
+				.catch((err: AxiosError) => {
+					const data = err.response?.data as { error: string };
+					setToastOpen(true);
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+					setToastDescription(data.error);
+					setToastColor("destructive");
+				});
+		}
+
+		if (isShuffling) return;
+		setIsShuffling(true);
+		if (!queue || queue.length < 3) {
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("No songs to shuffle");
+			setToastColor("inform");
+			return setIsShuffling(false);
+		}
+		setIsShuffling(true);
+		shuffleSongs();
+		setIsShuffling(false);
+	}
+
+	function handleClear() {
+		async function clearSongs() {
+			const url = "/api/clearqueue";
+			await axios
+				.post(url, {
+					access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+				})
+				.catch((err) => {
+					const data = err.response?.data as { error: string };
+					setToastOpen(true);
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+					setToastDescription(data.error);
+					setToastColor("destructive");
+				});
+		}
+
+		if (isClearing) return;
+		setIsClearing(true);
+		if (!isAdmin) {
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("You are not an admin");
+			setToastColor("inform");
+			return setIsClearing(false);
+		}
+
+		if (!queue || queue.length < 2) {
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("No songs to clear");
+			setToastColor("inform");
+			return setIsClearing(false);
+		}
+		clearSongs();
+		setIsClearing(false);
+	}
+
+	const handleRemove = (id: number) => {
+		return (_event: React.MouseEvent<HTMLButtonElement>) => {
+			async function remove() {
+				const url = "/api/remove";
+				await axios
+					.post(
+						url,
+						{
+							queuePos: id,
+							access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+						},
+						{
+							headers: { "Content-Type": "application/json" },
+						}
+					)
+					.catch((err: AxiosError) => {
+						const data = err.response?.data as { error: string };
+						setToastOpen(true);
+						setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+						setToastDescription(data.error);
+						setToastColor("destructive");
+					});
+			}
+
+			if (!isAdmin) {
+				setToastOpen(true);
+				setToastTitle(``);
+				setToastDescription("You are not an admin");
+				setToastColor("inform");
+				return;
+			}
+
+			if (!queue || queue.length === 0) {
+				setToastOpen(true);
+				setToastTitle(``);
+				setToastDescription("No songs to remove");
+				setToastColor("inform");
+				return;
+			}
+			remove();
+		};
+	};
+
+	const handleskipto = (id: number) => {
+		return (_event: React.MouseEvent<HTMLButtonElement>) => {
+			async function skipto() {
+				await axios
+					.post(
+						"/api/skipto",
+						{
+							queuePos: id,
+							access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+						},
+						{
+							headers: { "Content-Type": "application/json" },
+						}
+					)
+					.catch((err: AxiosError) => {
+						const data = err.response?.data as { error: string };
+						setToastOpen(true);
+						setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+						setToastDescription(data.error);
+						setToastColor("destructive");
+					});
+			}
+
+			if (!isAdmin) {
+				setToastOpen(true);
+				setToastTitle(``);
+				setToastDescription("You are not an admin");
+				setToastColor("inform");
+				return;
+			}
+
+			if (!queue || queue.length === 0) {
+				setToastOpen(true);
+				setToastTitle(``);
+				setToastDescription("No songs to skip to");
+				setToastColor("inform");
+				return;
+			}
+			skipto();
+		};
+	};
 
 	return (
 		<section className="w-[85%] mx-auto mt-[1rem] shadow bg-pallete2 rounded-lg text-white">
 			<div className="flex flex-row gap-2 p-2">
 				<Input
 					className="rounded-full"
+					placeholder="Search for a song"
+					value={searchInput}
 					onChange={(e) => {
 						setSearchInput(e.target.value);
 					}}
 					onKeyUp={(e) => {
-						if (e.code === "Enter") handleSearch();
+						if (e.code === "Enter") handleAdd();
 					}}
 				/>
-				<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleSearch}>
-					<Plus />
+				<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleAdd}>
+					{isAdding ? <Spinner size={20} /> : <Plus />}
 				</Button>
-				<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95">
-					<X />
+				<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleAddFirst}>
+					{isAddingFirst ? <Spinner size={20} /> : <ListStart />}
 				</Button>
+				<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleShuffle}>
+					{isShuffling ? <Spinner size={20} /> : <ShuffleIcon />}
+				</Button>
+				{isAdmin ? (
+					<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={handleClear}>
+						{isClearing ? <Spinner size={20} /> : <X />}
+					</Button>
+				) : null}
 			</div>
 			<ScrollArea className="h-[40vh] overflow-auto" id="queue">
-				{fetchInfo.queue[0]?.tracks.slice(1).map((song: track, index) => {
+				{queue.slice(1).map((song: track, index) => {
 					return (
 						<div className={`flex gap-2 p-3`} key={index}>
 							<div className="w-[7rem]">
@@ -72,10 +285,24 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo }) => {
 							</div>
 							<Separator className="h-auto" decorative orientation={"vertical"} />
 							<div className="flex flex-row gap-2 items-center px-3">
-								<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95">
-									<X />
-								</Button>
-								<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95">
+								<AlertDialog>
+									<AlertDialogTrigger className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95">
+										<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95">
+											<X />
+										</Button>
+									</AlertDialogTrigger>
+									<AlertDialogContent>
+										<AlertDialogTitle>Remove song from queue</AlertDialogTitle>
+										<AlertDialogDescription>Are you sure you want to remove this song?</AlertDialogDescription>
+										<AlertDialogFooter>
+											<AlertDialogCancel className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95">Cancel</AlertDialogCancel>
+											<AlertDialogAction className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={() => handleRemove(index)}>
+												Remove
+											</AlertDialogAction>
+										</AlertDialogFooter>
+									</AlertDialogContent>
+								</AlertDialog>
+								<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={() => handleskipto(index)}>
 									<ChevronLastIcon />
 								</Button>
 							</div>

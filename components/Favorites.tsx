@@ -1,43 +1,132 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 import { PlayIcon, Plus, X } from "lucide-react";
 import Image from "next/image";
 import { ScrollArea } from "./ui/scroll-area";
 import { Input } from "./ui/input";
+import useFavorites from "@/hooks/useFavorites";
+import Spinner from "./ui/Spinner";
+import { supabase } from "@/utils/supabaseUtils";
+import { queryClient } from "@/pages/_app";
+import axios, { AxiosError } from "axios";
 
-const Favorites = () => {
-	const [favorites, setFavorites] = useState<any[]>([
-		{
-			name: "Song Name",
-			thumbnail: "https://via.placeholder.com/1920x1080/f7f7f7/000000.jpg",
-		},
-		{
-			name: "Song Name",
-			thumbnail: "https://via.placeholder.com/1920x1080/f7f7f7/000000.jpg",
-		},
-		{
-			name: "Song Name",
-			thumbnail: "https://via.placeholder.com/1920x1080/f7f7f7/000000.jpg",
-		},
-		{
-			name: "Song Name",
-			thumbnail: "https://via.placeholder.com/1920x1080/f7f7f7/000000.jpg",
-		},
-	]);
+const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, setToastDescription, setToastTitle }) => {
+	const { data: favorites, isLoading, error } = useFavorites(user?.id);
+	const [favField, setFavField] = useState<string>("");
+	const [isAdding, setIsAdding] = useState<boolean>(false);
+
+	if (isLoading) return <Spinner size={150} />;
+	if (error) return <div>Error: {error.message}</div>;
+
+	async function addFav() {
+		if (isAdding) return;
+
+		if (favField === "") {
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("Please enter a song name or url");
+			setToastColor("inform");
+			return setIsAdding(false);
+		}
+		setIsAdding(true);
+		await axios
+			.post(
+				"/api/addFav",
+				{
+					access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+					url: favField,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			)
+			.then((data) => {
+				const fav: { favorites: fav[] } | undefined = queryClient.getQueryData(["favorites", user.user_metadata.provider_id]);
+				if (fav) {
+					const newFavs = [...fav.favorites, data.data];
+					queryClient.setQueriesData(["favorites", user.user_metadata.provider_id], { favorites: newFavs });
+				}
+				setFavField("");
+			})
+			.catch((err: AxiosError) => {
+				const data = err.response?.data as { error: string };
+				setToastOpen(true);
+				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+				setToastDescription(data.error);
+				setToastColor("destructive");
+			});
+		setIsAdding(false);
+	}
+
+	async function deleteFav(userId: string, id: string) {
+		await axios
+			.delete("/api/delFav", {
+				data: {
+					userId,
+					id,
+					access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+				},
+				headers: {
+					"Content-Type": "application/json",
+				},
+			})
+			.then(() => {
+				const fav: { favorites: fav[] } | undefined = queryClient.getQueryData(["favorites", userId]);
+				if (fav) {
+					const newFavs = fav.favorites.filter((fav) => fav.id !== id);
+					queryClient.setQueriesData(["favorites", userId], { favorites: newFavs });
+				}
+			})
+			.catch((err: AxiosError) => {
+				const data = err.response?.data as { error: string };
+				setToastOpen(true);
+				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+				setToastDescription(data.error);
+				setToastColor("destructive");
+			});
+	}
+
+	async function playFav(fav: fav) {
+		await axios
+			.post(
+				"/api/play",
+				{
+					songs: fav.url,
+					access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+				},
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			)
+			.catch((err: AxiosError) => {
+				const data = err.response?.data as { error: string };
+				setToastOpen(true);
+				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+				setToastDescription(data.error);
+				setToastColor("destructive");
+			});
+	}
+
 	return (
 		<>
 			<div className="flex flex-row gap-2 p-2">
 				<Input
 					className="rounded-full"
-					onChange={(e) => {}}
+					placeholder="Add a favorite"
+					value={favField}
+					onChange={(e) => setFavField(e.target.value)}
 					onKeyUp={(e) => {
 						if (e.code === "Enter") {
 						}
 					}}
 				/>
-				<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={(e) => {}}>
-					<Plus />
+				<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={addFav}>
+					{isAdding ? <Spinner size={30} /> : <Plus />}
 				</Button>
 			</div>
 			<ScrollArea className="max-h-[74vh] overflow-auto" id="favorites">
@@ -52,10 +141,10 @@ const Favorites = () => {
 							</div>
 							<Separator className="h-auto" decorative orientation={"vertical"} />
 							<div className="flex flex-row gap-2 items-center px-3">
-								<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95">
+								<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={() => deleteFav(user.user_metadata.provider_id, song.id)}>
 									<X />
 								</Button>
-								<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95">
+								<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={() => playFav(song)}>
 									<PlayIcon />
 								</Button>
 							</div>

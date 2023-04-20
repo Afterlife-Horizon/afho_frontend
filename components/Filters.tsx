@@ -34,13 +34,20 @@ const Filters = () => {
 	}
 
 	return (
-		<div className="flex flex-col gap-1 w-[90%] mx-auto mt-5">
+		<div className="flex flex-col gap-[0.35rem] w-[90%] mx-auto mt-5">
+			<div className="w-full">
+				<Button className="w-full bg-accent2 hover:bg-accent1 rounded-full active:scale-95">Apply</Button>
+			</div>
 			<div className="flex flex-row gap-3">
-				<label htmlFor="speed">Speed</label>
+				<label htmlFor="speed" className="w-[7rem]">
+					Speed
+				</label>
 				<Input className="w-[20%]" type="number" defaultValue={0} id="speed" onChange={(e) => handleEffectChange("speed")} />
 			</div>
 			<div className="flex flex-row gap-3">
-				<label htmlFor="bassboost">Speed</label>
+				<label htmlFor="bassboost" className="w-[7rem]">
+					Bass Boost
+				</label>
 				<Input className="w-[20%]" type="number" defaultValue={0} id="bassboost" onChange={(e) => handleEffectChange("bassboost")} />
 			</div>
 			{Object.keys(effects).map((effect) => {
@@ -56,9 +63,6 @@ const Filters = () => {
 					);
 				}
 			})}
-			<div className="w-full">
-				<Button className="w-full">Apply</Button>
-			</div>
 		</div>
 	);
 };

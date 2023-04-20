@@ -3,16 +3,177 @@ import { Button } from "./ui/button";
 import React, { useState } from "react";
 import { Progress } from "./ui/progress";
 import { Pause, Play, PowerOffIcon, SkipForwardIcon, X } from "lucide-react";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { supabase } from "@/utils/supabaseUtils";
+import Spinner from "./ui/Spinner";
 
-const Player: React.FC<defaultProps> = ({ fetchInfo, isAdmin }) => {
+const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [playerInfoClasses, setPlayerInfoClasses] = useState<string>("hidden row-start-1 col-start-1 h-100% p-[1.5rem]");
+	const [isPausing, setIsPausing] = useState<boolean>(false);
+	const [isSkipping, setIsSkipping] = useState<boolean>(false);
+	const [isLeaving, setIsLeaving] = useState<boolean>(false);
+	const [isStopping, setIsStopping] = useState<boolean>(false);
+	const queue = fetchInfo.queue[0]?.tracks || [];
 
 	function handleMouseEnter() {
 		setPlayerInfoClasses((prev) => prev.replace("hidden", "grid"));
 	}
 	function handleMouseLeave() {
 		setPlayerInfoClasses((prev) => prev.replace("grid", "hidden"));
+	}
+
+	async function handleNextClicked(_event: React.MouseEvent<HTMLButtonElement>) {
+		setIsSkipping(true);
+
+		if (!queue || queue.length < 2) {
+			setIsSkipping(false);
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("No song to skip to!");
+			setToastColor("inform");
+			return;
+		}
+		await axios
+			.post(
+				"/api/skip",
+				{
+					access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+				},
+				{
+					headers: { "Content-Type": "application/json" },
+				}
+			)
+			.catch((err: AxiosError) => {
+				const data = err.response?.data as { error: string };
+				setToastOpen(true);
+				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+				setToastDescription(data.error);
+				setToastColor("destructive");
+			});
+		setIsSkipping(false);
+	}
+
+	async function handlePauseClicked(_event: React.MouseEvent<HTMLButtonElement>) {
+		setIsPausing(true);
+
+		if (!queue || queue.length < 1) {
+			setIsPausing(false);
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("No song to pause!");
+			setToastColor("inform");
+			return;
+		}
+
+		if (fetchInfo.queue[0].paused) {
+			await axios
+				.post(
+					"/api/unpause",
+					{
+						access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+					},
+					{
+						headers: { "Content-Type": "application/json" },
+					}
+				)
+				.catch((err: AxiosError) => {
+					const data = err.response?.data as { error: string };
+					setToastOpen(true);
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+					setToastDescription(data.error);
+					setToastColor("destructive");
+				});
+		} else {
+			await axios
+				.post("/api/pause", {
+					headers: { "Content-Type": "application/json" },
+					data: JSON.stringify({
+						access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+					}),
+				})
+				.catch((err: AxiosError) => {
+					const data = err.response?.data as { error: string };
+					setToastOpen(true);
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+					setToastDescription(data.error);
+					setToastColor("destructive");
+				});
+		}
+		setIsPausing(false);
+	}
+
+	async function handleStopClicked(_event: React.MouseEvent<HTMLButtonElement>) {
+		setIsStopping(true);
+
+		if (!isAdmin) {
+			setIsStopping(false);
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("You need to be admin!");
+			setToastColor("inform");
+			return;
+		}
+
+		if (!queue || queue.length < 1) {
+			setIsStopping(false);
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("No song to stop!");
+			setToastColor("inform");
+			return;
+		}
+
+		await axios
+			.post(
+				"/api/stop",
+				{
+					access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+				},
+				{
+					headers: { "Content-Type": "application/json" },
+				}
+			)
+			.catch((err: AxiosError) => {
+				const data = err.response?.data as { error: string };
+				setToastOpen(true);
+				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+				setToastDescription(data.error);
+				setToastColor("destructive");
+			});
+		setIsStopping(false);
+	}
+
+	async function handleDisconnectClicked(_event: React.MouseEvent<HTMLButtonElement>) {
+		if (isLeaving) return;
+		setIsLeaving(true);
+
+		if (!isAdmin) {
+			setIsLeaving(false);
+			setToastOpen(true);
+			setToastTitle(``);
+			setToastDescription("You need to be admin!");
+			setToastColor("inform");
+			return;
+		}
+
+		await axios
+			.post(
+				"/api/disconnect",
+				{
+					access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+				},
+				{
+					headers: { "Content-Type": "application/json" },
+				}
+			)
+			.catch((err: AxiosError) => {
+				const data = err.response?.data as { error: string };
+				setToastOpen(true);
+				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
+				setToastDescription(data.error);
+				setToastColor("destructive");
+			});
+		setIsLeaving(false);
 	}
 
 	return (
@@ -39,17 +200,19 @@ const Player: React.FC<defaultProps> = ({ fetchInfo, isAdmin }) => {
 					<div className="flex gap-2 select-none">
 						{isAdmin ? (
 							<>
-								<Button className="rounded-full hover:scale-105 active:scale-95">
-									<PowerOffIcon />
+								<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleDisconnectClicked}>
+									{isLeaving ? <Spinner size={30} /> : <PowerOffIcon />}
 								</Button>
-								<Button className="rounded-full hover:scale-105 active:scale-95">
-									<X />
+								<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleStopClicked}>
+									{isStopping ? <Spinner size={30} /> : <X />}
 								</Button>
 							</>
 						) : null}
-						<Button className="rounded-full hover:scale-105 active:scale-95">{fetchInfo.queue[0]?.paused ? <Play /> : <Pause />}</Button>
-						<Button className="rounded-full hover:scale-105 active:scale-95">
-							<SkipForwardIcon />
+						<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handlePauseClicked}>
+							{isPausing ? <Spinner size={30} /> : fetchInfo.queue[0]?.paused ? <Play /> : <Pause />}
+						</Button>
+						<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleNextClicked}>
+							{isSkipping ? <Spinner size={30} /> : <SkipForwardIcon />}
 						</Button>
 					</div>
 					<Progress className="mt-2 h-[0.2rem]" value={fetchInfo.queue[0]?.tracks[0] ? Math.floor(100 * (fetchInfo.prog / fetchInfo.queue[0]?.tracks[0].duration)) : 0} />
