@@ -68,7 +68,15 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 				</TabsContent>
 				{isAdmin ? (
 					<TabsContent value="filters" className="mt-0 h-[72vh]">
-						<Filters />
+						<Filters
+							user={user}
+							fetchInfo={fetchInfo}
+							isAdmin={isAdmin}
+							setToastColor={setToastColor}
+							setToastDescription={setToastDescription}
+							setToastOpen={setToastOpen}
+							setToastTitle={setToastTitle}
+						/>
 					</TabsContent>
 				) : null}
 				<TabsContent value="brasilboard" className="mt-0 h-[72vh]">

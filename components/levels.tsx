@@ -28,7 +28,6 @@ const Levels: React.FC<defaultProps> = ({ fetchInfo }) => {
 				</thead>
 				<tbody>
 					{levels.map((level, index) => {
-						const userIsAdmin = fetchInfo?.admins.admins.find((admin) => admin[0].id == level.user.userId);
 						return (
 							<tr key={level.user.userId} className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-pallete2" : "bg-pallete3"}`}>
 								<td className="text-right pr-[1rem]">
