@@ -12,7 +12,7 @@ import { queryClient } from "@/pages/_app";
 import axios, { AxiosError } from "axios";
 
 const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, setToastDescription, setToastTitle }) => {
-	const { data: favorites, isLoading, error } = useFavorites(user?.id);
+	const { data: favorites, isLoading, error } = useFavorites(user.user_metadata.provider_id);
 	const [favField, setFavField] = useState<string>("");
 	const [isAdding, setIsAdding] = useState<boolean>(false);
 
