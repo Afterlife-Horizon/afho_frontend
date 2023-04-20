@@ -9,6 +9,7 @@ import { supabase } from "@/utils/supabaseUtils";
 import axios, { AxiosError } from "axios";
 import Spinner from "./ui/Spinner";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [searchInput, setSearchInput] = useState<string>("");
@@ -16,6 +17,7 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 	const [isAddingFirst, setIsAddingFirst] = useState<boolean>(false);
 	const [isShuffling, setIsShuffling] = useState<boolean>(false);
 	const [isClearing, setIsClearing] = useState<boolean>(false);
+	const windowSize = useWindowSize();
 
 	const queue = fetchInfo.queue[0]?.tracks || [];
 
@@ -241,7 +243,7 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 
 	return (
 		<section className="w-[85%] mx-auto mt-[1rem] shadow bg-pallete2 rounded-lg text-white">
-			<div className="flex flex-row gap-2 p-2">
+			<div className={`flex ${windowSize.width && windowSize.width < 600 ? "flex-col" : ""} gap-2 p-2`}>
 				<Input
 					className="rounded-full"
 					placeholder="Search for a song"
@@ -253,20 +255,23 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 						if (e.code === "Enter") handleAdd();
 					}}
 				/>
-				<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleAdd}>
-					{isAdding ? <Spinner size={20} /> : <Plus />}
-				</Button>
-				<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleAddFirst}>
-					{isAddingFirst ? <Spinner size={20} /> : <ListStart />}
-				</Button>
-				<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleShuffle}>
-					{isShuffling ? <Spinner size={20} /> : <ShuffleIcon />}
-				</Button>
-				{isAdmin ? (
-					<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={handleClear}>
-						{isClearing ? <Spinner size={20} /> : <X />}
+				<div className="flex flex-row gap-2">
+					<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleAdd}>
+						{isAdding ? <Spinner size={20} /> : <Plus />}
 					</Button>
-				) : null}
+					<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleAddFirst}>
+						{isAddingFirst ? <Spinner size={20} /> : <ListStart />}
+					</Button>
+					<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleShuffle}>
+						{isShuffling ? <Spinner size={20} /> : <ShuffleIcon />}
+					</Button>
+
+					{isAdmin ? (
+						<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={handleClear}>
+							{isClearing ? <Spinner size={20} /> : <X />}
+						</Button>
+					) : null}
+				</div>
 			</div>
 			<ScrollArea className="h-[40vh] overflow-auto" id="queue">
 				{queue.slice(1).map((song: track, index) => {

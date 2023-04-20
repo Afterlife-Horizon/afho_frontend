@@ -23,7 +23,7 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 
 	return (
 		<section className="flex flex-col flex-grow w-[90%] mx-auto mt-[1rem] shadow h-[97.2%] bg-pallete2 rounded-lg text-white">
-			<div className="flex flex-row justify-between w-full bg-pallete3 rounded-t-lg">
+			<div className={`flex ${windowSize.width && windowSize.width < 600 ? "flex-col" : ""} justify-between w-full bg-pallete3 rounded-t-lg`}>
 				<div className="flex gap-3 w-full h-[10rem] items-center p-[2rem]">
 					<Avatar className={`rounded-full ${windowSize.width && windowSize.width < 700 ? "h-[3rem] w-[3rem]" : "h-[5rem] w-[5rem]"}`}>
 						<AvatarImage src={user.user_metadata.avatar_url} />
@@ -34,8 +34,11 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 					<div className={`text-xl text-white ${windowSize.width && windowSize.width < 700 ? "text-[1rem]" : ""}`}>{user.user_metadata.full_name}</div>
 					{isAdmin && windowSize.width && windowSize.width > 700 ? <Badge className="bg-accent1 hover:bg-accent2 text-slate-800">admin</Badge> : null}
 				</div>
-				<div className="grid place-items-center w-[30%] mr-5">
-					<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95 px-10 py-5" onClick={handleSignOut}>
+				<div className={`grid place-items-center  ${windowSize.width && windowSize.width < 600 ? "w-full" : "w-[30%]"}  mr-5`}>
+					<Button
+						className={`bg-red-500 hover:bg-red-500 hover:scale-105 active:scale-95 px-10 py-5 ${windowSize.width && windowSize.width < 600 ? "w-full" : "rounded-full"}`}
+						onClick={handleSignOut}
+					>
 						Logout
 					</Button>
 				</div>
