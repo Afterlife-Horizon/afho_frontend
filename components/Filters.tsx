@@ -4,7 +4,7 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 
 const Filters = () => {
-	const [effects, setEffects] = useState({
+	const [effects, setEffects] = useState<effects>({
 		bassboost: 0,
 		subboost: false,
 		mcompand: false,
@@ -27,9 +27,9 @@ const Filters = () => {
 	});
 
 	function handleEffectChange(effect: string) {
-		if (typeof effects[effect] === "boolean") {
-			const prev = effects[effect] as boolean;
-			setEffects((prev) => ({ ...prev, [effect]: !prev[effect] }));
+		if (typeof effects[effect as keyof effects] === "boolean") {
+			const prev = effects[effect as keyof effects] as boolean;
+			setEffects((prev) => ({ ...prev, [effect]: !prev[effect as keyof effects] }));
 		}
 	}
 
@@ -51,14 +51,14 @@ const Filters = () => {
 				<Input className="w-[20%]" type="number" defaultValue={0} id="bassboost" onChange={(e) => handleEffectChange("bassboost")} />
 			</div>
 			{Object.keys(effects).map((effect) => {
-				if (typeof effects[effect] === "boolean") {
+				if (typeof effects[effect as keyof effects] === "boolean") {
 					return (
 						<div key={effect} className="w-full flex flex-row justify-start gap-2">
 							<label htmlFor={effect} className="w-[20%]">
 								{effect}
 							</label>
 							<Switch id={effect} onChange={(e) => handleEffectChange(effect)} />
-							<div>{effects[effect] ? "On" : "Off"}</div>
+							<div>{effects[effect as keyof effects] ? "On" : "Off"}</div>
 						</div>
 					);
 				}
