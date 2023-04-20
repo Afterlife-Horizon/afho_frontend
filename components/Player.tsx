@@ -6,6 +6,7 @@ import { Pause, Play, PowerOffIcon, SkipForwardIcon, X } from "lucide-react";
 import axios, { AxiosError } from "axios";
 import { supabase } from "@/utils/supabaseUtils";
 import Spinner from "./ui/Spinner";
+import useWindowSize from "@/hooks/useWindowSize";
 
 const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [playerInfoClasses, setPlayerInfoClasses] = useState<string>("hidden row-start-1 col-start-1 h-100% p-[1.5rem]");
@@ -14,6 +15,7 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 	const [isLeaving, setIsLeaving] = useState<boolean>(false);
 	const [isStopping, setIsStopping] = useState<boolean>(false);
 	const queue = fetchInfo.queue[0]?.tracks || [];
+	const windowSize = useWindowSize();
 
 	function handleMouseEnter() {
 		setPlayerInfoClasses((prev) => prev.replace("hidden", "grid"));
@@ -182,7 +184,9 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 
 	return (
 		<section
-			className="bg-pallete2 rounded-lg grid w-[85%] mx-auto mt-[1rem] shadow hover:scale-[1.02] [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]"
+			className={`bg-pallete2 rounded-lg grid ${
+				windowSize.width && windowSize.width < 1200 ? "w-[90%]" : "w-[85%]"
+			} mx-auto mt-[1rem] shadow hover:scale-[1.02] [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]`}
 			onMouseEnter={() => handleMouseEnter()}
 			onMouseLeave={() => handleMouseLeave()}
 		>

@@ -242,7 +242,7 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 	};
 
 	return (
-		<section className="w-[85%] mx-auto mt-[1rem] shadow bg-pallete2 rounded-lg text-white">
+		<section className={`${windowSize.width && windowSize.width < 1200 ? "w-[90%]" : "w-[85%]"} mx-auto mt-[1rem] shadow bg-pallete2 rounded-lg text-white`}>
 			<div className={`flex ${windowSize.width && windowSize.width < 600 ? "flex-col" : ""} gap-2 p-2`}>
 				<Input
 					className="rounded-full"
