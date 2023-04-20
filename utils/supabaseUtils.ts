@@ -1,9 +1,6 @@
 import { User, createClient } from "@supabase/supabase-js";
 
-export const supabase = createClient(
-	"https://wbtyvreewfalhfbgxbcf.supabase.co",
-	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndidHl2cmVld2ZhbGhmYmd4YmNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODA4NzgzNzAsImV4cCI6MTk5NjQ1NDM3MH0.rybH4DuhLESJk8suv-MUp5-z7Pde4UCdi0ySPPUJNms"
-);
+export const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL || "", process.env.NEXT_PUBLIC_SUPABASE_KEY || "");
 
 export async function getUser(): Promise<{ user: User }> {
 	const res = await supabase.auth.getUser();

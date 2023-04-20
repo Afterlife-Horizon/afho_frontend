@@ -7,7 +7,7 @@ const AuthPage = () => {
 			<Auth
 				supabaseClient={supabase}
 				onlyThirdPartyProviders={true}
-				redirectTo={process.env.SUPABASE_REDIRECT_URI}
+				redirectTo={process.env.NEXT_PUBLIC_SUPABASE_REDIRECT_URI}
 				appearance={{
 					className: {
 						button: "blue-button",

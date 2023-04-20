@@ -9,7 +9,7 @@ const nextConfig = {
 		return [
 			{
 				source: "/api/:path*",
-				destination: "https://music.afterlifehorizon.net/api/:path*",
+				destination: "https://api.afterlifehorizon.net/:path*",
 			},
 		];
 	},
