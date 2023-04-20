@@ -292,13 +292,13 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 										<AlertDialogDescription>Are you sure you want to remove this song?</AlertDialogDescription>
 										<AlertDialogFooter>
 											<AlertDialogCancel className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95">Cancel</AlertDialogCancel>
-											<AlertDialogAction className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={(e) => handleRemove(index)}>
+											<AlertDialogAction className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={(e) => handleRemove(index + 1)}>
 												Remove
 											</AlertDialogAction>
 										</AlertDialogFooter>
 									</AlertDialogContent>
 								</AlertDialog>
-								<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={(e) => handleskipto(index)}>
+								<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={(e) => handleskipto(index + 1)}>
 									<ChevronLastIcon />
 								</Button>
 							</div>
