@@ -38,7 +38,7 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 					</Button>
 				</div>
 			</div>
-			<Tabs defaultValue="brasilboard">
+			<Tabs defaultValue="favorites">
 				<TabsList className="w-full gap-3 md:rounded-none p-[2rem] bg-pallete2 [&>*:hover]:bg-accent1 text-white">
 					<TabsTrigger value="favorites" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
 						Favorites
