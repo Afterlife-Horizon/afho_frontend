@@ -12,7 +12,7 @@ import { queryClient } from "@/pages/_app";
 import axios, { AxiosError } from "axios";
 
 const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, setToastDescription, setToastTitle }) => {
-	const { data: favorites, isLoading, error } = useFavorites(user.user_metadata.provider_id);
+	const { data: favorites, isLoading, error } = useFavorites("user");
 	const [favField, setFavField] = useState<string>("");
 	const [isAdding, setIsAdding] = useState<boolean>(false);
 
@@ -50,7 +50,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 				setToastDescription(data.error);
 				setToastColor("destructive");
 			});
-		queryClient.invalidateQueries(["favorites", user.user_metadata.provider_id]);
+		queryClient.invalidateQueries(["favorites", "user"]);
 		setFavField("");
 		setIsAdding(false);
 	}
@@ -74,7 +74,8 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 				setToastDescription(data.error);
 				setToastColor("destructive");
 			});
-		queryClient.invalidateQueries(["favorites", user.user_metadata.provider_id]);
+		["favorites", id];
+		queryClient.invalidateQueries(["favorites", "user"]);
 	}
 
 	async function playFav(fav: fav) {
