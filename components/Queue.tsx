@@ -40,12 +40,18 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 						headers: { "Content-Type": "application/json" },
 					}
 				)
+				.then(() => {
+					setIsAdding(false);
+					setSearchInput("");
+				})
 				.catch((err: AxiosError) => {
 					const data = err.response?.data as { error: string };
 					setToastOpen(true);
 					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 					setToastDescription(data.error);
 					setToastColor("destructive");
+					setIsAdding(false);
+					setSearchInput("");
 				});
 		}
 
@@ -59,8 +65,6 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 			return setIsAdding(false);
 		}
 		addSong();
-		setIsAdding(false);
-		setSearchInput("");
 	}
 
 	function handleAddFirst() {
@@ -76,12 +80,18 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 						headers: { "Content-Type": "application/json" },
 					}
 				)
+				.then(() => {
+					setSearchInput("");
+					setIsAddingFirst(false);
+				})
 				.catch((err: AxiosError) => {
 					const data = err.response?.data as string;
 					setToastOpen(true);
 					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 					setToastDescription(data);
 					setToastColor("destructive");
+					setSearchInput("");
+					setIsAddingFirst(false);
 				});
 		}
 
@@ -95,8 +105,6 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 		}
 		setIsAddingFirst(true);
 		AddFirst();
-		setSearchInput("");
-		setIsAddingFirst(false);
 	}
 
 	function handleShuffle() {
@@ -106,12 +114,16 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 				.post(url, {
 					access_token: (await supabase.auth.getSession()).data?.session?.access_token,
 				})
+				.then(() => {
+					setIsShuffling(false);
+				})
 				.catch((err: AxiosError) => {
 					const data = err.response?.data as { error: string };
 					setToastOpen(true);
 					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 					setToastDescription(data.error);
 					setToastColor("destructive");
+					setIsShuffling(false);
 				});
 		}
 
@@ -126,7 +138,6 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 		}
 		setIsShuffling(true);
 		shuffleSongs();
-		setIsShuffling(false);
 	}
 
 	function handleClear() {
@@ -136,12 +147,16 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 				.post(url, {
 					access_token: (await supabase.auth.getSession()).data?.session?.access_token,
 				})
+				.then(() => {
+					setIsClearing(false);
+				})
 				.catch((err) => {
 					const data = err.response?.data as { error: string };
 					setToastOpen(true);
 					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 					setToastDescription(data.error);
 					setToastColor("destructive");
+					setIsClearing(false);
 				});
 		}
 
@@ -163,10 +178,9 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 			return setIsClearing(false);
 		}
 		clearSongs();
-		setIsClearing(false);
 	}
 
-	const handleRemove = (id: number) => {
+	function handleRemove(id: number) {
 		async function remove() {
 			const url = "/api/remove";
 			await axios
@@ -205,9 +219,9 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 			return;
 		}
 		remove();
-	};
+	}
 
-	const handleskipto = (id: number) => {
+	function handleskipto(id: number) {
 		async function skipto() {
 			await axios
 				.post(
@@ -245,7 +259,7 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 			return;
 		}
 		skipto();
-	};
+	}
 
 	return (
 		<section

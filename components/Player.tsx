@@ -47,14 +47,17 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 					headers: { "Content-Type": "application/json" },
 				}
 			)
+			.then(() => {
+				setIsSkipping(false);
+			})
 			.catch((err: AxiosError) => {
 				const data = err.response?.data as { error: string };
 				setToastOpen(true);
 				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 				setToastDescription(data.error);
 				setToastColor("destructive");
+				setIsSkipping(false);
 			});
-		setIsSkipping(false);
 	}
 
 	async function handlePauseClicked(_event: React.MouseEvent<HTMLButtonElement>) {
@@ -80,12 +83,16 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 						headers: { "Content-Type": "application/json" },
 					}
 				)
+				.then(() => {
+					setIsPausing(false);
+				})
 				.catch((err: AxiosError) => {
 					const data = err.response?.data as { error: string };
 					setToastOpen(true);
 					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 					setToastDescription(data.error);
 					setToastColor("destructive");
+					setIsPausing(false);
 				});
 		} else {
 			await axios
@@ -98,15 +105,18 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 						headers: { "Content-Type": "application/json" },
 					}
 				)
+				.then(() => {
+					setIsPausing(false);
+				})
 				.catch((err: AxiosError) => {
 					const data = err.response?.data as { error: string };
 					setToastOpen(true);
 					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 					setToastDescription(data.error);
 					setToastColor("destructive");
+					setIsPausing(false);
 				});
 		}
-		setIsPausing(false);
 	}
 
 	async function handleStopClicked(_event: React.MouseEvent<HTMLButtonElement>) {
@@ -140,14 +150,17 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 					headers: { "Content-Type": "application/json" },
 				}
 			)
+			.then(() => {
+				setIsStopping(false);
+			})
 			.catch((err: AxiosError) => {
 				const data = err.response?.data as { error: string };
 				setToastOpen(true);
 				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 				setToastDescription(data.error);
 				setToastColor("destructive");
+				setIsStopping(false);
 			});
-		setIsStopping(false);
 	}
 
 	async function handleDisconnectClicked(_event: React.MouseEvent<HTMLButtonElement>) {
@@ -173,14 +186,17 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 					headers: { "Content-Type": "application/json" },
 				}
 			)
+			.then(() => {
+				setIsLeaving(false);
+			})
 			.catch((err: AxiosError) => {
 				const data = err.response?.data as { error: string };
 				setToastOpen(true);
 				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 				setToastDescription(data.error);
 				setToastColor("destructive");
+				setIsLeaving(false);
 			});
-		setIsLeaving(false);
 	}
 
 	return (
@@ -212,7 +228,7 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleDisconnectClicked}>
-											{isLeaving ? <Spinner size={30} /> : <PowerOffIcon />}
+											{isLeaving ? <Spinner size={20} /> : <PowerOffIcon />}
 										</Button>
 									</HoverCardTrigger>
 									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Disconnect</HoverCardContent>
@@ -220,7 +236,7 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleStopClicked}>
-											{isStopping ? <Spinner size={30} /> : <X />}
+											{isStopping ? <Spinner size={20} /> : <X />}
 										</Button>
 									</HoverCardTrigger>
 									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Stop and clear queue</HoverCardContent>
@@ -230,7 +246,7 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 						<HoverCard openDelay={150} closeDelay={50}>
 							<HoverCardTrigger>
 								<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handlePauseClicked}>
-									{isPausing ? <Spinner size={30} /> : fetchInfo.queue[0]?.paused ? <Play /> : <Pause />}
+									{isPausing ? <Spinner size={20} /> : fetchInfo.queue[0]?.paused ? <Play /> : <Pause />}
 								</Button>
 							</HoverCardTrigger>
 							<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">{isPausing ? "Play" : "Pause"}</HoverCardContent>
@@ -239,7 +255,7 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 						<HoverCard openDelay={150} closeDelay={50}>
 							<HoverCardTrigger>
 								<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleNextClicked}>
-									{isSkipping ? <Spinner size={30} /> : <SkipForwardIcon />}
+									{isSkipping ? <Spinner size={20} /> : <SkipForwardIcon />}
 								</Button>
 							</HoverCardTrigger>
 							<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Skip current song</HoverCardContent>

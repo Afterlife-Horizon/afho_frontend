@@ -40,12 +40,16 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 						headers: { "Content-Type": "application/json" },
 					}
 				)
+				.then(() => {
+					setIsMoving(false);
+				})
 				.catch((err: AxiosError) => {
 					const data = err.response?.data as { error: string };
 					setToastOpen(true);
 					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 					setToastDescription(data.error);
 					setToastColor("destructive");
+					setIsMoving(false);
 				});
 		}
 
@@ -60,7 +64,6 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 
 		setIsMoving(true);
 		bresilMember(movedMemberId);
-		setIsMoving(false);
 	}
 
 	return (

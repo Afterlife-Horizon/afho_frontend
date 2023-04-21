@@ -44,16 +44,21 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 					},
 				}
 			)
+			.then((res) => {
+				queryClient.invalidateQueries(["favorites", "user"]);
+				setFavField("");
+				setIsAdding(false);
+			})
 			.catch((err: AxiosError) => {
 				const data = err.response?.data as { error: string };
 				setToastOpen(true);
 				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 				setToastDescription(data.error);
 				setToastColor("destructive");
+				queryClient.invalidateQueries(["favorites", "user"]);
+				setFavField("");
+				setIsAdding(false);
 			});
-		queryClient.invalidateQueries(["favorites", "user"]);
-		setFavField("");
-		setIsAdding(false);
 	}
 
 	async function deleteFav(userId: string, id: string) {
@@ -68,15 +73,17 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 					"Content-Type": "application/json",
 				},
 			})
+			.then(() => {
+				queryClient.invalidateQueries(["favorites", "user"]);
+			})
 			.catch((err: AxiosError) => {
 				const data = err.response?.data as { error: string };
 				setToastOpen(true);
 				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 				setToastDescription(data.error);
 				setToastColor("destructive");
+				queryClient.invalidateQueries(["favorites", "user"]);
 			});
-		["favorites", id];
-		queryClient.invalidateQueries(["favorites", "user"]);
 	}
 
 	async function playFav(fav: fav) {

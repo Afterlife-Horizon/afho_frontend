@@ -55,12 +55,16 @@ const Filters: React.FC<defaultProps> = ({ isAdmin, setToastColor, setToastDescr
 						headers: { "Content-Type": "application/json" },
 					}
 				)
+				.then(() => {
+					setIsApplying(false);
+				})
 				.catch((err) => {
 					const data = err.response?.data as { error: string };
 					setToastOpen(true);
 					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 					setToastDescription(data.error);
 					setToastColor("destructive");
+					setIsApplying(false);
 				});
 		};
 
@@ -75,7 +79,6 @@ const Filters: React.FC<defaultProps> = ({ isAdmin, setToastColor, setToastDescr
 
 		setIsApplying(true);
 		changeSongFilter();
-		setIsApplying(false);
 	};
 
 	return (
