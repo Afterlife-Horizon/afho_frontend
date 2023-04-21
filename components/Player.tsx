@@ -8,7 +8,7 @@ import { supabase } from "@/utils/supabaseUtils";
 import Spinner from "./ui/Spinner";
 import useWindowSize from "@/hooks/useWindowSize";
 
-const Player = React.forwardRef<HTMLDivElement, defaultProps>(({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }, ref) => {
+const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [playerInfoClasses, setPlayerInfoClasses] = useState<string>("hidden row-start-1 col-start-1 h-auto p-[1.5rem]");
 	const [isPausing, setIsPausing] = useState<boolean>(false);
 	const [isSkipping, setIsSkipping] = useState<boolean>(false);
@@ -184,7 +184,6 @@ const Player = React.forwardRef<HTMLDivElement, defaultProps>(({ user, fetchInfo
 
 	return (
 		<section
-			ref={ref}
 			className={`bg-pallete2 rounded-lg grid h-[100%]  ${
 				windowSize.width && windowSize.width < 1200 ? "w-[90%]" : ""
 			} mx-auto shadow hover:scale-[1.02] [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]`}
@@ -230,6 +229,6 @@ const Player = React.forwardRef<HTMLDivElement, defaultProps>(({ user, fetchInfo
 			</div>
 		</section>
 	);
-});
+};
 
 export default Player;

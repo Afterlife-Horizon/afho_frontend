@@ -13,10 +13,9 @@ import useWindowSize from "@/hooks/useWindowSize";
 
 interface QueueProps extends defaultProps {
 	sectionRef: React.RefObject<HTMLDivElement>;
-	playerRef: React.RefObject<HTMLDivElement>;
 }
 
-const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle, sectionRef, playerRef }) => {
+const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle, sectionRef }) => {
 	const [searchInput, setSearchInput] = useState<string>("");
 	const [isAdding, setIsAdding] = useState<boolean>(false);
 	const [isAddingFirst, setIsAddingFirst] = useState<boolean>(false);
