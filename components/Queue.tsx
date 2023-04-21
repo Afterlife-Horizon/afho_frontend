@@ -263,7 +263,7 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 
 	return (
 		<section
-			className={`${windowSize.width && windowSize.width < 1200 ? "w-[90%]" : ""} mx-auto shadow bg-pallete2 rounded-lg text-white flex-shrink-2`}
+			className={`${windowSize.width && windowSize.width < 1200 ? "w-[90%]" : "w-full"} mx-auto shadow bg-pallete2 rounded-lg text-white flex-shrink-2`}
 			style={{
 				height: `${sectionRef?.current?.clientHeight ? Math.round(sectionRef?.current?.clientHeight * 0.575) : 0}px`,
 			}}
