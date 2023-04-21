@@ -16,6 +16,8 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 	const { data: favorites, isLoading, error } = useFavorites("user");
 	const [favField, setFavField] = useState<string>("");
 	const [isAdding, setIsAdding] = useState<boolean>(false);
+	const [isDeleting, setIsDeleting] = useState<Map<string, boolean>>(new Map());
+	const [isPlaying, setIsPlaying] = useState<Map<string, boolean>>(new Map());
 
 	if (isLoading) return <Spinner size={150} />;
 	if (error) return <div>Error: {error.message}</div>;
@@ -62,6 +64,13 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 	}
 
 	async function deleteFav(userId: string, id: string) {
+		if (isDeleting.get(id)) return;
+		setIsDeleting(() => {
+			const newMap = new Map();
+			newMap.set(id, true);
+			return newMap;
+		});
+
 		await axios
 			.delete("/api/delFav", {
 				data: {
@@ -75,6 +84,11 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 			})
 			.then(() => {
 				queryClient.invalidateQueries(["favorites", "user"]);
+				setIsDeleting(() => {
+					const newMap = new Map();
+					newMap.set(id, false);
+					return newMap;
+				});
 			})
 			.catch((err: AxiosError) => {
 				const data = err.response?.data as { error: string };
@@ -82,11 +96,23 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 				setToastDescription(data.error);
 				setToastColor("destructive");
+				setIsDeleting(() => {
+					const newMap = new Map();
+					newMap.set(id, false);
+					return newMap;
+				});
 				queryClient.invalidateQueries(["favorites", "user"]);
 			});
 	}
 
 	async function playFav(fav: fav) {
+		if (isPlaying.get(fav.id)) return;
+		setIsPlaying(() => {
+			const newMap = new Map();
+			newMap.set(fav.id, true);
+			return newMap;
+		});
+
 		await axios
 			.post(
 				"/api/play",
@@ -100,12 +126,24 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 					},
 				}
 			)
+			.then(() => {
+				setIsPlaying(() => {
+					const newMap = new Map();
+					newMap.set(fav.id, false);
+					return newMap;
+				});
+			})
 			.catch((err: AxiosError) => {
 				const data = err.response?.data as { error: string };
 				setToastOpen(true);
 				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 				setToastDescription(data.error);
 				setToastColor("destructive");
+				setIsPlaying(() => {
+					const newMap = new Map();
+					newMap.set(fav.id, false);
+					return newMap;
+				});
 			});
 	}
 
@@ -146,7 +184,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={() => deleteFav(user.user_metadata.provider_id, song.id)}>
-											<X />
+											{isDeleting.get(song.id) ? <Spinner size={30} /> : <X />}
 										</Button>
 									</HoverCardTrigger>
 									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Remove from favorites</HoverCardContent>
@@ -154,7 +192,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={() => playFav(song)}>
-											<PlayIcon />
+											{isPlaying.get(song.id) ? <Spinner size={30} /> : <PlayIcon />}
 										</Button>
 									</HoverCardTrigger>
 									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Play the song/playlist</HoverCardContent>

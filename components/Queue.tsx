@@ -22,6 +22,8 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 	const [isAddingFirst, setIsAddingFirst] = useState<boolean>(false);
 	const [isShuffling, setIsShuffling] = useState<boolean>(false);
 	const [isClearing, setIsClearing] = useState<boolean>(false);
+	const [isRemoving, setIsRemoving] = useState<Map<number, boolean>>(new Map());
+	const [isSkipping, setIsSkipping] = useState<Map<number, boolean>>(new Map());
 	const windowSize = useWindowSize();
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -194,15 +196,28 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 						headers: { "Content-Type": "application/json" },
 					}
 				)
+				.then(() => {
+					setIsRemoving(() => {
+						const newMap = new Map();
+						newMap.set(id, false);
+						return newMap;
+					});
+				})
 				.catch((err: AxiosError) => {
 					const data = err.response?.data as { error: string };
 					setToastOpen(true);
 					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 					setToastDescription(data.error);
 					setToastColor("destructive");
+					setIsRemoving(() => {
+						const newMap = new Map();
+						newMap.set(id, false);
+						return newMap;
+					});
 				});
 		}
 
+		if (isRemoving.get(id)) return;
 		if (!isAdmin) {
 			setToastOpen(true);
 			setToastTitle(``);
@@ -218,6 +233,11 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 			setToastColor("inform");
 			return;
 		}
+		setIsRemoving(() => {
+			const newMap = new Map();
+			newMap.set(id, true);
+			return newMap;
+		});
 		remove();
 	}
 
@@ -234,15 +254,28 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 						headers: { "Content-Type": "application/json" },
 					}
 				)
+				.then(() => {
+					setIsSkipping(() => {
+						const newMap = new Map();
+						newMap.set(id, false);
+						return newMap;
+					});
+				})
 				.catch((err: AxiosError) => {
 					const data = err.response?.data as { error: string };
 					setToastOpen(true);
 					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
 					setToastDescription(data.error);
 					setToastColor("destructive");
+					setIsSkipping(() => {
+						const newMap = new Map();
+						newMap.set(id, false);
+						return newMap;
+					});
 				});
 		}
 
+		if (isSkipping.get(id)) return;
 		if (!isAdmin) {
 			setToastOpen(true);
 			setToastTitle(``);
@@ -258,6 +291,11 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 			setToastColor("inform");
 			return;
 		}
+		setIsSkipping(() => {
+			const newMap = new Map();
+			newMap.set(id, true);
+			return newMap;
+		});
 		skipto();
 	}
 
@@ -335,7 +373,7 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={() => handleRemove(index + 1)}>
-											<X />
+											{isRemoving.get(index + 1) ? <Spinner size={20} /> : <X />}
 										</Button>
 									</HoverCardTrigger>
 									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Remove from queue</HoverCardContent>
@@ -343,7 +381,7 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={(e) => handleskipto(index + 1)}>
-											<ChevronLastIcon />
+											{isSkipping.get(index + 1) ? <Spinner size={20} /> : <ChevronLastIcon />}
 										</Button>
 									</HoverCardTrigger>
 									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Skip to song</HoverCardContent>
