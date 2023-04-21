@@ -163,7 +163,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 				<HoverCard openDelay={150} closeDelay={50}>
 					<HoverCardTrigger>
 						<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={addFav}>
-							{isAdding ? <Spinner size={30} /> : <Plus />}
+							{isAdding ? <Spinner size={20} /> : <Plus />}
 						</Button>
 					</HoverCardTrigger>
 					<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Add song or playlist to favorites</HoverCardContent>
@@ -184,7 +184,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={() => deleteFav(user.user_metadata.provider_id, song.id)}>
-											{isDeleting.get(song.id) ? <Spinner size={30} /> : <X />}
+											{isDeleting.get(song.id) ? <Spinner size={20} /> : <X />}
 										</Button>
 									</HoverCardTrigger>
 									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Remove from favorites</HoverCardContent>
@@ -192,7 +192,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={() => playFav(song)}>
-											{isPlaying.get(song.id) ? <Spinner size={30} /> : <PlayIcon />}
+											{isPlaying.get(song.id) ? <Spinner size={20} /> : <PlayIcon />}
 										</Button>
 									</HoverCardTrigger>
 									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Play the song/playlist</HoverCardContent>
