@@ -97,19 +97,21 @@ const Filters: React.FC<defaultProps> = ({ isAdmin, setToastColor, setToastDescr
 				</label>
 				<Input className="w-[20%]" type="number" defaultValue={0} id="bassboost" onChange={(e) => handleEffectChange("bassboost", Number(e.target.value))} />
 			</div>
-			{Object.keys(effects).map((effect) => {
-				if (typeof effects[effect as keyof effects] === "boolean") {
-					return (
-						<div key={effect} className="w-full flex flex-row justify-start gap-2">
-							<label htmlFor={effect} className="w-[20%]">
-								{effect}
-							</label>
-							<Switch id={effect} onChange={(e) => handleEffectChange(effect)} />
-							<div>{effects[effect as keyof effects] ? "On" : "Off"}</div>
-						</div>
-					);
-				}
-			})}
+			<div className="flex flex-wrap gap-2">
+				{Object.keys(effects).map((effect) => {
+					if (typeof effects[effect as keyof effects] === "boolean") {
+						return (
+							<div key={effect} className="w-[45%] mx-auto flex flex-row justify-start gap-10">
+								<label htmlFor={effect} className="w-[20%]">
+									{effect}
+								</label>
+								<Switch id={effect} onChange={(e) => handleEffectChange(effect)} />
+								<div>{effects[effect as keyof effects] ? "On" : "Off"}</div>
+							</div>
+						);
+					}
+				})}
+			</div>
 		</div>
 	);
 };

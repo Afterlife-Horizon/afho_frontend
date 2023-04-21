@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
-import { ChevronLastIcon, ListStart, Plus, ShuffleIcon, Trash, X } from "lucide-react";
+import { ChevronLastIcon, ListStart, Plus, ShuffleIcon, X } from "lucide-react";
 import Image from "next/image";
 import { Input } from "./ui/input";
 import { ScrollArea } from "./ui/scroll-area";
@@ -11,13 +11,19 @@ import Spinner from "./ui/Spinner";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
 import useWindowSize from "@/hooks/useWindowSize";
 
-const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
+interface QueueProps extends defaultProps {
+	sectionRef: React.RefObject<HTMLDivElement>;
+	playerRef: React.RefObject<HTMLDivElement>;
+}
+
+const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle, sectionRef, playerRef }) => {
 	const [searchInput, setSearchInput] = useState<string>("");
 	const [isAdding, setIsAdding] = useState<boolean>(false);
 	const [isAddingFirst, setIsAddingFirst] = useState<boolean>(false);
 	const [isShuffling, setIsShuffling] = useState<boolean>(false);
 	const [isClearing, setIsClearing] = useState<boolean>(false);
 	const windowSize = useWindowSize();
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	const queue = fetchInfo.queue[0]?.tracks || [];
 
@@ -242,8 +248,13 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 	};
 
 	return (
-		<section className={`${windowSize.width && windowSize.width < 1200 ? "w-[90%]" : "w-[85%]"} mx-auto mt-[1rem] shadow bg-pallete2 rounded-lg text-white`}>
-			<div className={`flex ${windowSize.width && windowSize.width < 600 ? "flex-col" : ""} gap-2 p-2`}>
+		<section
+			className={`${windowSize.width && windowSize.width < 1200 ? "w-[90%]" : ""} mx-auto shadow bg-pallete2 rounded-lg text-white flex-shrink-2`}
+			style={{
+				height: `${sectionRef?.current?.clientHeight ? Math.round(sectionRef?.current?.clientHeight * 0.575) : 0}px`,
+			}}
+		>
+			<div className={`flex ${windowSize.width && windowSize.width < 600 ? "flex-col" : ""} h-[10%] m-[1rem] gap-2 p-2`} ref={inputRef}>
 				<Input
 					className="rounded-full"
 					placeholder="Search for a song"
@@ -273,7 +284,7 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 					) : null}
 				</div>
 			</div>
-			<ScrollArea className="h-[40vh] overflow-auto" id="queue">
+			<ScrollArea className={`flex flex-shrink overflow-auto h-[80%]`} id="queue">
 				{queue.slice(1).map((song: track, index) => {
 					return (
 						<div className={`flex gap-2 p-3`} key={index}>

@@ -19,6 +19,8 @@ const Home: NextPage = () => {
 	const { data: apiUser, isLoading, error } = useUser();
 	const { data: fetchInfo, isLoading: isFetchingInfo, error: fetchingInfoError } = useFetchInfo();
 	const windowSize = useWindowSize();
+	const sectionRef = React.useRef<HTMLDivElement>(null);
+	const playerRef = React.useRef<HTMLDivElement>(null);
 
 	if (isLoading)
 		return (
@@ -46,9 +48,10 @@ const Home: NextPage = () => {
 	const isAdmin = fetchInfo?.admins.usernames.includes(apiUser.user_metadata.full_name);
 
 	return (
-		<main className={`flex ${windowSize.width && windowSize.width < 1200 ? "flex-col mb-[3rem]" : "h-[100vh]"} bg-pallete1`}>
-			<div className={`${windowSize.width && windowSize.width < 1200 ? "w-full" : "w-[50%]"}`}>
+		<main className={`flex p-[1rem] ${windowSize.width && windowSize.width < 1200 ? "flex-col mb-[3rem]" : "h-[100vh]"} h-[100vh] max-h-[100vh] bg-pallete1`}>
+			<div ref={sectionRef} className={`h-full max-h-[100%] grid gap-5 ${windowSize.width && windowSize.width < 1200 ? "w-full mb-[2rem]" : "w-[50%]"} grid-flow-row grid-rows-[40%_1fr]`}>
 				<Player
+					ref={playerRef}
 					user={apiUser}
 					fetchInfo={fetchInfo}
 					isAdmin={isAdmin}
@@ -58,6 +61,8 @@ const Home: NextPage = () => {
 					setToastTitle={setToastTitle}
 				/>
 				<Queue
+					sectionRef={sectionRef}
+					playerRef={playerRef}
 					user={apiUser}
 					fetchInfo={fetchInfo}
 					isAdmin={isAdmin}

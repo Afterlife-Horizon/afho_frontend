@@ -8,8 +8,8 @@ import { supabase } from "@/utils/supabaseUtils";
 import Spinner from "./ui/Spinner";
 import useWindowSize from "@/hooks/useWindowSize";
 
-const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
-	const [playerInfoClasses, setPlayerInfoClasses] = useState<string>("hidden row-start-1 col-start-1 h-100% p-[1.5rem]");
+const Player = React.forwardRef<HTMLDivElement, defaultProps>(({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }, ref) => {
+	const [playerInfoClasses, setPlayerInfoClasses] = useState<string>("hidden row-start-1 col-start-1 h-auto p-[1.5rem]");
 	const [isPausing, setIsPausing] = useState<boolean>(false);
 	const [isSkipping, setIsSkipping] = useState<boolean>(false);
 	const [isLeaving, setIsLeaving] = useState<boolean>(false);
@@ -184,14 +184,15 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 
 	return (
 		<section
-			className={`bg-pallete2 rounded-lg grid ${
-				windowSize.width && windowSize.width < 1200 ? "w-[90%]" : "w-[85%]"
-			} mx-auto mt-[1rem] shadow hover:scale-[1.02] [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]`}
+			ref={ref}
+			className={`bg-pallete2 rounded-lg grid h-[100%]  ${
+				windowSize.width && windowSize.width < 1200 ? "w-[90%]" : ""
+			} mx-auto shadow hover:scale-[1.02] [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]`}
 			onMouseEnter={() => handleMouseEnter()}
 			onMouseLeave={() => handleMouseLeave()}
 		>
 			<Image
-				className="row-start-1 rounded-lg col-start-1 select-none"
+				className="row-start-1 rounded-lg col-start-1 select-none h-[100%] overflow-hidden object-cover"
 				src={fetchInfo.queue[0]?.tracks[0]?.thumbnail.url ? fetchInfo.queue[0].tracks[0].thumbnail.url : "https://cdn.tosavealife.com/wp-content/uploads/2018/05/Waiting-Memes-52918.jpg"}
 				width={1920}
 				height={1080}
@@ -229,6 +230,6 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 			</div>
 		</section>
 	);
-};
+});
 
 export default Player;

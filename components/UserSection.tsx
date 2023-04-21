@@ -22,7 +22,7 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 	}
 
 	return (
-		<section className="flex flex-col flex-grow w-[90%] mx-auto mt-[1rem] shadow h-[97.2%] bg-pallete2 rounded-lg text-white">
+		<section className="flex flex-col flex-grow w-[90%] mx-auto shadow max-h-[100%] bg-pallete2 rounded-lg text-white">
 			<div className={`flex ${windowSize.width && windowSize.width < 600 ? "flex-col" : ""} justify-between w-full bg-pallete3 rounded-t-lg`}>
 				<div className="flex gap-3 w-full h-[10rem] items-center p-[2rem]">
 					<Avatar className={`rounded-full ${windowSize.width && windowSize.width < 700 ? "h-[3rem] w-[3rem]" : "h-[5rem] w-[5rem]"}`}>
