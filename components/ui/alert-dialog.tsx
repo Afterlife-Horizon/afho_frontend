@@ -18,9 +18,7 @@ const AlertDialogPortal = ({ className, children, ...props }: AlertDialogPrimiti
 AlertDialogPortal.displayName = AlertDialogPrimitive.Portal.displayName;
 
 const AlertDialogOverlay = React.forwardRef<React.ElementRef<typeof AlertDialogPrimitive.Overlay>, React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>>(
-	({ className, children, ...props }, ref) => (
-		<AlertDialogPrimitive.Overlay className={cn("fixed inset-0 z-50 bg-background/80 backdrop-blur-sm transition-opacity animate-in fade-in", className)} {...props} ref={ref} />
-	)
+	({ className, children, ...props }, ref) => <AlertDialogPrimitive.Overlay className={cn("fixed inset-0 z-50 bg-background/80 backdrop-blur-sm", className)} {...props} ref={ref} />
 );
 AlertDialogOverlay.displayName = AlertDialogPrimitive.Overlay.displayName;
 
@@ -30,7 +28,7 @@ const AlertDialogContent = React.forwardRef<React.ElementRef<typeof AlertDialogP
 			<AlertDialogOverlay />
 			<AlertDialogPrimitive.Content
 				ref={ref}
-				className={cn("fixed z-50 grid w-full max-w-lg scale-100 gap-4 border bg-pallete1 text-white p-6 opacity-100 shadow-lg fade-in-90 sm:rounded-lg md:w-full", className)}
+				className={cn("fixed z-50 grid w-full max-w-lg scale-100 gap-4 border bg-pallete1 text-white p-6 opacity-100 shadow-lg sm:rounded-lg md:w-full", className)}
 				{...props}
 			/>
 		</AlertDialogPortal>

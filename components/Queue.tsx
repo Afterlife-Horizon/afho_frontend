@@ -318,28 +318,14 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 							</div>
 							<Separator className="h-auto" decorative orientation={"vertical"} />
 							<div className="flex flex-row gap-2 items-center px-3">
-								<AlertDialog>
-									<AlertDialogTrigger className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95">
-										<HoverCard openDelay={150} closeDelay={50}>
-											<HoverCardTrigger>
-												<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95">
-													<X />
-												</Button>
-											</HoverCardTrigger>
-											<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Remove from queue</HoverCardContent>
-										</HoverCard>
-									</AlertDialogTrigger>
-									<AlertDialogContent>
-										<AlertDialogTitle>Remove song from queue</AlertDialogTitle>
-										<AlertDialogDescription>Are you sure you want to remove this song?</AlertDialogDescription>
-										<AlertDialogFooter>
-											<AlertDialogCancel className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95">Cancel</AlertDialogCancel>
-											<AlertDialogAction className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={(e) => handleRemove(index + 1)}>
-												Remove
-											</AlertDialogAction>
-										</AlertDialogFooter>
-									</AlertDialogContent>
-								</AlertDialog>
+								<HoverCard openDelay={150} closeDelay={50}>
+									<HoverCardTrigger>
+										<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={() => handleRemove(index + 1)}>
+											<X />
+										</Button>
+									</HoverCardTrigger>
+									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Remove from queue</HoverCardContent>
+								</HoverCard>
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={(e) => handleskipto(index + 1)}>
