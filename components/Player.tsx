@@ -7,6 +7,7 @@ import axios, { AxiosError } from "axios";
 import { supabase } from "@/utils/supabaseUtils";
 import Spinner from "./ui/Spinner";
 import useWindowSize from "@/hooks/useWindowSize";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 
 const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [playerInfoClasses, setPlayerInfoClasses] = useState<string>("hidden row-start-1 col-start-1 h-auto p-[1.5rem]");
@@ -208,20 +209,41 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 					<div className="flex gap-2 select-none">
 						{isAdmin ? (
 							<>
-								<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleDisconnectClicked}>
-									{isLeaving ? <Spinner size={30} /> : <PowerOffIcon />}
-								</Button>
-								<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleStopClicked}>
-									{isStopping ? <Spinner size={30} /> : <X />}
-								</Button>
+								<HoverCard openDelay={150} closeDelay={50}>
+									<HoverCardTrigger>
+										<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleDisconnectClicked}>
+											{isLeaving ? <Spinner size={30} /> : <PowerOffIcon />}
+										</Button>
+									</HoverCardTrigger>
+									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Disconnect</HoverCardContent>
+								</HoverCard>
+								<HoverCard openDelay={150} closeDelay={50}>
+									<HoverCardTrigger>
+										<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleStopClicked}>
+											{isStopping ? <Spinner size={30} /> : <X />}
+										</Button>
+									</HoverCardTrigger>
+									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Stop and clear queue</HoverCardContent>
+								</HoverCard>
 							</>
 						) : null}
-						<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handlePauseClicked}>
-							{isPausing ? <Spinner size={30} /> : fetchInfo.queue[0]?.paused ? <Play /> : <Pause />}
-						</Button>
-						<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleNextClicked}>
-							{isSkipping ? <Spinner size={30} /> : <SkipForwardIcon />}
-						</Button>
+						<HoverCard openDelay={150} closeDelay={50}>
+							<HoverCardTrigger>
+								<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handlePauseClicked}>
+									{isPausing ? <Spinner size={30} /> : fetchInfo.queue[0]?.paused ? <Play /> : <Pause />}
+								</Button>
+							</HoverCardTrigger>
+							<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">{isPausing ? "Play" : "Pause"}</HoverCardContent>
+						</HoverCard>
+
+						<HoverCard openDelay={150} closeDelay={50}>
+							<HoverCardTrigger>
+								<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleNextClicked}>
+									{isSkipping ? <Spinner size={30} /> : <SkipForwardIcon />}
+								</Button>
+							</HoverCardTrigger>
+							<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Skip current song</HoverCardContent>
+						</HoverCard>
 					</div>
 					<Progress className="mt-2 h-[0.2rem]" value={fetchInfo.queue[0]?.tracks[0] ? Math.floor(100 * (fetchInfo.prog / fetchInfo.queue[0]?.tracks[0].duration)) : 0} />
 					<div className="text-white">{fetchInfo.queue[0]?.tracks[0] ? `${fetchInfo.formatedprog} / ${fetchInfo.queue[0]?.tracks[0].durationFormatted}` : "00:00 / 00:00"}</div>

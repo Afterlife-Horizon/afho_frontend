@@ -10,6 +10,7 @@ import axios, { AxiosError } from "axios";
 import Spinner from "./ui/Spinner";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
 import useWindowSize from "@/hooks/useWindowSize";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 
 interface QueueProps extends defaultProps {
 	sectionRef: React.RefObject<HTMLDivElement>;
@@ -266,20 +267,41 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 					}}
 				/>
 				<div className="flex flex-row gap-2">
-					<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleAdd}>
-						{isAdding ? <Spinner size={20} /> : <Plus />}
-					</Button>
-					<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleAddFirst}>
-						{isAddingFirst ? <Spinner size={20} /> : <ListStart />}
-					</Button>
-					<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleShuffle}>
-						{isShuffling ? <Spinner size={20} /> : <ShuffleIcon />}
-					</Button>
+					<HoverCard openDelay={150} closeDelay={50}>
+						<HoverCardTrigger>
+							<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleAdd}>
+								{isAdding ? <Spinner size={20} /> : <Plus />}
+							</Button>
+						</HoverCardTrigger>
+						<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Add song</HoverCardContent>
+					</HoverCard>
+					<HoverCard openDelay={150} closeDelay={50}>
+						<HoverCardTrigger>
+							<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleAddFirst}>
+								{isAddingFirst ? <Spinner size={20} /> : <ListStart />}
+							</Button>
+						</HoverCardTrigger>
+						<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Add song at the top of the queue</HoverCardContent>
+					</HoverCard>
+
+					<HoverCard openDelay={150} closeDelay={50}>
+						<HoverCardTrigger>
+							<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleShuffle}>
+								{isShuffling ? <Spinner size={20} /> : <ShuffleIcon />}
+							</Button>
+						</HoverCardTrigger>
+						<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Shuffle the queue</HoverCardContent>
+					</HoverCard>
 
 					{isAdmin ? (
-						<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={handleClear}>
-							{isClearing ? <Spinner size={20} /> : <X />}
-						</Button>
+						<HoverCard openDelay={150} closeDelay={50}>
+							<HoverCardTrigger>
+								<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={handleClear}>
+									{isClearing ? <Spinner size={20} /> : <X />}
+								</Button>
+							</HoverCardTrigger>
+							<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Clear queue</HoverCardContent>
+						</HoverCard>
 					) : null}
 				</div>
 			</div>
@@ -298,9 +320,14 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 							<div className="flex flex-row gap-2 items-center px-3">
 								<AlertDialog>
 									<AlertDialogTrigger className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95">
-										<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95">
-											<X />
-										</Button>
+										<HoverCard openDelay={150} closeDelay={50}>
+											<HoverCardTrigger>
+												<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95">
+													<X />
+												</Button>
+											</HoverCardTrigger>
+											<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Remove from queue</HoverCardContent>
+										</HoverCard>
 									</AlertDialogTrigger>
 									<AlertDialogContent>
 										<AlertDialogTitle>Remove song from queue</AlertDialogTitle>
@@ -313,9 +340,14 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 										</AlertDialogFooter>
 									</AlertDialogContent>
 								</AlertDialog>
-								<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={(e) => handleskipto(index + 1)}>
-									<ChevronLastIcon />
-								</Button>
+								<HoverCard openDelay={150} closeDelay={50}>
+									<HoverCardTrigger>
+										<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={(e) => handleskipto(index + 1)}>
+											<ChevronLastIcon />
+										</Button>
+									</HoverCardTrigger>
+									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Skip to song</HoverCardContent>
+								</HoverCard>
 							</div>
 						</div>
 					);

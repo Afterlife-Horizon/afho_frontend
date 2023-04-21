@@ -10,6 +10,7 @@ import Spinner from "./ui/Spinner";
 import { supabase } from "@/utils/supabaseUtils";
 import { queryClient } from "@/pages/_app";
 import axios, { AxiosError } from "axios";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 
 const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, setToastDescription, setToastTitle }) => {
 	const { data: favorites, isLoading, error } = useFavorites("user");
@@ -114,9 +115,14 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 						}
 					}}
 				/>
-				<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={addFav}>
-					{isAdding ? <Spinner size={30} /> : <Plus />}
-				</Button>
+				<HoverCard openDelay={150} closeDelay={50}>
+					<HoverCardTrigger>
+						<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={addFav}>
+							{isAdding ? <Spinner size={30} /> : <Plus />}
+						</Button>
+					</HoverCardTrigger>
+					<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Add song or playlist to favorites</HoverCardContent>
+				</HoverCard>
 			</div>
 			<ScrollArea className="max-h-[74vh] overflow-auto" id="favorites">
 				{favorites.map((song, index) => {
@@ -130,12 +136,22 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 							</div>
 							<Separator className="h-auto" decorative orientation={"vertical"} />
 							<div className="flex flex-row gap-2 items-center px-3">
-								<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={() => deleteFav(user.user_metadata.provider_id, song.id)}>
-									<X />
-								</Button>
-								<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={() => playFav(song)}>
-									<PlayIcon />
-								</Button>
+								<HoverCard openDelay={150} closeDelay={50}>
+									<HoverCardTrigger>
+										<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={() => deleteFav(user.user_metadata.provider_id, song.id)}>
+											<X />
+										</Button>
+									</HoverCardTrigger>
+									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Remove from favorites</HoverCardContent>
+								</HoverCard>
+								<HoverCard openDelay={150} closeDelay={50}>
+									<HoverCardTrigger>
+										<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={() => playFav(song)}>
+											<PlayIcon />
+										</Button>
+									</HoverCardTrigger>
+									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Play the song/playlist</HoverCardContent>
+								</HoverCard>
 							</div>
 						</div>
 					);
