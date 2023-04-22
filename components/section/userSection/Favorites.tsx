@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { Separator } from "./ui/separator";
-import { Button } from "./ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 import { PlayIcon, Plus, X } from "lucide-react";
 import Image from "next/image";
-import { ScrollArea } from "./ui/scroll-area";
-import { Input } from "./ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
 import useFavorites from "@/hooks/useFavorites";
-import Spinner from "./ui/Spinner";
+import Spinner from "@/components/ui/Spinner";
 import { supabase } from "@/utils/supabaseUtils";
 import { queryClient } from "@/pages/_app";
 import axios, { AxiosError } from "axios";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, setToastDescription, setToastTitle }) => {
 	const { data: favorites, isLoading, error } = useFavorites("user");

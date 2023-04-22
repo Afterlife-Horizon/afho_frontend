@@ -1,16 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Separator } from "./ui/separator";
-import { Button } from "./ui/button";
-import { ChevronLastIcon, ListStart, Plus, ShuffleIcon, X } from "lucide-react";
-import Image from "next/image";
-import { Input } from "./ui/input";
-import { ScrollArea } from "./ui/scroll-area";
+import useWindowSize from "@/hooks/useWindowSize";
 import { supabase } from "@/utils/supabaseUtils";
 import axios, { AxiosError } from "axios";
-import Spinner from "./ui/Spinner";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
-import useWindowSize from "@/hooks/useWindowSize";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
+import { ChevronLastIcon, ListStart, Plus, ShuffleIcon, X } from "lucide-react";
+import Image from "next/image";
+import React, { useRef, useState } from "react";
+import Spinner from "../ui/Spinner";
+import { Button } from "../ui/button";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card";
+import { Input } from "../ui/input";
+import { ScrollArea } from "../ui/scroll-area";
+import { Separator } from "../ui/separator";
 
 interface QueueProps extends defaultProps {
 	sectionRef: React.RefObject<HTMLDivElement>;
@@ -303,7 +302,7 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 		<section
 			className={`${windowSize.width && windowSize.width < 1200 ? "w-[90%]" : "w-full"} mx-auto shadow bg-pallete2 rounded-lg text-white flex-shrink-2`}
 			style={{
-				height: `${sectionRef?.current?.clientHeight ? Math.round(sectionRef?.current?.clientHeight * 0.575) : 0}px`,
+				height: `${windowSize.width && windowSize.width > 1200 ? (sectionRef?.current?.clientHeight ? Math.round(sectionRef?.current?.clientHeight * 0.575) : 0) + "px" : "100vh"}`,
 			}}
 		>
 			<div className={`flex ${windowSize.width && windowSize.width < 600 ? "flex-col" : ""} h-[10%] m-[1rem] gap-2 p-2`} ref={inputRef}>
@@ -358,7 +357,7 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 				</div>
 			</div>
 			<ScrollArea className={`flex flex-shrink overflow-auto h-[80%]`} id="queue">
-				{queue.slice(1).map((song: track, index) => {
+				{queue.slice(1).map((song, index) => {
 					return (
 						<div className={`flex gap-2 p-3`} key={index}>
 							<div className="w-[7rem]">

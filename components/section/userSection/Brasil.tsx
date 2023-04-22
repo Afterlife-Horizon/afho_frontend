@@ -1,12 +1,12 @@
 import useBrasilCounts from "@/hooks/useBrasilCounts";
-import { ScrollArea } from "./ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Autocomplete, TextField } from "@mui/material";
 import React, { useState } from "react";
 import useConnectedMembers from "@/hooks/useConnectedMembers";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import parseRank from "@/functions/parseRank";
-import Spinner from "./ui/Spinner";
+import Spinner from "@/components/ui/Spinner";
 import axios, { AxiosError } from "axios";
 
 const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, setToastOpen, setToastTitle, user }) => {

@@ -1,6 +1,6 @@
-import Player from "@/components/Player";
-import Queue from "@/components/Queue";
-import UserSection from "@/components/UserSection";
+import Player from "@/components/section/Player";
+import Queue from "@/components/section/Queue";
+import UserSection from "@/components/section/UserSection";
 import useFetchInfo from "@/hooks/useFetchInfo";
 import useUser from "@/hooks/useUser";
 import { Toast, ToastTitle, ToastDescription, ToastViewport } from "@/components/ui/toast";
@@ -47,8 +47,8 @@ const Home: NextPage = () => {
 	const isAdmin = fetchInfo?.admins.usernames.includes(apiUser.user_metadata.full_name);
 
 	return (
-		<main className={`flex p-[1rem] ${windowSize.width && windowSize.width < 1200 ? "flex-col mb-[3rem]" : "h-[100vh]"} h-[100vh] max-h-[100vh] bg-pallete1`}>
-			<div ref={sectionRef} className={`h-full max-h-[100%] grid gap-5 ${windowSize.width && windowSize.width < 1200 ? "w-full mb-[2rem]" : "w-[50%]"} grid-flow-row grid-rows-[40%_1fr]`}>
+		<main className={`flex p-[1rem] ${windowSize.width && windowSize.width < 1200 ? "flex-col mb-[3rem]" : "h-[100vh] max-h-[100vh]"} bg-pallete1`}>
+			<div ref={sectionRef} className={`grid gap-5 ${windowSize.width && windowSize.width < 1200 ? "w-full mb-[2rem]" : "w-[50%]"} grid-flow-row grid-rows-[40%_1fr]`}>
 				<Player
 					user={apiUser}
 					fetchInfo={fetchInfo}

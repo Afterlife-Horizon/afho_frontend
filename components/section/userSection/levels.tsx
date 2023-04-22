@@ -1,9 +1,9 @@
 import useLevels from "@/hooks/useLevels";
-import { Avatar, AvatarFallback } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { ScrollArea } from "./ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import parseRank from "@/functions/parseRank";
-import Spinner from "./ui/Spinner";
+import Spinner from "@/components/ui/Spinner";
 import React from "react";
 import { User } from "lucide-react";
 

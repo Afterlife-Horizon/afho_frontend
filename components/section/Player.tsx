@@ -1,13 +1,13 @@
 import Image from "next/image";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import React, { useState } from "react";
-import { Progress } from "./ui/progress";
+import { Progress } from "../ui/progress";
 import { Pause, Play, PowerOffIcon, SkipForwardIcon, X } from "lucide-react";
 import axios, { AxiosError } from "axios";
 import { supabase } from "@/utils/supabaseUtils";
-import Spinner from "./ui/Spinner";
+import Spinner from "../ui/Spinner";
 import useWindowSize from "@/hooks/useWindowSize";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card";
 
 const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [playerInfoClasses, setPlayerInfoClasses] = useState<string>("hidden row-start-1 col-start-1 h-auto p-[1.5rem]");
