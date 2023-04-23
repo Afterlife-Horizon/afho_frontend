@@ -1,33 +1,33 @@
-import useBrasilCounts from "@/hooks/useBrasilCounts";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Autocomplete, TextField } from "@mui/material";
-import React, { useState } from "react";
-import useConnectedMembers from "@/hooks/useConnectedMembers";
-import { Button } from "@/components/ui/button";
-import parseRank from "@/functions/parseRank";
-import Spinner from "@/components/ui/Spinner";
-import axios, { AxiosError } from "axios";
+import useBrasilCounts from "@/hooks/useBrasilCounts"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Autocomplete, TextField } from "@mui/material"
+import React, { useState } from "react"
+import useConnectedMembers from "@/hooks/useConnectedMembers"
+import { Button } from "@/components/ui/button"
+import parseRank from "@/functions/parseRank"
+import Spinner from "@/components/ui/Spinner"
+import axios, { AxiosError } from "axios"
 
 const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, setToastOpen, setToastTitle, user }) => {
-	const { data: brasils, isLoading, error } = useBrasilCounts();
-	const { data: connectedMembers, isLoading: isLoadingConnectedMembers, error: errorConnectedMembers } = useConnectedMembers();
-	const [currentPlayer, setCurrentPlayer] = useState("");
-	const [isMoving, setIsMoving] = useState(false);
+	const { data: brasils, isLoading, error } = useBrasilCounts()
+	const { data: connectedMembers, isLoading: isLoadingConnectedMembers, error: errorConnectedMembers } = useConnectedMembers()
+	const [currentPlayer, setCurrentPlayer] = useState("")
+	const [isMoving, setIsMoving] = useState(false)
 
-	if (isLoading || isLoadingConnectedMembers) return <Spinner size={150} />;
-	if (error) return <div>Error: {error.message}</div>;
-	if (errorConnectedMembers) return <div>Error: {errorConnectedMembers.message}</div>;
-	if (!brasils) return <div></div>;
+	if (isLoading || isLoadingConnectedMembers) return <Spinner size={150} />
+	if (error) return <div>Error: {error.message}</div>
+	if (errorConnectedMembers) return <div>Error: {errorConnectedMembers.message}</div>
+	if (!brasils) return <div></div>
 
-	const memberNames = connectedMembers ? connectedMembers.map((m) => m.username) : [];
+	const memberNames = connectedMembers ? connectedMembers.map(m => m.username) : []
 
 	function autocompleteCheckValue(option: any, newValue: any) {
-		return option === newValue || newValue === "";
+		return option === newValue || newValue === ""
 	}
 
 	function handleChangeCurrentPlayer(event: any, values: any) {
-		setCurrentPlayer(values);
+		setCurrentPlayer(values)
 	}
 
 	function handleBresilClicked() {
@@ -37,33 +37,33 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 					"/api/bresilMember",
 					{ moverId: user?.user_metadata.provider_id, movedId: id },
 					{
-						headers: { "Content-Type": "application/json" },
+						headers: { "Content-Type": "application/json" }
 					}
 				)
 				.then(() => {
-					setIsMoving(false);
+					setIsMoving(false)
 				})
 				.catch((err: AxiosError) => {
-					const data = err.response?.data as { error: string };
-					setToastOpen(true);
-					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
-					setToastDescription(data.error);
-					setToastColor("destructive");
-					setIsMoving(false);
-				});
+					const data = err.response?.data as { error: string }
+					setToastOpen(true)
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`)
+					setToastDescription(data.error)
+					setToastColor("destructive")
+					setIsMoving(false)
+				})
 		}
 
-		const movedMemberId = connectedMembers?.find((m) => m.username === currentPlayer)?.id;
+		const movedMemberId = connectedMembers?.find(m => m.username === currentPlayer)?.id
 		if (currentPlayer === "" || !movedMemberId) {
-			setToastOpen(true);
-			setToastTitle("");
-			setToastDescription("Please select a member");
-			setToastColor("inform");
-			return;
+			setToastOpen(true)
+			setToastTitle("")
+			setToastDescription("Please select a member")
+			setToastColor("inform")
+			return
 		}
 
-		setIsMoving(true);
-		bresilMember(movedMemberId);
+		setIsMoving(true)
+		bresilMember(movedMemberId)
 	}
 
 	return (
@@ -74,23 +74,23 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 					sx={{
 						"& .MuiAutocomplete-inputRoot": {
 							color: "white",
-							backgroundColor: "rgba(255,255,255,0.1)",
+							backgroundColor: "rgba(255,255,255,0.1)"
 						},
 						"& .MuiAutocomplete-popper": {
-							backgroundColor: "rgba(255,255,255,0.1)",
+							backgroundColor: "rgba(255,255,255,0.1)"
 						},
 						"& .MuiAutocomplete-option": {
-							color: "white",
+							color: "white"
 						},
 						"& .MuiAutocomplete-option[data-focus='true']": {
-							backgroundColor: "rgba(255,255,255,0.1)",
+							backgroundColor: "rgba(255,255,255,0.1)"
 						},
 						"& .MuiAutocomplete-option[data-selected='true']": {
-							backgroundColor: "rgba(255,255,255,0.1)",
+							backgroundColor: "rgba(255,255,255,0.1)"
 						},
 						"& .MuiAutocomplete-input": {
-							color: "white",
-						},
+							color: "white"
+						}
 					}}
 					disableClearable
 					freeSolo
@@ -99,14 +99,14 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 					value={currentPlayer}
 					options={memberNames}
 					onChange={handleChangeCurrentPlayer}
-					renderInput={(params) => (
+					renderInput={params => (
 						<TextField
 							className="h-[4rem] text-white"
 							{...params}
 							sx={{
 								"& .MuiFormLabel-root": {
-									color: "white",
-								},
+									color: "white"
+								}
 							}}
 							variant="filled"
 							label="Member"
@@ -154,7 +154,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 				</table>
 			</ScrollArea>
 		</div>
-	);
-};
+	)
+}
 
-export default Brasil;
+export default Brasil

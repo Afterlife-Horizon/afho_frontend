@@ -1,32 +1,32 @@
-import useWindowSize from "@/hooks/useWindowSize";
-import { supabase } from "@/utils/supabaseUtils";
-import axios, { AxiosError } from "axios";
-import { ChevronLastIcon, ListStart, Plus, ShuffleIcon, X } from "lucide-react";
-import Image from "next/image";
-import React, { useRef, useState } from "react";
-import Spinner from "../ui/Spinner";
-import { Button } from "../ui/button";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card";
-import { Input } from "../ui/input";
-import { ScrollArea } from "../ui/scroll-area";
-import { Separator } from "../ui/separator";
+import useWindowSize from "@/hooks/useWindowSize"
+import { supabase } from "@/utils/supabaseUtils"
+import axios, { AxiosError } from "axios"
+import { ChevronLastIcon, ListStart, Plus, ShuffleIcon, X } from "lucide-react"
+import Image from "next/image"
+import React, { useRef, useState } from "react"
+import Spinner from "../ui/Spinner"
+import { Button } from "../ui/button"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
+import { Input } from "../ui/input"
+import { ScrollArea } from "../ui/scroll-area"
+import { Separator } from "../ui/separator"
 
 interface QueueProps extends defaultProps {
-	sectionRef: React.RefObject<HTMLDivElement>;
+	sectionRef: React.RefObject<HTMLDivElement>
 }
 
 const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle, sectionRef }) => {
-	const [searchInput, setSearchInput] = useState<string>("");
-	const [isAdding, setIsAdding] = useState<boolean>(false);
-	const [isAddingFirst, setIsAddingFirst] = useState<boolean>(false);
-	const [isShuffling, setIsShuffling] = useState<boolean>(false);
-	const [isClearing, setIsClearing] = useState<boolean>(false);
-	const [isRemoving, setIsRemoving] = useState<Map<number, boolean>>(new Map());
-	const [isSkipping, setIsSkipping] = useState<Map<number, boolean>>(new Map());
-	const windowSize = useWindowSize();
-	const inputRef = useRef<HTMLInputElement>(null);
+	const [searchInput, setSearchInput] = useState<string>("")
+	const [isAdding, setIsAdding] = useState<boolean>(false)
+	const [isAddingFirst, setIsAddingFirst] = useState<boolean>(false)
+	const [isShuffling, setIsShuffling] = useState<boolean>(false)
+	const [isClearing, setIsClearing] = useState<boolean>(false)
+	const [isRemoving, setIsRemoving] = useState<Map<number, boolean>>(new Map())
+	const [isSkipping, setIsSkipping] = useState<Map<number, boolean>>(new Map())
+	const windowSize = useWindowSize()
+	const inputRef = useRef<HTMLInputElement>(null)
 
-	const queue = fetchInfo.queue[0]?.tracks || [];
+	const queue = fetchInfo.queue[0]?.tracks || []
 
 	function handleAdd() {
 		async function addSong() {
@@ -35,37 +35,37 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 					"/api/play",
 					{
 						songs: searchInput,
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+						access_token: (await supabase.auth.getSession()).data?.session?.access_token
 					},
 					{
-						headers: { "Content-Type": "application/json" },
+						headers: { "Content-Type": "application/json" }
 					}
 				)
 				.then(() => {
-					setIsAdding(false);
-					setSearchInput("");
+					setIsAdding(false)
+					setSearchInput("")
 				})
 				.catch((err: AxiosError) => {
-					const data = err.response?.data as { error: string };
-					setToastOpen(true);
-					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
-					setToastDescription(data.error);
-					setToastColor("destructive");
-					setIsAdding(false);
-					setSearchInput("");
-				});
+					const data = err.response?.data as { error: string }
+					setToastOpen(true)
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`)
+					setToastDescription(data.error)
+					setToastColor("destructive")
+					setIsAdding(false)
+					setSearchInput("")
+				})
 		}
 
-		if (isAdding) return;
-		setIsAdding(true);
+		if (isAdding) return
+		setIsAdding(true)
 		if (searchInput === "") {
-			setToastOpen(true);
-			setToastTitle(``);
-			setToastDescription("Please enter a song name or url");
-			setToastColor("inform");
-			return setIsAdding(false);
+			setToastOpen(true)
+			setToastTitle(``)
+			setToastDescription("Please enter a song name or url")
+			setToastColor("inform")
+			return setIsAdding(false)
 		}
-		addSong();
+		addSong()
 	}
 
 	function handleAddFirst() {
@@ -75,169 +75,169 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 					"/api/playfirst",
 					{
 						songs: searchInput,
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+						access_token: (await supabase.auth.getSession()).data?.session?.access_token
 					},
 					{
-						headers: { "Content-Type": "application/json" },
+						headers: { "Content-Type": "application/json" }
 					}
 				)
 				.then(() => {
-					setSearchInput("");
-					setIsAddingFirst(false);
+					setSearchInput("")
+					setIsAddingFirst(false)
 				})
 				.catch((err: AxiosError) => {
-					const data = err.response?.data as string;
-					setToastOpen(true);
-					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
-					setToastDescription(data);
-					setToastColor("destructive");
-					setSearchInput("");
-					setIsAddingFirst(false);
-				});
+					const data = err.response?.data as string
+					setToastOpen(true)
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`)
+					setToastDescription(data)
+					setToastColor("destructive")
+					setSearchInput("")
+					setIsAddingFirst(false)
+				})
 		}
 
-		if (isAddingFirst) return;
+		if (isAddingFirst) return
 		if (searchInput === "") {
-			setToastOpen(true);
-			setToastTitle(``);
-			setToastDescription("Please enter a song name or url");
-			setToastColor("inform");
-			return setIsAddingFirst(false);
+			setToastOpen(true)
+			setToastTitle(``)
+			setToastDescription("Please enter a song name or url")
+			setToastColor("inform")
+			return setIsAddingFirst(false)
 		}
-		setIsAddingFirst(true);
-		AddFirst();
+		setIsAddingFirst(true)
+		AddFirst()
 	}
 
 	function handleShuffle() {
 		async function shuffleSongs() {
-			const url = "/api/shuffle";
+			const url = "/api/shuffle"
 			await axios
 				.post(url, {
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+					access_token: (await supabase.auth.getSession()).data?.session?.access_token
 				})
 				.then(() => {
-					setIsShuffling(false);
+					setIsShuffling(false)
 				})
 				.catch((err: AxiosError) => {
-					const data = err.response?.data as { error: string };
-					setToastOpen(true);
-					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
-					setToastDescription(data.error);
-					setToastColor("destructive");
-					setIsShuffling(false);
-				});
+					const data = err.response?.data as { error: string }
+					setToastOpen(true)
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`)
+					setToastDescription(data.error)
+					setToastColor("destructive")
+					setIsShuffling(false)
+				})
 		}
 
-		if (isShuffling) return;
-		setIsShuffling(true);
+		if (isShuffling) return
+		setIsShuffling(true)
 		if (!queue || queue.length < 3) {
-			setToastOpen(true);
-			setToastTitle(``);
-			setToastDescription("No songs to shuffle");
-			setToastColor("inform");
-			return setIsShuffling(false);
+			setToastOpen(true)
+			setToastTitle(``)
+			setToastDescription("No songs to shuffle")
+			setToastColor("inform")
+			return setIsShuffling(false)
 		}
-		setIsShuffling(true);
-		shuffleSongs();
+		setIsShuffling(true)
+		shuffleSongs()
 	}
 
 	function handleClear() {
 		async function clearSongs() {
-			const url = "/api/clearqueue";
+			const url = "/api/clearqueue"
 			await axios
 				.post(url, {
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+					access_token: (await supabase.auth.getSession()).data?.session?.access_token
 				})
 				.then(() => {
-					setIsClearing(false);
+					setIsClearing(false)
 				})
-				.catch((err) => {
-					const data = err.response?.data as { error: string };
-					setToastOpen(true);
-					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
-					setToastDescription(data.error);
-					setToastColor("destructive");
-					setIsClearing(false);
-				});
+				.catch(err => {
+					const data = err.response?.data as { error: string }
+					setToastOpen(true)
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`)
+					setToastDescription(data.error)
+					setToastColor("destructive")
+					setIsClearing(false)
+				})
 		}
 
-		if (isClearing) return;
-		setIsClearing(true);
+		if (isClearing) return
+		setIsClearing(true)
 		if (!isAdmin) {
-			setToastOpen(true);
-			setToastTitle(``);
-			setToastDescription("You are not an admin");
-			setToastColor("inform");
-			return setIsClearing(false);
+			setToastOpen(true)
+			setToastTitle(``)
+			setToastDescription("You are not an admin")
+			setToastColor("inform")
+			return setIsClearing(false)
 		}
 
 		if (!queue || queue.length < 2) {
-			setToastOpen(true);
-			setToastTitle(``);
-			setToastDescription("No songs to clear");
-			setToastColor("inform");
-			return setIsClearing(false);
+			setToastOpen(true)
+			setToastTitle(``)
+			setToastDescription("No songs to clear")
+			setToastColor("inform")
+			return setIsClearing(false)
 		}
-		clearSongs();
+		clearSongs()
 	}
 
 	function handleRemove(id: number) {
 		async function remove() {
-			const url = "/api/remove";
+			const url = "/api/remove"
 			await axios
 				.post(
 					url,
 					{
 						queuePos: id,
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+						access_token: (await supabase.auth.getSession()).data?.session?.access_token
 					},
 					{
-						headers: { "Content-Type": "application/json" },
+						headers: { "Content-Type": "application/json" }
 					}
 				)
 				.then(() => {
 					setIsRemoving(() => {
-						const newMap = new Map();
-						newMap.set(id, false);
-						return newMap;
-					});
+						const newMap = new Map()
+						newMap.set(id, false)
+						return newMap
+					})
 				})
 				.catch((err: AxiosError) => {
-					const data = err.response?.data as { error: string };
-					setToastOpen(true);
-					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
-					setToastDescription(data.error);
-					setToastColor("destructive");
+					const data = err.response?.data as { error: string }
+					setToastOpen(true)
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`)
+					setToastDescription(data.error)
+					setToastColor("destructive")
 					setIsRemoving(() => {
-						const newMap = new Map();
-						newMap.set(id, false);
-						return newMap;
-					});
-				});
+						const newMap = new Map()
+						newMap.set(id, false)
+						return newMap
+					})
+				})
 		}
 
-		if (isRemoving.get(id)) return;
+		if (isRemoving.get(id)) return
 		if (!isAdmin) {
-			setToastOpen(true);
-			setToastTitle(``);
-			setToastDescription("You are not an admin");
-			setToastColor("inform");
-			return;
+			setToastOpen(true)
+			setToastTitle(``)
+			setToastDescription("You are not an admin")
+			setToastColor("inform")
+			return
 		}
 
 		if (!queue || queue.length === 0) {
-			setToastOpen(true);
-			setToastTitle(``);
-			setToastDescription("No songs to remove");
-			setToastColor("inform");
-			return;
+			setToastOpen(true)
+			setToastTitle(``)
+			setToastDescription("No songs to remove")
+			setToastColor("inform")
+			return
 		}
 		setIsRemoving(() => {
-			const newMap = new Map();
-			newMap.set(id, true);
-			return newMap;
-		});
-		remove();
+			const newMap = new Map()
+			newMap.set(id, true)
+			return newMap
+		})
+		remove()
 	}
 
 	function handleskipto(id: number) {
@@ -247,62 +247,68 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 					"/api/skipto",
 					{
 						queuePos: id,
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token,
+						access_token: (await supabase.auth.getSession()).data?.session?.access_token
 					},
 					{
-						headers: { "Content-Type": "application/json" },
+						headers: { "Content-Type": "application/json" }
 					}
 				)
 				.then(() => {
 					setIsSkipping(() => {
-						const newMap = new Map();
-						newMap.set(id, false);
-						return newMap;
-					});
+						const newMap = new Map()
+						newMap.set(id, false)
+						return newMap
+					})
 				})
 				.catch((err: AxiosError) => {
-					const data = err.response?.data as { error: string };
-					setToastOpen(true);
-					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`);
-					setToastDescription(data.error);
-					setToastColor("destructive");
+					const data = err.response?.data as { error: string }
+					setToastOpen(true)
+					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`)
+					setToastDescription(data.error)
+					setToastColor("destructive")
 					setIsSkipping(() => {
-						const newMap = new Map();
-						newMap.set(id, false);
-						return newMap;
-					});
-				});
+						const newMap = new Map()
+						newMap.set(id, false)
+						return newMap
+					})
+				})
 		}
 
-		if (isSkipping.get(id)) return;
+		if (isSkipping.get(id)) return
 		if (!isAdmin) {
-			setToastOpen(true);
-			setToastTitle(``);
-			setToastDescription("You are not an admin");
-			setToastColor("inform");
-			return;
+			setToastOpen(true)
+			setToastTitle(``)
+			setToastDescription("You are not an admin")
+			setToastColor("inform")
+			return
 		}
 
 		if (!queue || queue.length === 0) {
-			setToastOpen(true);
-			setToastTitle(``);
-			setToastDescription("No songs to skip to");
-			setToastColor("inform");
-			return;
+			setToastOpen(true)
+			setToastTitle(``)
+			setToastDescription("No songs to skip to")
+			setToastColor("inform")
+			return
 		}
 		setIsSkipping(() => {
-			const newMap = new Map();
-			newMap.set(id, true);
-			return newMap;
-		});
-		skipto();
+			const newMap = new Map()
+			newMap.set(id, true)
+			return newMap
+		})
+		skipto()
 	}
 
 	return (
 		<section
-			className={`${windowSize.width && windowSize.width < 1200 ? "w-[90%]" : "w-full"} mx-auto shadow bg-pallete2 rounded-lg text-white flex-shrink-2`}
+			className={`${
+				windowSize.width && windowSize.width < 1200 ? "w-[90%]" : "w-full"
+			} mx-auto shadow bg-pallete2 rounded-lg text-white flex-shrink-2`}
 			style={{
-				height: `${windowSize.width && windowSize.width > 1200 ? (sectionRef?.current?.clientHeight ? Math.round(sectionRef?.current?.clientHeight * 0.575) : 0) + "px" : "100vh"}`,
+				height: `${
+					windowSize.width && windowSize.width > 1200
+						? (sectionRef?.current?.clientHeight ? Math.round(sectionRef?.current?.clientHeight * 0.575) : 0) + "px"
+						: "100vh"
+				}`
 			}}
 		>
 			<div className={`flex ${windowSize.width && windowSize.width < 600 ? "flex-col" : ""} h-[10%] m-[1rem] gap-2 p-2`} ref={inputRef}>
@@ -310,11 +316,11 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 					className="rounded-full"
 					placeholder="Search for a song"
 					value={searchInput}
-					onChange={(e) => {
-						setSearchInput(e.target.value);
+					onChange={e => {
+						setSearchInput(e.target.value)
 					}}
-					onKeyUp={(e) => {
-						if (e.code === "Enter") handleAdd();
+					onKeyUp={e => {
+						if (e.code === "Enter") handleAdd()
 					}}
 				/>
 				<div className="flex flex-row gap-2">
@@ -371,7 +377,10 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 							<div className="flex flex-row gap-2 items-center px-3">
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
-										<Button className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95" onClick={() => handleRemove(index + 1)}>
+										<Button
+											className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95"
+											onClick={() => handleRemove(index + 1)}
+										>
 											{isRemoving.get(index + 1) ? <Spinner size={20} /> : <X />}
 										</Button>
 									</HoverCardTrigger>
@@ -379,7 +388,10 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 								</HoverCard>
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
-										<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={(e) => handleskipto(index + 1)}>
+										<Button
+											className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95"
+											onClick={e => handleskipto(index + 1)}
+										>
 											{isSkipping.get(index + 1) ? <Spinner size={20} /> : <ChevronLastIcon />}
 										</Button>
 									</HoverCardTrigger>
@@ -387,11 +399,11 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 								</HoverCard>
 							</div>
 						</div>
-					);
+					)
 				})}
 			</ScrollArea>
 		</section>
-	);
-};
+	)
+}
 
-export default Queue;
+export default Queue

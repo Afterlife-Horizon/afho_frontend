@@ -1,12 +1,12 @@
 export default function parseRank(rank: number): string {
 	switch (rank % 10) {
 		case 1:
-			return "st";
+			return "st"
 		case 2:
-			return "nd";
+			return "nd"
 		case 3:
-			return "rd";
+			return "rd"
 		default:
-			return "th";
+			return "th"
 	}
 }

@@ -1,6 +1,6 @@
-import { Auth } from "@supabase/auth-ui-react";
-import { supabase } from "../utils/supabaseUtils";
-import type { NextPage } from "next";
+import { Auth } from "@supabase/auth-ui-react"
+import { supabase } from "../utils/supabaseUtils"
+import type { NextPage } from "next"
 
 const AuthPage: NextPage = () => {
 	return (
@@ -12,13 +12,13 @@ const AuthPage: NextPage = () => {
 				appearance={{
 					className: {
 						button: "blue-button",
-						loader: "spinner",
-					},
+						loader: "spinner"
+					}
 				}}
 				providers={["discord"]}
 			/>
 		</div>
-	);
-};
+	)
+}
 
-export default AuthPage;
+export default AuthPage

@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
+		"prettier": "prettier --write .",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint"
@@ -46,5 +47,8 @@
 		"tailwindcss": "3.3.1",
 		"tailwindcss-animate": "^1.0.5",
 		"typescript": "5.0.4"
+	},
+	"devDependencies": {
+		"prettier": "^2.8.8"
 	}
 }

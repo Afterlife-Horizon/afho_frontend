@@ -1,22 +1,22 @@
-import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import { getUser } from "../utils/supabaseUtils";
-import { User } from "@supabase/supabase-js";
+import { UseQueryResult, useQuery } from "@tanstack/react-query"
+import { getUser } from "../utils/supabaseUtils"
+import { User } from "@supabase/supabase-js"
 
 const useUser = (): UseQueryResult<User, Error> => {
 	return useQuery({
 		queryKey: ["user"],
 		queryFn: getUser,
-		select: (data) => data.user,
+		select: data => data.user,
 		retry(failureCount, error) {
 			if (error.message === "invalid claim: missing sub claim") {
-				return false;
+				return false
 			}
 			if (failureCount < 2) {
-				return true;
+				return true
 			}
-			return false;
-		},
-	});
-};
+			return false
+		}
+	})
+}
 
-export default useUser;
+export default useUser

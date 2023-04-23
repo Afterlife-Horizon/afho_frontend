@@ -1,18 +1,18 @@
-import useLevels from "@/hooks/useLevels";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { AvatarImage } from "@radix-ui/react-avatar";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import parseRank from "@/functions/parseRank";
-import Spinner from "@/components/ui/Spinner";
-import React from "react";
-import { User } from "lucide-react";
+import useLevels from "@/hooks/useLevels"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { AvatarImage } from "@radix-ui/react-avatar"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import parseRank from "@/functions/parseRank"
+import Spinner from "@/components/ui/Spinner"
+import React from "react"
+import { User } from "lucide-react"
 
 const Levels: React.FC<defaultProps> = ({}) => {
-	const { data: levels, isLoading, error } = useLevels();
+	const { data: levels, isLoading, error } = useLevels()
 
-	if (isLoading) return <Spinner size={150} />;
-	if (error) return <div>Error: {error.message}</div>;
-	if (!levels) return <div></div>;
+	if (isLoading) return <Spinner size={150} />
+	if (error) return <div>Error: {error.message}</div>
+	if (!levels) return <div></div>
 
 	return (
 		<ScrollArea className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-4rem)]">
@@ -49,12 +49,12 @@ const Levels: React.FC<defaultProps> = ({}) => {
 								<td>{level.lvl}</td>
 								<td>{level.xp}</td>
 							</tr>
-						);
+						)
 					})}
 				</tbody>
 			</table>
 		</ScrollArea>
-	);
-};
+	)
+}
 
-export default Levels;
+export default Levels

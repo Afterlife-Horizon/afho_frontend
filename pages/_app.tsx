@@ -1,10 +1,10 @@
-import "@/styles/globals.css";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import type { AppProps } from "next/app";
-import { ToastProvider } from "@/components/ui/toast";
-import Head from "next/head";
+import "@/styles/globals.css"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import type { AppProps } from "next/app"
+import { ToastProvider } from "@/components/ui/toast"
+import Head from "next/head"
 
-export const queryClient = new QueryClient();
+export const queryClient = new QueryClient()
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (
@@ -19,5 +19,5 @@ export default function App({ Component, pageProps }: AppProps) {
 				<Component {...pageProps} />
 			</ToastProvider>
 		</QueryClientProvider>
-	);
+	)
 }

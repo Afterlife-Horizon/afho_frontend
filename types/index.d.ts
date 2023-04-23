@@ -1,9 +1,9 @@
 interface defaultProps extends React.ComponentPropsWithoutRef<"div"> {
-	user: User;
-	fetchInfo: IFetchData;
-	isAdmin: boolean;
-	setToastOpen: Dispatch<SetStateAction<boolean>>;
-	setToastDescription: Dispatch<SetStateAction<string>>;
-	setToastTitle: Dispatch<SetStateAction<string>>;
-	setToastColor: Dispatch<SetStateAction<string>>;
+	user: User
+	fetchInfo: IFetchData
+	isAdmin: boolean
+	setToastOpen: Dispatch<SetStateAction<boolean>>
+	setToastDescription: Dispatch<SetStateAction<string>>
+	setToastTitle: Dispatch<SetStateAction<string>>
+	setToastColor: Dispatch<SetStateAction<string>>
 }
