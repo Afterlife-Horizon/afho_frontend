@@ -51,7 +51,7 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 				<TabsList
 					className={`w-full md:rounded-none ${
 						windowSize.width && windowSize.width < 700 ? "p[0.5rem] gap-1" : "gap-3 p-[2rem]"
-					} h-[1rem] bg-pallete2 [&>*:hover]:bg-accent1 text-white`}
+					} h-[4rem] bg-pallete2 [&>*:hover]:bg-accent1 text-white`}
 				>
 					<TabsTrigger value="favorites" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
 						Favorites

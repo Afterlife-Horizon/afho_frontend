@@ -303,13 +303,6 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 			className={`${
 				windowSize.width && windowSize.width < 1200 ? "w-[90%]" : "w-full"
 			} mx-auto shadow bg-pallete2 rounded-lg text-white flex-shrink-2`}
-			style={{
-				height: `${
-					windowSize.width && windowSize.width > 1200
-						? (sectionRef?.current?.clientHeight ? Math.round(sectionRef?.current?.clientHeight * 0.575) : 0) + "px"
-						: "100vh"
-				}`
-			}}
 		>
 			<div className={`flex ${windowSize.width && windowSize.width < 600 ? "flex-col" : ""} h-[10%] m-[1rem] gap-2 p-2`} ref={inputRef}>
 				<Input

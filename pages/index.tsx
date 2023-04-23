@@ -40,7 +40,7 @@ const Home: NextPage = () => {
 
 	return (
 		<main
-			className={`grid p-[1rem] ${
+			className={`grid gap-5 p-[1rem] ${
 				windowSize.width && windowSize.width < 1200 ? "mb-[3rem]" : "grid-cols-2 h-[100vh] max-h-[100vh]"
 			} bg-pallete1`}
 		>
