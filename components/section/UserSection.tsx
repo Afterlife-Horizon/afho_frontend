@@ -22,9 +22,9 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 	}
 
 	return (
-		<section className="flex flex-col flex-grow w-[90%] mx-auto shadow max-h-[100%] bg-pallete2 rounded-lg text-white">
+		<section className="grid grid-rows-[10rem_1fr] w-[90%] mx-auto shadow bg-pallete2 rounded-lg text-white">
 			<div className={`flex ${windowSize.width && windowSize.width < 600 ? "flex-col" : ""} justify-between w-full bg-pallete3 rounded-t-lg`}>
-				<div className="flex gap-3 w-full h-[10rem] items-center p-[2rem]">
+				<div className="flex gap-3 w-full items-center p-[2rem]">
 					<Avatar className={`rounded-full ${windowSize.width && windowSize.width < 700 ? "h-[3rem] w-[3rem]" : "h-[5rem] w-[5rem]"}`}>
 						<AvatarImage src={user.user_metadata.avatar_url} />
 						<AvatarFallback>
@@ -43,8 +43,8 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 					</Button>
 				</div>
 			</div>
-			<Tabs defaultValue="favorites">
-				<TabsList className={`w-full md:rounded-none ${windowSize.width && windowSize.width < 700 ? "p[0.5rem] gap-1" : "gap-3 p-[2rem]"} bg-pallete2 [&>*:hover]:bg-accent1 text-white`}>
+			<Tabs defaultValue="favorites" className="h-[calc(100vh-2rem-10rem)] max-h-[calc(100vh-2rem-10rem)]">
+				<TabsList className={`w-full md:rounded-none ${windowSize.width && windowSize.width < 700 ? "p[0.5rem] gap-1" : "gap-3 p-[2rem]"} h-[1rem] bg-pallete2 [&>*:hover]:bg-accent1 text-white`}>
 					<TabsTrigger value="favorites" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
 						Favorites
 					</TabsTrigger>
@@ -60,7 +60,7 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 						Levels
 					</TabsTrigger>
 				</TabsList>
-				<TabsContent value="favorites" className="mt-0 h-[72vh]">
+				<TabsContent value="favorites" className="mt-0">
 					<Favorites
 						user={user}
 						fetchInfo={fetchInfo}
@@ -72,7 +72,7 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 					/>
 				</TabsContent>
 				{isAdmin ? (
-					<TabsContent value="filters" className="mt-0 h-[72vh]">
+					<TabsContent value="filters" className="mt-0">
 						<Filters
 							user={user}
 							fetchInfo={fetchInfo}
@@ -84,7 +84,7 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 						/>
 					</TabsContent>
 				) : null}
-				<TabsContent value="brasilboard" className="mt-0 h-[72vh]">
+				<TabsContent value="brasilboard" className="mt-0">
 					<Brasil
 						user={user}
 						fetchInfo={fetchInfo}
@@ -95,7 +95,7 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 						setToastTitle={setToastTitle}
 					/>
 				</TabsContent>
-				<TabsContent value="levels" className="mt-0 h-[72vh]">
+				<TabsContent value="levels" className="mt-0">
 					<Levels
 						user={user}
 						fetchInfo={fetchInfo}

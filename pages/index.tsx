@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import Spinner from "@/components/ui/Spinner";
 import useWindowSize from "@/hooks/useWindowSize";
-import { NextPage } from "next";
+import type { NextPage } from "next";
 
 const Home: NextPage = () => {
 	const [toastOpen, setToastOpen] = useState(false);
@@ -21,21 +21,11 @@ const Home: NextPage = () => {
 	const windowSize = useWindowSize();
 	const sectionRef = React.useRef<HTMLDivElement>(null);
 
-	if (isLoading)
-		return (
-			<div className="h-[100vh]">
-				<Spinner size={300} />
-			</div>
-		);
+	if (isLoading) return <div className="h-[100vh]">{windowSize.width && windowSize.width > 1200 ? <Spinner size={300} /> : <Spinner size={150} />}</div>;
 	if (error) router.push("/auth");
 	if (!apiUser) return <div></div>;
 
-	if (isFetchingInfo)
-		return (
-			<div className="h-[100vh]">
-				<Spinner size={300} />
-			</div>
-		);
+	if (isFetchingInfo) return <div className="h-[100vh]">{windowSize.width && windowSize.width > 1200 ? <Spinner size={300} /> : <Spinner size={150} />}</div>;
 	if (fetchingInfoError) {
 		setToastOpen(true);
 		setToastTitle("Error");
@@ -47,8 +37,8 @@ const Home: NextPage = () => {
 	const isAdmin = fetchInfo?.admins.usernames.includes(apiUser.user_metadata.full_name);
 
 	return (
-		<main className={`flex p-[1rem] ${windowSize.width && windowSize.width < 1200 ? "flex-col mb-[3rem]" : "h-[100vh] max-h-[100vh]"} bg-pallete1`}>
-			<div ref={sectionRef} className={`grid gap-5 ${windowSize.width && windowSize.width < 1200 ? "w-full mb-[2rem]" : "w-[50%]"} grid-flow-row grid-rows-[40%_1fr]`}>
+		<main className={`grid p-[1rem] ${windowSize.width && windowSize.width < 1200 ? "mb-[3rem]" : "grid-cols-2 h-[100vh] max-h-[100vh]"} bg-pallete1`}>
+			<div ref={sectionRef} className={`grid gap-5 grid-flow-row grid-rows-[40%_1fr] ${windowSize.width && windowSize.width > 1200 ? "max-h-[calc(100vh-2rem)]" : ""}`}>
 				<Player
 					user={apiUser}
 					fetchInfo={fetchInfo}
@@ -69,7 +59,7 @@ const Home: NextPage = () => {
 					setToastTitle={setToastTitle}
 				/>
 			</div>
-			<div className={`${windowSize.width && windowSize.width < 1200 ? "w-full" : "w-[50%]"}`}>
+			<div className={`w-full max-h-[calc(100vh-2rem)]`}>
 				<UserSection
 					user={apiUser}
 					fetchInfo={fetchInfo}

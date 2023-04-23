@@ -15,7 +15,7 @@ const Levels: React.FC<defaultProps> = ({}) => {
 	if (!levels) return <div></div>;
 
 	return (
-		<ScrollArea className="flex flex-col gap-3 max-h-[72vh]">
+		<ScrollArea className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-4rem)]">
 			<table className="w-full p-[5rem]">
 				<thead>
 					<tr className="[&>*]:px-[0.5rem] bg-pallete3 sticky top-0 z-10">

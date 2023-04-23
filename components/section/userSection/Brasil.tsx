@@ -67,7 +67,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 	}
 
 	return (
-		<>
+		<div className="grid grid-rows-[5rem_1fr]">
 			<div className="flex flex-row gap-3 p-3 justify-between">
 				<Autocomplete
 					className="w-[78%]"
@@ -118,7 +118,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 					{isMoving ? <Spinner size={30} /> : "Bresil"}
 				</Button>
 			</div>
-			<ScrollArea className="flex flex-col gap-3 max-h-[60vh]">
+			<ScrollArea className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-9rem)] ">
 				<table className="w-full p-[5rem]">
 					<thead>
 						<tr className="[&>*]:px-[0.5rem] bg-pallete3 sticky top-0 z-10">
@@ -153,7 +153,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 					</tbody>
 				</table>
 			</ScrollArea>
-		</>
+		</div>
 	);
 };
 

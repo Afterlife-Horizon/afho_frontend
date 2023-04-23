@@ -148,7 +148,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 	}
 
 	return (
-		<>
+		<div className="grid grid-rows-[4rem_1fr]">
 			<div className="flex flex-row gap-2 p-2">
 				<Input
 					className="rounded-full"
@@ -169,7 +169,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 					<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Add song or playlist to favorites</HoverCardContent>
 				</HoverCard>
 			</div>
-			<ScrollArea className="max-h-[74vh] overflow-auto" id="favorites">
+			<ScrollArea className="overflow-auto rounded-b-lg h-[calc(100vh-2rem-10rem-4rem)]" id="favorites">
 				{favorites.map((song, index) => {
 					return (
 						<div className="flex gap-2 p-3" key={index}>
@@ -202,7 +202,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 					);
 				})}
 			</ScrollArea>
-		</>
+		</div>
 	);
 };
 

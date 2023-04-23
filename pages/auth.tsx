@@ -1,7 +1,8 @@
 import { Auth } from "@supabase/auth-ui-react";
 import { supabase } from "../utils/supabaseUtils";
+import type { NextPage } from "next";
 
-const AuthPage = () => {
+const AuthPage: NextPage = () => {
 	return (
 		<div className="discord-login">
 			<Auth

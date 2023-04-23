@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { supabase } from "@/utils/supabaseUtils";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const Filters: React.FC<defaultProps> = ({ isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [isApplying, setIsApplying] = useState<boolean>(false);
@@ -82,7 +83,7 @@ const Filters: React.FC<defaultProps> = ({ isAdmin, setToastColor, setToastDescr
 	};
 
 	return (
-		<div className="flex flex-col gap-[0.35rem] w-[90%] mx-auto mt-5">
+		<div className="grid grid-rows-[3rem_3rem_3rem_1fr] gap-[0.35rem] w-[90%] mx-auto mt-5 rounded-b-lg">
 			<div className="w-full">
 				<Button className="w-full bg-accent2 hover:bg-accent1 rounded-full active:scale-95" onClick={handlefilterSubmitted}>
 					Apply
@@ -100,7 +101,7 @@ const Filters: React.FC<defaultProps> = ({ isAdmin, setToastColor, setToastDescr
 				</label>
 				<Input className="w-[20%]" type="number" defaultValue={0} id="bassboost" onChange={(e) => handleEffectChange("bassboost", Number(e.target.value))} />
 			</div>
-			<div className="flex flex-wrap gap-2">
+			<ScrollArea className="flex flex-wrap gap-2 w-full max-h-[calc(100vh-2rem-10rem-16rem)]">
 				{Object.keys(effects).map((effect) => {
 					if (typeof effects[effect as keyof effects] === "boolean") {
 						return (
@@ -114,7 +115,7 @@ const Filters: React.FC<defaultProps> = ({ isAdmin, setToastColor, setToastDescr
 						);
 					}
 				})}
-			</div>
+			</ScrollArea>
 		</div>
 	);
 };
