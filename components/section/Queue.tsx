@@ -1,4 +1,3 @@
-import useWindowSize from "@/hooks/useWindowSize"
 import { supabase } from "@/utils/supabaseUtils"
 import axios, { AxiosError } from "axios"
 import { ChevronLastIcon, ListStart, Plus, ShuffleIcon, X } from "lucide-react"
@@ -23,7 +22,6 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 	const [isClearing, setIsClearing] = useState<boolean>(false)
 	const [isRemoving, setIsRemoving] = useState<Map<number, boolean>>(new Map())
 	const [isSkipping, setIsSkipping] = useState<Map<number, boolean>>(new Map())
-	const windowSize = useWindowSize()
 	const inputRef = useRef<HTMLInputElement>(null)
 
 	const queue = fetchInfo.queue[0]?.tracks || []
@@ -299,12 +297,8 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 	}
 
 	return (
-		<section
-			className={`${
-				windowSize.width && windowSize.width < 1200 ? "w-[90%]" : "w-full"
-			} mx-auto shadow bg-pallete2 rounded-lg text-white flex-shrink-2`}
-		>
-			<div className={`flex ${windowSize.width && windowSize.width < 600 ? "flex-col" : ""} h-[10%] m-[1rem] gap-2 p-2`} ref={inputRef}>
+		<section className={`w-[90%] xl:w-full mx-auto shadow bg-pallete2 rounded-lg text-white`}>
+			<div className={`flex flex-col sm:flex-row h-[10%] m-[1rem] gap-2 p-2`} ref={inputRef}>
 				<Input
 					className="rounded-full"
 					placeholder="Search for a song"
@@ -333,7 +327,6 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 						</HoverCardTrigger>
 						<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Add song at the top of the queue</HoverCardContent>
 					</HoverCard>
-
 					<HoverCard openDelay={150} closeDelay={50}>
 						<HoverCardTrigger>
 							<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleShuffle}>
@@ -342,7 +335,6 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 						</HoverCardTrigger>
 						<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Shuffle the queue</HoverCardContent>
 					</HoverCard>
-
 					{isAdmin ? (
 						<HoverCard openDelay={150} closeDelay={50}>
 							<HoverCardTrigger>
@@ -355,7 +347,7 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 					) : null}
 				</div>
 			</div>
-			<ScrollArea className={`flex flex-shrink overflow-auto h-[80%]`} id="queue">
+			<ScrollArea className={`flex overflow-auto h-[80%]`} id="queue">
 				{queue.slice(1).map((song, index) => {
 					return (
 						<div className={`flex gap-2 p-3`} key={index}>

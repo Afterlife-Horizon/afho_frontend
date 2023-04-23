@@ -11,7 +11,6 @@ import { supabase } from "@/utils/supabaseUtils"
 import { queryClient } from "@/pages/_app"
 import axios, { AxiosError } from "axios"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
-import { Tab } from "@mui/material"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, setToastDescription, setToastTitle }) => {

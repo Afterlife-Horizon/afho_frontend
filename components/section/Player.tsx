@@ -6,7 +6,6 @@ import { Pause, Play, PowerOffIcon, SkipForwardIcon, X } from "lucide-react"
 import axios, { AxiosError } from "axios"
 import { supabase } from "@/utils/supabaseUtils"
 import Spinner from "../ui/Spinner"
-import useWindowSize from "@/hooks/useWindowSize"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
 
 const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
@@ -16,7 +15,6 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 	const [isLeaving, setIsLeaving] = useState<boolean>(false)
 	const [isStopping, setIsStopping] = useState<boolean>(false)
 	const queue = fetchInfo.queue[0]?.tracks || []
-	const windowSize = useWindowSize()
 
 	function handleMouseEnter() {
 		setPlayerInfoClasses(prev => prev.replace("hidden", "grid"))
@@ -201,9 +199,7 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 
 	return (
 		<section
-			className={`bg-pallete2 rounded-lg grid h-[100%]  ${
-				windowSize.width && windowSize.width < 1200 ? "w-[90%]" : ""
-			} mx-auto shadow hover:scale-[1.02] [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]`}
+			className={`bg-pallete2 rounded-lg grid h-[100%] w-[90%] xl:w-auto mx-auto shadow hover:scale-[1.02] [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]`}
 			onMouseEnter={() => handleMouseEnter()}
 			onMouseLeave={() => handleMouseLeave()}
 		>

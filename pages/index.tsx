@@ -22,12 +22,20 @@ const Home: NextPage = () => {
 	const sectionRef = React.useRef<HTMLDivElement>(null)
 
 	if (isLoading)
-		return <div className="h-[100vh]">{windowSize.width && windowSize.width > 1200 ? <Spinner size={300} /> : <Spinner size={150} />}</div>
+		return (
+			<div className="h-[100vh]">
+				<Spinner size={windowSize.width ? windowSize.width / 10 : 150} />
+			</div>
+		)
 	if (error) router.push("/auth")
 	if (!apiUser) return <div></div>
 
 	if (isFetchingInfo)
-		return <div className="h-[100vh]">{windowSize.width && windowSize.width > 1200 ? <Spinner size={300} /> : <Spinner size={150} />}</div>
+		return (
+			<div className="h-[100vh]">
+				<Spinner size={windowSize.width ? windowSize.width / 10 : 150} />
+			</div>
+		)
 	if (fetchingInfoError) {
 		setToastOpen(true)
 		setToastTitle("Error")
@@ -39,17 +47,8 @@ const Home: NextPage = () => {
 	const isAdmin = fetchInfo?.admins.usernames.includes(apiUser.user_metadata.full_name)
 
 	return (
-		<main
-			className={`grid gap-5 p-[1rem] ${
-				windowSize.width && windowSize.width < 1200 ? "mb-[3rem]" : "grid-cols-2 h-[100vh] max-h-[100vh]"
-			} bg-pallete1`}
-		>
-			<div
-				ref={sectionRef}
-				className={`grid gap-5 grid-flow-row grid-rows-[40%_1fr] ${
-					windowSize.width && windowSize.width > 1200 ? "max-h-[calc(100vh-2rem)]" : ""
-				}`}
-			>
+		<main className={`grid gap-5 p-[1rem] mb-[3rem] xl:mb-0 xl:grid-cols-2 xl:h-[100vh] xl:max-h-[100vh] bg-pallete1`}>
+			<div ref={sectionRef} className={`grid gap-5 grid-flow-row grid-rows-[40%_1fr] xl:max-h-[calc(100vh-2rem)]`}>
 				<Player
 					user={apiUser}
 					fetchInfo={fetchInfo}

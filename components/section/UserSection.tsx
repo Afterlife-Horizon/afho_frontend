@@ -9,11 +9,9 @@ import { Button } from "../ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import { useRouter } from "next/router"
 import { User } from "lucide-react"
-import useWindowSize from "@/hooks/useWindowSize"
 
 const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastDescription, setToastOpen, setToastTitle, setToastColor }) => {
 	const router = useRouter()
-	const windowSize = useWindowSize()
 
 	async function handleSignOut() {
 		const { error } = await supabase.auth.signOut()
@@ -23,24 +21,20 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 
 	return (
 		<section className="grid grid-rows-[10rem_1fr] w-[90%] mx-auto shadow bg-pallete2 rounded-lg text-white">
-			<div className={`flex ${windowSize.width && windowSize.width < 600 ? "flex-col" : ""} justify-between w-full bg-pallete3 rounded-t-lg`}>
+			<div className={`flex flex-col sm:flex-row justify-between w-full bg-pallete3 rounded-t-lg`}>
 				<div className="flex gap-3 w-full items-center p-[2rem]">
-					<Avatar className={`rounded-full ${windowSize.width && windowSize.width < 700 ? "h-[3rem] w-[3rem]" : "h-[5rem] w-[5rem]"}`}>
+					<Avatar className={`rounded-full h-[3rem] w-[3rem] md:h-[5rem] md:w-[5rem]`}>
 						<AvatarImage src={user.user_metadata.avatar_url} />
 						<AvatarFallback>
 							<User />
 						</AvatarFallback>
 					</Avatar>
-					<div className={`text-xl text-white ${windowSize.width && windowSize.width < 700 ? "text-[1rem]" : ""}`}>
-						{user.user_metadata.full_name}
-					</div>
+					<div className={`text-xl text-white text-[1rem]`}>{user.user_metadata.full_name}</div>
 					{isAdmin ? <Badge className="bg-accent1 hover:bg-accent2 text-slate-800">admin</Badge> : null}
 				</div>
-				<div className={`grid place-items-center  ${windowSize.width && windowSize.width < 600 ? "w-full" : "w-[30%]"}  mr-5`}>
+				<div className={`grid place-items-center w-full sm:w-[20%] mr-5 sm:mr-10`}>
 					<Button
-						className={`bg-red-500 hover:bg-red-500 hover:scale-105 active:scale-95 px-10 py-5 ${
-							windowSize.width && windowSize.width < 600 ? "w-full" : "rounded-full"
-						}`}
+						className={`bg-red-500 hover:bg-red-500 hover:scale-105 active:scale-95 px-10 py-5 w-full sm:rounded-full`}
 						onClick={handleSignOut}
 					>
 						Logout
@@ -49,9 +43,7 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 			</div>
 			<Tabs defaultValue="favorites" className="h-[calc(100vh-2rem-10rem)] max-h-[calc(100vh-2rem-10rem)]">
 				<TabsList
-					className={`w-full md:rounded-none ${
-						windowSize.width && windowSize.width < 700 ? "p[0.5rem] gap-1" : "gap-3 p-[2rem]"
-					} h-[4rem] bg-pallete2 [&>*:hover]:bg-accent1 text-white`}
+					className={`w-full md:rounded-none p[0.5rem] gap-1 md:gap-3 md:p-[2rem] h-[4rem] bg-pallete2 [&>*:hover]:bg-accent1 text-white`}
 				>
 					<TabsTrigger value="favorites" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
 						Favorites
