@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import type { AppProps } from "next/app"
 import { ToastProvider } from "@/components/ui/toast"
 import Head from "next/head"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 export const queryClient = new QueryClient()
 
@@ -18,6 +19,7 @@ export default function App({ Component, pageProps }: AppProps) {
 				</Head>
 				<Component {...pageProps} />
 			</ToastProvider>
+			<ReactQueryDevtools initialIsOpen={false} />
 		</QueryClientProvider>
 	)
 }
