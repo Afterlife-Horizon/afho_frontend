@@ -21,7 +21,12 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 	const [isDeleting, setIsDeleting] = useState<Map<string, boolean>>(new Map())
 	const [isPlaying, setIsPlaying] = useState<Map<string, boolean>>(new Map())
 
-	if (isLoading) return <Spinner size={150} />
+	if (isLoading)
+		return (
+			<div className="h-[calc(100vh-2rem-10rem-4rem)]">
+				<Spinner size={150} />
+			</div>
+		)
 	if (error) return <div>Error: {error.message}</div>
 
 	async function addFav() {

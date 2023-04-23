@@ -41,7 +41,7 @@ const Filters: React.FC<defaultProps> = ({ isAdmin, setToastColor, setToastDescr
 		}
 	}
 
-	const handlefilterSubmitted = (event: any) => {
+	function handlefilterSubmitted(event: any) {
 		const changeSongFilter = async () => {
 			const url = "/api/filters"
 			await axios

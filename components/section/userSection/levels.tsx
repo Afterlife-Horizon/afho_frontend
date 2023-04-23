@@ -10,7 +10,12 @@ import { User } from "lucide-react"
 const Levels: React.FC<defaultProps> = ({}) => {
 	const { data: levels, isLoading, error } = useLevels()
 
-	if (isLoading) return <Spinner size={150} />
+	if (isLoading)
+		return (
+			<div className="h-[calc(100vh-2rem-10rem-4rem)]">
+				<Spinner size={150} />
+			</div>
+		)
 	if (error) return <div>Error: {error.message}</div>
 	if (!levels) return <div></div>
 

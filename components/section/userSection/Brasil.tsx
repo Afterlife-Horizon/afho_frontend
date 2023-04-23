@@ -15,7 +15,12 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 	const [currentPlayer, setCurrentPlayer] = useState("")
 	const [isMoving, setIsMoving] = useState(false)
 
-	if (isLoading || isLoadingConnectedMembers) return <Spinner size={150} />
+	if (isLoading || isLoadingConnectedMembers)
+		return (
+			<div className="h-[calc(100vh-2rem-10rem-4rem)]">
+				<Spinner size={150} />
+			</div>
+		)
 	if (error) return <div>Error: {error.message}</div>
 	if (errorConnectedMembers) return <div>Error: {errorConnectedMembers.message}</div>
 	if (!brasils) return <div></div>
