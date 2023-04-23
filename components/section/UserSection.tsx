@@ -24,8 +24,8 @@ const UserSection: React.FC<defaultProps> = props => {
 		<section className="grid grid-rows-[10rem_1fr] w-full mx-auto shadow bg-pallete2 rounded-lg text-white">
 			<div className={`flex flex-col sm:flex-row justify-between w-full bg-pallete3 rounded-t-lg`}>
 				<div className="flex gap-3 w-full items-center p-[2rem]">
-					<Avatar className={`rounded-full h-[3rem] w-[3rem] md:h-[5rem] md:w-[5rem]`}>
-						<AvatarImage src={user.user_metadata.avatar_url} />
+					<Avatar className={`rounded-full h-[3rem] w-[3rem] md:h-[5rem] md:w-[5rem] select-none`}>
+						<AvatarImage draggable={false} src={user.user_metadata.avatar_url} />
 						<AvatarFallback>
 							<User />
 						</AvatarFallback>

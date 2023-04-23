@@ -194,11 +194,12 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 									<div className="flex gap-2 p-3" key={index}>
 										<div className="w-[7rem]">
 											<Image
-												className="w-full h-full object-cover"
+												className="w-full h-full object-cover select-none"
 												src={song.thumbnail}
 												width={1920}
 												height={1080}
 												alt="thumbnail"
+												draggable={false}
 											/>
 										</div>
 										<div className="flex flex-col justify-center w-[100%]">
@@ -228,9 +229,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 														{isPlaying.get(song.id) ? <Spinner size={20} /> : <PlayIcon />}
 													</Button>
 												</HoverCardTrigger>
-												<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">
-													Play the song/playlist
-												</HoverCardContent>
+												<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Add song to queue</HoverCardContent>
 											</HoverCard>
 										</div>
 									</div>
@@ -247,11 +246,12 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 									<div className="flex gap-2 p-3" key={index}>
 										<div className="w-[7rem]">
 											<Image
-												className="w-full h-full object-cover"
+												className="w-full h-full object-cover select-none"
 												src={song.thumbnail}
 												width={1920}
 												height={1080}
 												alt="thumbnail"
+												draggable={false}
 											/>
 										</div>
 										<div className="flex flex-col justify-center w-[100%]">
@@ -282,7 +282,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 													</Button>
 												</HoverCardTrigger>
 												<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">
-													Play the song/playlist
+													Add playlist to queue
 												</HoverCardContent>
 											</HoverCard>
 										</div>

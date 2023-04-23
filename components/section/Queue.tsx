@@ -347,7 +347,14 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 					return (
 						<div className={`flex gap-2 p-3`} key={index}>
 							<div className="w-[7rem]">
-								<Image className="w-full h-full object-cover" src={song.thumbnail.url} width={1920} height={1080} alt="thumbnail" />
+								<Image
+									className="w-full h-full object-cover select-none"
+									src={song.thumbnail.url}
+									width={1920}
+									height={1080}
+									alt="thumbnail"
+									draggable={false}
+								/>
 							</div>
 							<div className="flex flex-col justify-center w-[100%]">
 								<div className="text-lg font-semibold">{song.title}</div>
