@@ -1,5 +1,5 @@
 import { UseQueryResult, useQuery } from "@tanstack/react-query"
-import { getUser } from "../utils/supabaseUtils"
+import { getUser } from "../lib/supabaseUtils"
 import { User } from "@supabase/supabase-js"
 
 const useUser = (): UseQueryResult<User, Error> => {

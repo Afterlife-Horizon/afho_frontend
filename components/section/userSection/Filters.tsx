@@ -3,7 +3,7 @@ import { Switch } from "@/components/ui/switch"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import axios from "axios"
-import { supabase } from "@/utils/supabaseUtils"
+import { supabase } from "@/lib/supabaseUtils"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
 const Filters: React.FC<defaultProps> = ({ isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {

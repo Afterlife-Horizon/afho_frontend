@@ -1,5 +1,5 @@
 import useWindowSize from "@/hooks/useWindowSize"
-import { supabase } from "@/utils/supabaseUtils"
+import { supabase } from "@/lib/supabaseUtils"
 import axios, { AxiosError } from "axios"
 import { ChevronLastIcon, ListStart, Plus, ShuffleIcon, X } from "lucide-react"
 import Image from "next/image"
