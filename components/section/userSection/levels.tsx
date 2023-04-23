@@ -42,7 +42,7 @@ const Levels: React.FC<defaultProps> = ({}) => {
 									<div className="flex flex-row items-center gap-5 w-full h-full">
 										{level.user.displayAvatarURL ? (
 											<Avatar>
-												<AvatarImage draggable={false} src={level.user.displayAvatarURL} />
+												<AvatarImage className="select-none" draggable={false} src={level.user.displayAvatarURL} />
 												<AvatarFallback>
 													<User />
 												</AvatarFallback>

@@ -144,7 +144,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 									<div className="flex flex-row items-center gap-5 w-full h-full">
 										{brasil.user.displayAvatarURL ? (
 											<Avatar>
-												<AvatarImage draggable={false} src={brasil.user.displayAvatarURL} />
+												<AvatarImage className="select-none" draggable={false} src={brasil.user.displayAvatarURL} />
 												<AvatarFallback></AvatarFallback>
 											</Avatar>
 										) : null}
