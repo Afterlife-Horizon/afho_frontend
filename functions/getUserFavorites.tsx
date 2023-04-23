@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabaseUtils"
+import { supabase } from "@/utils/supabaseUtils"
 
 export default async function getUserFavorites(): Promise<{ favorites: fav[] }> {
 	const url = "/api/getFavs"

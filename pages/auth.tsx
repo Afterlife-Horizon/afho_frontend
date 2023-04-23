@@ -1,5 +1,5 @@
 import { Auth } from "@supabase/auth-ui-react"
-import { supabase } from "../lib/supabaseUtils"
+import { supabase } from "../utils/supabaseUtils"
 import type { NextPage } from "next"
 
 const AuthPage: NextPage = () => {

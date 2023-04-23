@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabaseUtils"
+import { supabase } from "@/utils/supabaseUtils"
 import Brasil from "./userSection/Brasil"
 import Favorites from "./userSection/Favorites"
 import Filters from "./userSection/Filters"
