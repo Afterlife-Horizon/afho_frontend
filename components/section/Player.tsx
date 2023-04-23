@@ -199,7 +199,7 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 
 	return (
 		<section
-			className={`bg-pallete2 rounded-lg grid h-[100%] w-[90%] xl:w-auto mx-auto shadow hover:scale-[1.02] [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]`}
+			className={`bg-pallete2 rounded-lg grid h-[100%] w-full xl:w-auto mx-auto shadow hover:scale-[1.02] [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]`}
 			onMouseEnter={() => handleMouseEnter()}
 			onMouseLeave={() => handleMouseLeave()}
 		>

@@ -10,11 +10,7 @@ import { Input } from "../ui/input"
 import { ScrollArea } from "../ui/scroll-area"
 import { Separator } from "../ui/separator"
 
-interface QueueProps extends defaultProps {
-	sectionRef: React.RefObject<HTMLDivElement>
-}
-
-const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle, sectionRef }) => {
+const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [searchInput, setSearchInput] = useState<string>("")
 	const [isAdding, setIsAdding] = useState<boolean>(false)
 	const [isAddingFirst, setIsAddingFirst] = useState<boolean>(false)
@@ -22,7 +18,6 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 	const [isClearing, setIsClearing] = useState<boolean>(false)
 	const [isRemoving, setIsRemoving] = useState<Map<number, boolean>>(new Map())
 	const [isSkipping, setIsSkipping] = useState<Map<number, boolean>>(new Map())
-	const inputRef = useRef<HTMLInputElement>(null)
 
 	const queue = fetchInfo.queue[0]?.tracks || []
 
@@ -297,8 +292,8 @@ const Queue: React.FC<QueueProps> = ({ fetchInfo, isAdmin, setToastColor, setToa
 	}
 
 	return (
-		<section className={`w-[90%] xl:w-full mx-auto shadow bg-pallete2 rounded-lg text-white`}>
-			<div className={`flex flex-col sm:flex-row h-[10%] m-[1rem] gap-2 p-2`} ref={inputRef}>
+		<section className={`w-full mx-auto shadow bg-pallete2 rounded-lg text-white`}>
+			<div className={`flex flex-col sm:flex-row h-[10%] m-[1rem] gap-2 p-2`}>
 				<Input
 					className="rounded-full"
 					placeholder="Search for a song"

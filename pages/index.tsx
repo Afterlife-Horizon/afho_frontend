@@ -16,10 +16,9 @@ const Home: NextPage = () => {
 	const [toastDescription, setToastDescription] = useState("testtest")
 	const [toastVariant, setToastVariant] = useState<"default" | "destructive" | "inform">("default")
 	const router = useRouter()
+	const windowSize = useWindowSize()
 	const { data: apiUser, isLoading, error } = useUser()
 	const { data: fetchInfo, isLoading: isFetchingInfo, error: fetchingInfoError } = useFetchInfo()
-	const windowSize = useWindowSize()
-	const sectionRef = React.useRef<HTMLDivElement>(null)
 
 	if (isLoading)
 		return (
@@ -46,39 +45,24 @@ const Home: NextPage = () => {
 
 	const isAdmin = fetchInfo?.admins.usernames.includes(apiUser.user_metadata.full_name)
 
+	const props: defaultProps = {
+		user: apiUser,
+		fetchInfo,
+		isAdmin,
+		setToastColor: setToastVariant,
+		setToastDescription,
+		setToastOpen,
+		setToastTitle
+	}
+
 	return (
-		<main className={`grid gap-5 p-[1rem] mb-[3rem] xl:mb-0 xl:grid-cols-2 xl:h-[100vh] xl:max-h-[100vh] bg-pallete1`}>
-			<div ref={sectionRef} className={`grid gap-5 grid-flow-row grid-rows-[40%_1fr] xl:max-h-[calc(100vh-2rem)]`}>
-				<Player
-					user={apiUser}
-					fetchInfo={fetchInfo}
-					isAdmin={isAdmin}
-					setToastColor={setToastVariant}
-					setToastDescription={setToastDescription}
-					setToastOpen={setToastOpen}
-					setToastTitle={setToastTitle}
-				/>
-				<Queue
-					sectionRef={sectionRef}
-					user={apiUser}
-					fetchInfo={fetchInfo}
-					isAdmin={isAdmin}
-					setToastColor={setToastVariant}
-					setToastDescription={setToastDescription}
-					setToastOpen={setToastOpen}
-					setToastTitle={setToastTitle}
-				/>
+		<main className={`w-[100vw] grid gap-5 p-[1rem] mb-[3rem] xl:mb-0 xl:grid-cols-2 xl:h-[100vh] xl:max-h-[100vh] bg-pallete1`}>
+			<div className={`grid gap-5 grid-flow-row grid-rows-[40%_1fr] xl:max-h-[calc(100vh-2rem)]`}>
+				<Player {...props} />
+				<Queue {...props} />
 			</div>
 			<div className={`w-full max-h-[calc(100vh-2rem)]`}>
-				<UserSection
-					user={apiUser}
-					fetchInfo={fetchInfo}
-					isAdmin={isAdmin}
-					setToastColor={setToastVariant}
-					setToastDescription={setToastDescription}
-					setToastOpen={setToastOpen}
-					setToastTitle={setToastTitle}
-				/>
+				<UserSection {...props} />
 			</div>
 			<Toast className="flex flex-col items-start" variant={toastVariant} open={toastOpen} onOpenChange={setToastOpen}>
 				<ToastTitle>{toastTitle}</ToastTitle>

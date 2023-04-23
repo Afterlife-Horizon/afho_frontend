@@ -10,7 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import { useRouter } from "next/router"
 import { User } from "lucide-react"
 
-const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastDescription, setToastOpen, setToastTitle, setToastColor }) => {
+const UserSection: React.FC<defaultProps> = props => {
+	const { user, isAdmin } = props
 	const router = useRouter()
 
 	async function handleSignOut() {
@@ -20,7 +21,7 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 	}
 
 	return (
-		<section className="grid grid-rows-[10rem_1fr] w-[90%] mx-auto shadow bg-pallete2 rounded-lg text-white">
+		<section className="grid grid-rows-[10rem_1fr] w-full mx-auto shadow bg-pallete2 rounded-lg text-white">
 			<div className={`flex flex-col sm:flex-row justify-between w-full bg-pallete3 rounded-t-lg`}>
 				<div className="flex gap-3 w-full items-center p-[2rem]">
 					<Avatar className={`rounded-full h-[3rem] w-[3rem] md:h-[5rem] md:w-[5rem]`}>
@@ -61,50 +62,18 @@ const UserSection: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToas
 					</TabsTrigger>
 				</TabsList>
 				<TabsContent value="favorites" className="mt-0">
-					<Favorites
-						user={user}
-						fetchInfo={fetchInfo}
-						isAdmin={isAdmin}
-						setToastColor={setToastColor}
-						setToastDescription={setToastDescription}
-						setToastOpen={setToastOpen}
-						setToastTitle={setToastTitle}
-					/>
+					<Favorites {...props} />
 				</TabsContent>
 				{isAdmin ? (
 					<TabsContent value="filters" className="mt-0">
-						<Filters
-							user={user}
-							fetchInfo={fetchInfo}
-							isAdmin={isAdmin}
-							setToastColor={setToastColor}
-							setToastDescription={setToastDescription}
-							setToastOpen={setToastOpen}
-							setToastTitle={setToastTitle}
-						/>
+						<Filters {...props} />
 					</TabsContent>
 				) : null}
 				<TabsContent value="brasilboard" className="mt-0">
-					<Brasil
-						user={user}
-						fetchInfo={fetchInfo}
-						isAdmin={isAdmin}
-						setToastColor={setToastColor}
-						setToastDescription={setToastDescription}
-						setToastOpen={setToastOpen}
-						setToastTitle={setToastTitle}
-					/>
+					<Brasil {...props} />
 				</TabsContent>
 				<TabsContent value="levels" className="mt-0">
-					<Levels
-						user={user}
-						fetchInfo={fetchInfo}
-						isAdmin={isAdmin}
-						setToastColor={setToastColor}
-						setToastDescription={setToastDescription}
-						setToastOpen={setToastOpen}
-						setToastTitle={setToastTitle}
-					/>
+					<Levels {...props} />
 				</TabsContent>
 			</Tabs>
 		</section>
