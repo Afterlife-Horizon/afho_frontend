@@ -177,22 +177,22 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 				</HoverCard>
 			</div>
 			<Tabs defaultValue="video" className="grid grid-rows-[2rem_1fr]">
-				<TabsList className="bg-pallete2 [&>*:hover]:bg-accent1 text-white">
-					<TabsTrigger value="video" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
+				<TabsList className="[&>button]:w-[80%] gap-2 bg-pallete2 [&>*:hover]:bg-accent1 text-white">
+					<TabsTrigger value="video" className="data-[state=active]:bg-accent2 data-[state=active]:text-white">
 						Videos
 					</TabsTrigger>
-					<TabsTrigger value="playlist" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
+					<TabsTrigger value="playlist" className=" data-[state=active]:bg-accent2 data-[state=active]:text-white">
 						Playlists
 					</TabsTrigger>
 				</TabsList>
 				<TabsContent value="video">
-					<ScrollArea className="overflow-auto rounded-b-lg h-[calc(100vh-2rem-10rem-11rem)]" id="favorites">
+					<ScrollArea className="overflow-auto rounded-b-lg h-[calc(100vh-2rem-10rem-11rem)] break-words" id="favorites">
 						{favorites
 							.filter(vid => vid.type === "video")
 							.map((song, index) => {
 								return (
-									<div className="flex gap-2 p-3" key={index}>
-										<div className="w-[7rem]">
+									<div className="flex gap-1 p-3" key={index}>
+										<div className="w-[5rem] sm:w-[7rem]">
 											<Image
 												className="w-full h-full object-cover select-none"
 												src={song.thumbnail}
@@ -203,14 +203,14 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 											/>
 										</div>
 										<div className="flex flex-col justify-center w-[100%]">
-											<div className="text-lg font-semibold">{song.name}</div>
+											<div className="text-sm xl:text-md font-semibold">{song.name}</div>
 										</div>
 										<Separator className="h-auto" decorative orientation={"vertical"} />
 										<div className="flex flex-row gap-2 items-center px-3">
 											<HoverCard openDelay={150} closeDelay={50}>
 												<HoverCardTrigger>
 													<Button
-														className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95"
+														className="bg-red-500 hover:bg-red-500 rounded-full scale-[85%] md:scale-100 hover:scale-105 active:scale-95"
 														onClick={() => deleteFav(user.user_metadata.provider_id, song.id)}
 													>
 														{isDeleting.get(song.id) ? <Spinner size={20} /> : <X />}
@@ -223,7 +223,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 											<HoverCard openDelay={150} closeDelay={50}>
 												<HoverCardTrigger>
 													<Button
-														className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95"
+														className="bg-accent2 hover:bg-accent1 rounded-full scale-[85%] md:scale-100 hover:scale-105 active:scale-95"
 														onClick={() => playFav(song)}
 													>
 														{isPlaying.get(song.id) ? <Spinner size={20} /> : <PlayIcon />}
@@ -243,8 +243,8 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 							.filter(vid => vid.type === "playlist")
 							.map((song, index) => {
 								return (
-									<div className="flex gap-2 p-3" key={index}>
-										<div className="w-[7rem]">
+									<div className="flex gap-1 p-3" key={index}>
+										<div className="w-[5rem] sm:w-[7rem]">
 											<Image
 												className="w-full h-full object-cover select-none"
 												src={song.thumbnail}
@@ -255,14 +255,14 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 											/>
 										</div>
 										<div className="flex flex-col justify-center w-[100%]">
-											<div className="text-lg font-semibold">{song.name}</div>
+											<div className="text-sm xl:text-md font-semibold">{song.name}</div>
 										</div>
 										<Separator className="h-auto" decorative orientation={"vertical"} />
 										<div className="flex flex-row gap-2 items-center px-3">
 											<HoverCard openDelay={150} closeDelay={50}>
 												<HoverCardTrigger>
 													<Button
-														className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95"
+														className="bg-red-500 hover:bg-red-500 rounded-full scale-[85%] md:scale-100 hover:scale-105 active:scale-95"
 														onClick={() => deleteFav(user.user_metadata.provider_id, song.id)}
 													>
 														{isDeleting.get(song.id) ? <Spinner size={20} /> : <X />}
@@ -275,7 +275,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 											<HoverCard openDelay={150} closeDelay={50}>
 												<HoverCardTrigger>
 													<Button
-														className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95"
+														className="bg-accent2 hover:bg-accent1 rounded-full scale-[85%] md:scale-100 hover:scale-105 active:scale-95"
 														onClick={() => playFav(song)}
 													>
 														{isPlaying.get(song.id) ? <Spinner size={20} /> : <PlayIcon />}

@@ -56,8 +56,8 @@ const Home: NextPage = () => {
 	}
 
 	return (
-		<main className={`w-[100vw] grid gap-5 p-[1rem] mb-[3rem] xl:mb-0 xl:grid-cols-2 xl:h-[100vh] xl:max-h-[100vh] bg-pallete1`}>
-			<div className={`grid gap-5 grid-flow-row grid-rows-[40%_1fr] xl:max-h-[calc(100vh-2rem)]`}>
+		<main className={`w-full grid gap-5 p-[1rem] mb-[3rem] xl:mb-0 xl:grid-cols-2 xl:h-[100vh] xl:max-h-[100vh] bg-pallete1`}>
+			<div className={`grid gap-5 grid-flow-row grid-rows-[20rem_1fr] xl:max-h-[calc(100vh-2rem)]`}>
 				<Player {...props} />
 				<Queue {...props} />
 			</div>

@@ -292,8 +292,10 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 	}
 
 	return (
-		<section className={`w-full mx-auto shadow bg-pallete2 rounded-lg text-white`}>
-			<div className={`flex flex-col sm:flex-row h-[10%] m-[1rem] gap-2 p-2`}>
+		<section
+			className={`grid grid-rows-[8rem_auto] xl:grid-rows-[5rem_auto] w-full mx-auto shadow bg-pallete2 rounded-lg text-white max-h-[calc(100vh-3.2rem-20rem)]`}
+		>
+			<div className={`flex flex-col sm:flex-row m-[1rem] gap-2 p-2`}>
 				<Input
 					className="rounded-full"
 					placeholder="Search for a song"
@@ -342,11 +344,11 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 					) : null}
 				</div>
 			</div>
-			<ScrollArea className={`flex overflow-auto h-[80%]`} id="queue">
+			<ScrollArea className={`flex overflow-auto`} id="queue">
 				{queue.slice(1).map((song, index) => {
 					return (
 						<div className={`flex gap-2 p-3`} key={index}>
-							<div className="w-[7rem]">
+							<div className="w-[5rem] sm:w-[7rem]">
 								<Image
 									className="w-full h-full object-cover select-none"
 									src={song.thumbnail.url}
@@ -356,8 +358,8 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 									draggable={false}
 								/>
 							</div>
-							<div className="flex flex-col justify-center w-[100%]">
-								<div className="text-lg font-semibold">{song.title}</div>
+							<div className="text-sm xl:text-md flex flex-col justify-center w-[100%]">
+								<div className="font-semibold">{song.title}</div>
 								<div className="text-slate-400">Requested by: {song.requester.username}</div>
 							</div>
 							<Separator className="h-auto" decorative orientation={"vertical"} />
@@ -365,7 +367,7 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button
-											className="bg-red-500 hover:bg-red-500 rounded-full hover:scale-105 active:scale-95"
+											className="bg-red-500 hover:bg-red-500 rounded-full scale-[85%] md:scale-100 hover:scale-105 active:scale-95"
 											onClick={() => handleRemove(index + 1)}
 										>
 											{isRemoving.get(index + 1) ? <Spinner size={20} /> : <X />}
@@ -376,7 +378,7 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button
-											className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95"
+											className="bg-accent2 hover:bg-accent1 rounded-full scale-[85%] md:scale-100 hover:scale-105 active:scale-95"
 											onClick={e => handleskipto(index + 1)}
 										>
 											{isSkipping.get(index + 1) ? <Spinner size={20} /> : <ChevronLastIcon />}
