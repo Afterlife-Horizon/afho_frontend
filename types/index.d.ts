@@ -7,3 +7,8 @@ interface defaultProps extends React.ComponentPropsWithoutRef<"div"> {
 	setToastTitle: Dispatch<SetStateAction<string>>
 	setToastColor: Dispatch<SetStateAction<string>>
 }
+
+interface ITime {
+	user: guildMember
+	time_spent: number
+}

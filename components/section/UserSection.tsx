@@ -9,6 +9,7 @@ import { Button } from "../ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import { useRouter } from "next/router"
 import { User } from "lucide-react"
+import Times from "./userSection/Times"
 
 const UserSection: React.FC<defaultProps> = props => {
 	const { user, isAdmin } = props
@@ -60,6 +61,9 @@ const UserSection: React.FC<defaultProps> = props => {
 					<TabsTrigger value="levels" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
 						Levels
 					</TabsTrigger>
+					<TabsTrigger value="times" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
+						Time
+					</TabsTrigger>
 				</TabsList>
 				<TabsContent value="favorites" className="mt-0">
 					<Favorites {...props} />
@@ -74,6 +78,9 @@ const UserSection: React.FC<defaultProps> = props => {
 				</TabsContent>
 				<TabsContent value="levels" className="mt-0">
 					<Levels {...props} />
+				</TabsContent>
+				<TabsContent value="times" className="mt-0">
+					<Times {...props} />
 				</TabsContent>
 			</Tabs>
 		</section>
