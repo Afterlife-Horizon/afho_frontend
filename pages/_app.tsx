@@ -13,6 +13,10 @@ export default function App({ Component, pageProps }: AppProps) {
 			<ToastProvider>
 				<Head>
 					<meta charSet="UTF-8" />
+					<meta name="description" content="Music page for Afterlife Horizon Discord server Bot" />
+					<meta name="keywords" content="Afterlife Horizon, Afterlife, Horizon, Discord, Bot, Music, Music Bot, Music Page" />
+					<meta name="author" content="Afterlife Horizon" />
+					<meta name="robots" content="nosnippet, notranslate" />
 					<link rel="icon" href="/afterlifehorizon.ico" />
 					<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 					<title>Afterlife Horizon</title>
