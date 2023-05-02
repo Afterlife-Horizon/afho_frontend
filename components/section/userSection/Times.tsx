@@ -17,6 +17,8 @@ const Times: React.FC<defaultProps> = ({}) => {
 		)
 	if (error) return <div>Error: {error.message}</div>
 
+	const filteredTimes = times.filter(time => time.user && time.user.displayAvatarURL)
+
 	return (
 		<ScrollArea className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-4rem)]">
 			<table className="w-full p-[5rem]">
@@ -28,7 +30,7 @@ const Times: React.FC<defaultProps> = ({}) => {
 					</tr>
 				</thead>
 				<tbody>
-					{times.map((time, index) => {
+					{filteredTimes.map((time, index) => {
 						const hours = Math.floor(time.time_spent / 3600)
 						const minutes = Math.floor((time.time_spent % 3600) / 60)
 						return (

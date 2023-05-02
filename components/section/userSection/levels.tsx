@@ -19,6 +19,8 @@ const Levels: React.FC<defaultProps> = ({}) => {
 	if (error) return <div>Error: {error.message}</div>
 	if (!levels) return <div></div>
 
+	const filteredLevels = levels.filter(level => level.user && level.user.displayAvatarURL)
+
 	return (
 		<ScrollArea className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-4rem)]">
 			<table className="w-full p-[5rem]">
@@ -31,7 +33,7 @@ const Levels: React.FC<defaultProps> = ({}) => {
 					</tr>
 				</thead>
 				<tbody>
-					{levels.map((level, index) => {
+					{filteredLevels.map((level, index) => {
 						return (
 							<tr key={level.user.userId} className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-pallete2" : "bg-pallete3"}`}>
 								<td className="text-right pr-[1rem]">

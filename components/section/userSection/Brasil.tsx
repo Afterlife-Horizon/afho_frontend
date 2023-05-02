@@ -25,6 +25,8 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 	if (errorConnectedMembers) return <div>Error: {errorConnectedMembers.message}</div>
 	if (!brasils) return <div></div>
 
+	const filteredBrasils = brasils.filter(brasil => brasil.user && brasil.user.displayAvatarURL)
+
 	const memberNames = connectedMembers ? connectedMembers.map(m => m.username) : []
 
 	function autocompleteCheckValue(option: any, newValue: any) {
@@ -134,7 +136,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 						</tr>
 					</thead>
 					<tbody>
-						{brasils.map((brasil, index) => (
+						{filteredBrasils.map((brasil, index) => (
 							<tr key={brasil.user.userId} className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-pallete2" : "bg-pallete3"}`}>
 								<td className="text-right pr-[1rem]">
 									{index + 1}
