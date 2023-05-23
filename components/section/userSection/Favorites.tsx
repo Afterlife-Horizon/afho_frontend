@@ -52,8 +52,8 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 					}
 				}
 			)
-			.then(res => {
-				queryClient.invalidateQueries(["favorites", "user"])
+			.then(_res => {
+				queryClient.refetchQueries(["favorites", "user"])
 				setFavField("")
 				setIsAdding(false)
 			})
