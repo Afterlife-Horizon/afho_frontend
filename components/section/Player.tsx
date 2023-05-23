@@ -207,7 +207,7 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 				className="row-start-1 rounded-lg col-start-1 select-none h-[100%] overflow-hidden object-cover"
 				src={
 					fetchInfo.queue[0]?.tracks[0]?.thumbnail.url
-						? fetchInfo.queue[0].tracks[0].thumbnail.url
+						? fetchInfo.queue[0].tracks[0].thumbnail.url.replace("hqdefault", "maxresdefault")
 						: "https://cdn.tosavealife.com/wp-content/uploads/2018/05/Waiting-Memes-52918.jpg"
 				}
 				width={1920}
