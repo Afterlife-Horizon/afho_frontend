@@ -196,7 +196,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 										<div className="w-[5rem] sm:w-[7rem]">
 											<LazyLoadImage
 												className="w-full h-full object-cover select-none"
-												src={song.thumbnail}
+												src={song.thumbnail.replace("maxresdefault", "hqdefault")}
 												width={1920}
 												height={1080}
 												alt="thumbnail"
