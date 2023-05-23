@@ -1,9 +1,11 @@
 type fav = {
 	id: string
+	user_id: string
 	name: string
 	url: string
 	thumbnail: string
 	type: "video" | "playlist"
+	date_added: string
 }
 
 type effects = {

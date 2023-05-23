@@ -189,6 +189,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 					<ScrollArea className="overflow-auto rounded-b-lg h-[calc(100vh-2rem-10rem-11rem)] break-words" id="favorites">
 						{favorites
 							.filter(vid => vid.type === "video")
+							.sort((a, b) => (new Date(a.date_added).getTime() < new Date(b.date_added).getTime() ? 1 : -1))
 							.map((song, index) => {
 								return (
 									<div className="flex gap-1 p-3" key={index}>
@@ -241,6 +242,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 					<ScrollArea className="overflow-auto rounded-b-lg h-[calc(100vh-2rem-10rem-11rem)]" id="favorites">
 						{favorites
 							.filter(vid => vid.type === "playlist")
+							.sort((a, b) => (new Date(b.date_added).getTime() < new Date(a.date_added).getTime() ? 1 : -1))
 							.map((song, index) => {
 								return (
 									<div className="flex gap-1 p-3" key={index}>
