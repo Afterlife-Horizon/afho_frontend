@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Separator } from "@/components/ui/separator"
 import { Button } from "@/components/ui/button"
 import { PlayIcon, Plus, X } from "lucide-react"
-import Image from "next/image"
+import { LazyLoadImage } from "react-lazy-load-image-component"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Input } from "@/components/ui/input"
 import useFavorites from "@/hooks/useFavorites"
@@ -193,7 +193,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 								return (
 									<div className="flex gap-1 p-3" key={index}>
 										<div className="w-[5rem] sm:w-[7rem]">
-											<Image
+											<LazyLoadImage
 												className="w-full h-full object-cover select-none"
 												src={song.thumbnail}
 												width={1920}
@@ -245,7 +245,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 								return (
 									<div className="flex gap-1 p-3" key={index}>
 										<div className="w-[5rem] sm:w-[7rem]">
-											<Image
+											<LazyLoadImage
 												className="w-full h-full object-cover select-none"
 												src={song.thumbnail}
 												width={1920}
