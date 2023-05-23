@@ -351,7 +351,7 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 							<div className="w-[5rem] sm:w-[7rem]">
 								<LazyLoadImage
 									className="w-full h-full object-cover select-none"
-									src={song.thumbnail.url}
+									src={song.thumbnail.url.replace("maxresdefault", "hqdefault")}
 									width={1920}
 									height={1080}
 									alt="thumbnail"
