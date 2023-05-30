@@ -88,40 +88,48 @@ const Filters: React.FC<defaultProps> = ({ isAdmin, setToastColor, setToastDescr
 					Apply
 				</Button>
 			</div>
-			<div className="flex flex-row gap-3">
-				<label htmlFor="speed" className="w-[7rem]">
-					Speed
-				</label>
-				<Input
-					className="w-[20%]"
-					type="number"
-					defaultValue={0}
-					id="speed"
-					onChange={e => handleEffectChange("speed", Number(e.target.value))}
-				/>
-			</div>
-			<div className="flex flex-row gap-3">
-				<label htmlFor="bassboost" className="w-[7rem]">
-					Bass Boost
-				</label>
-				<Input
-					className="w-[20%]"
-					type="number"
-					defaultValue={0}
-					id="bassboost"
-					onChange={e => handleEffectChange("bassboost", Number(e.target.value))}
-				/>
-			</div>
-			<ScrollArea className="flex flex-wrap gap-2 w-full max-h-[calc(100vh-2rem-10rem-16rem)]">
+
+			<ScrollArea className="flex flex-wrap gap-15 w-full h-[calc(100vh-2rem-10rem-8rem)]">
+				<div className="w-full mx-auto flex flex-row justify-start gap-10 my-2">
+					<label htmlFor="speed" className="w-[20%]">
+						Speed
+					</label>
+					<Input
+						className="w-full"
+						type="number"
+						id="speed"
+						placeholder={effects.speed.toString()}
+						onChange={e => handleEffectChange("speed", Number(e.target.value))}
+					/>
+				</div>
+				<div className="w-full mx-auto flex flex-row justify-start gap-10 my-2">
+					<label htmlFor="bassboost" className="w-[20%]">
+						Bass Boost
+					</label>
+					<Input
+						className="w-full"
+						type="number"
+						id="bassboost"
+						placeholder={effects.bassboost.toString()}
+						onChange={e => handleEffectChange("bassboost", Number(e.target.value))}
+					/>
+				</div>
 				{Object.keys(effects).map(effect => {
 					if (typeof effects[effect as keyof effects] === "boolean") {
 						return (
-							<div key={effect} className="w-[45%] mx-auto flex flex-row justify-start gap-10">
+							<div key={effect} className="w-full mx-auto flex flex-row justify-start gap-10 my-2">
 								<label htmlFor={effect} className="w-[20%]">
 									{effect}
 								</label>
-								<Switch id={effect} onChange={e => handleEffectChange(effect)} />
-								<div>{effects[effect as keyof effects] ? "On" : "Off"}</div>
+								{effects[effect as keyof effects] ? (
+									<Button className="w-full bg-accent2 hover:bg-accent1" onClick={() => handleEffectChange(effect)}>
+										ON
+									</Button>
+								) : (
+									<Button className="w-full bg-pallete1  hover:bg-accent1 " onClick={() => handleEffectChange(effect)}>
+										OFF
+									</Button>
+								)}
 							</div>
 						)
 					}

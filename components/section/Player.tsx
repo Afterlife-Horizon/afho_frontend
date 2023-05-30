@@ -232,7 +232,10 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 							<>
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
-										<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleDisconnectClicked}>
+										<Button
+											className="rounded-full bg-accent2 hover:bg-accent1 hover:scale-105 active:scale-95"
+											onClick={handleDisconnectClicked}
+										>
 											{isLeaving ? <Spinner size={20} /> : <PowerOffIcon />}
 										</Button>
 									</HoverCardTrigger>
@@ -240,7 +243,10 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 								</HoverCard>
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
-										<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleStopClicked}>
+										<Button
+											className="rounded-full bg-accent2 hover:bg-accent1  hover:scale-105 active:scale-95"
+											onClick={handleStopClicked}
+										>
 											{isStopping ? <Spinner size={20} /> : <X />}
 										</Button>
 									</HoverCardTrigger>
@@ -250,7 +256,10 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 						) : null}
 						<HoverCard openDelay={150} closeDelay={50}>
 							<HoverCardTrigger>
-								<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handlePauseClicked}>
+								<Button
+									className="rounded-full bg-accent2 hover:bg-accent1  hover:scale-105 active:scale-95"
+									onClick={handlePauseClicked}
+								>
 									{isPausing ? <Spinner size={20} /> : fetchInfo.queue[0]?.paused ? <Play /> : <Pause />}
 								</Button>
 							</HoverCardTrigger>
@@ -259,7 +268,10 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 
 						<HoverCard openDelay={150} closeDelay={50}>
 							<HoverCardTrigger>
-								<Button className="rounded-full hover:scale-105 active:scale-95" onClick={handleNextClicked}>
+								<Button
+									className="rounded-full bg-accent2 hover:bg-accent1  hover:scale-105 active:scale-95"
+									onClick={handleNextClicked}
+								>
 									{isSkipping ? <Spinner size={20} /> : <SkipForwardIcon />}
 								</Button>
 							</HoverCardTrigger>
