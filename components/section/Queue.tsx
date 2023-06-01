@@ -9,6 +9,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
 import { Input } from "../ui/input"
 import { ScrollArea } from "../ui/scroll-area"
 import { Separator } from "../ui/separator"
+import createYTLinkFromId from "@/functions/createYTLinkFromId"
 
 const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [searchInput, setSearchInput] = useState<string>("")
@@ -359,7 +360,9 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 								/>
 							</div>
 							<div className="text-sm xl:text-md flex flex-col justify-center w-[100%]">
-								<div className="font-semibold">{song.title}</div>
+								<a href={createYTLinkFromId(song.id)} className="font-semibold text-blue-400 hover:text-blue-600">
+									{song.title}
+								</a>
 								<div className="text-slate-400">Requested by: {song.requester.username}</div>
 							</div>
 							<Separator className="h-auto" decorative orientation={"vertical"} />

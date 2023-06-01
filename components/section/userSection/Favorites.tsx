@@ -12,6 +12,7 @@ import { queryClient } from "@/pages/_app"
 import axios, { AxiosError } from "axios"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import createYTLinkFromId from "@/functions/createYTLinkFromId"
 
 const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, setToastDescription, setToastTitle }) => {
 	const { data: favorites, isLoading, error } = useFavorites("user")
@@ -204,7 +205,12 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 											/>
 										</div>
 										<div className="flex flex-col justify-center w-[100%]">
-											<div className="text-sm xl:text-md font-semibold">{song.name}</div>
+											<a
+												href={createYTLinkFromId(song.id)}
+												className="text-sm xl:text-md font-semibold text-blue-400 hover:text-blue-600"
+											>
+												{song.name}
+											</a>
 										</div>
 										<Separator className="h-auto" decorative orientation={"vertical"} />
 										<div className="flex flex-row gap-2 items-center px-3">
@@ -257,7 +263,12 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 											/>
 										</div>
 										<div className="flex flex-col justify-center w-[100%]">
-											<div className="text-sm xl:text-md font-semibold">{song.name}</div>
+											<a
+												href={createYTLinkFromId(song.id)}
+												className="text-sm xl:text-md font-semibold text-blue-400 hover:text-blue-600"
+											>
+												{song.name}
+											</a>
 										</div>
 										<Separator className="h-auto" decorative orientation={"vertical"} />
 										<div className="flex flex-row gap-2 items-center px-3">

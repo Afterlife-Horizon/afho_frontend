@@ -7,6 +7,7 @@ import axios, { AxiosError } from "axios"
 import { supabase } from "@/utils/supabaseUtils"
 import Spinner from "../ui/Spinner"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
+import createYTLinkFromId from "@/functions/createYTLinkFromId"
 
 const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [playerInfoClasses, setPlayerInfoClasses] = useState<string>("hidden row-start-1 col-start-1 h-auto p-[1.5rem]")
@@ -217,11 +218,9 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 			<div className={playerInfoClasses} style={{ zIndex: 1 }}>
 				<div className="text-white">
 					<a
-						className="text-blue-400"
-						href={`https://www.youtube.com/watch?v=${fetchInfo.queue[0]?.tracks[0]?.id ? fetchInfo.queue[0]?.tracks[0]?.id : ""}`}
-					>
-						{fetchInfo.queue[0]?.tracks[0]?.title ? fetchInfo.queue[0].tracks[0].title : "None"}
-					</a>
+						className="text-blue-400 hover:text-blue-600"
+						href={createYTLinkFromId(fetchInfo.queue[0]?.tracks[0]?.id)}
+					>{`${fetchInfo.queue[0]?.tracks[0]?.channel.name} - ${fetchInfo.queue[0]?.tracks[0]?.title}`}</a>
 					<div className="invert-0">
 						Requested by: {fetchInfo.queue[0]?.tracks[0]?.requester.username ? fetchInfo.queue[0]?.tracks[0]?.requester.username : "None"}
 					</div>
