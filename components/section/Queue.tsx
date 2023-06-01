@@ -10,7 +10,6 @@ import { Input } from "../ui/input"
 import { ScrollArea } from "../ui/scroll-area"
 import { Separator } from "../ui/separator"
 import createYTLinkFromId from "@/functions/createYTLinkFromId"
-import ytThumbnailLink from "@/functions/ytThumbnailLink"
 
 const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [searchInput, setSearchInput] = useState<string>("")

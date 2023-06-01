@@ -18,7 +18,7 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 	const [isStopping, setIsStopping] = useState<boolean>(false)
 	const [usingFallback, setUsingFallback] = useState(false)
 	const queue = fetchInfo.queue[0]?.tracks || []
-	const id = queue[0].id
+	const id = queue[0]?.id
 
 	useEffect(() => {
 		setUsingFallback(false)
