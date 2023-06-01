@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { Button } from "../ui/button"
-import React, { useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { Progress } from "../ui/progress"
 import { Pause, Play, PowerOffIcon, SkipForwardIcon, X } from "lucide-react"
 import axios, { AxiosError } from "axios"
@@ -9,7 +9,6 @@ import Spinner from "../ui/Spinner"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
 import createYTLinkFromId from "@/functions/createYTLinkFromId"
 import ytThumbnailLink from "@/functions/ytThumbnailLink"
-import ImageWithFallback from "../ui/ImageWithFallback"
 
 const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [playerInfoClasses, setPlayerInfoClasses] = useState<string>("hidden row-start-1 col-start-1 h-auto p-[1.5rem]")
@@ -17,7 +16,13 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 	const [isSkipping, setIsSkipping] = useState<boolean>(false)
 	const [isLeaving, setIsLeaving] = useState<boolean>(false)
 	const [isStopping, setIsStopping] = useState<boolean>(false)
+	const [usingFallback, setUsingFallback] = useState(false)
 	const queue = fetchInfo.queue[0]?.tracks || []
+	const id = queue[0].id
+
+	useEffect(() => {
+		setUsingFallback(false)
+	}, [id])
 
 	function handleMouseEnter() {
 		setPlayerInfoClasses(prev => prev.replace("hidden", "grid"))
@@ -199,18 +204,20 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 				setIsLeaving(false)
 			})
 	}
-
 	return (
 		<section
 			className={`bg-pallete2 rounded-lg grid h-[100%] w-full xl:w-auto mx-auto shadow hover:scale-[1.02] [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]`}
 			onMouseEnter={() => handleMouseEnter()}
 			onMouseLeave={() => handleMouseLeave()}
 		>
-			<ImageWithFallback
+			<Image
 				className="row-start-1 rounded-lg col-start-1 select-none h-[100%] overflow-hidden object-cover"
-				src={ytThumbnailLink(fetchInfo.queue[0]?.tracks[0]?.id, "maxresdefault")}
+				priority
+				src={
+					usingFallback ? fetchInfo.queue[0]?.tracks[0]?.thumbnail.url : ytThumbnailLink(fetchInfo.queue[0]?.tracks[0]?.id, "maxresdefault")
+				}
+				onError={() => setUsingFallback(true)}
 				width={1920}
-				fallbackSrc={fetchInfo.queue[0]?.tracks[0]?.thumbnail.url}
 				height={1080}
 				alt="thumbnail"
 			/>

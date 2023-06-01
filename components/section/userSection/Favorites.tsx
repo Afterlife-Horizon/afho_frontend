@@ -14,7 +14,6 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import createYTLinkFromId from "@/functions/createYTLinkFromId"
 import ytThumbnailLink from "@/functions/ytThumbnailLink"
-import ImageWithFallback from "@/components/ui/ImageWithFallback"
 
 const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, setToastDescription, setToastTitle }) => {
 	const { data: favorites, isLoading, error } = useFavorites("user")
@@ -197,11 +196,10 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 								return (
 									<div className="flex gap-1 p-3" key={index}>
 										<div className="w-[5rem] sm:w-[7rem]">
-											<ImageWithFallback
+											<Image
 												className="w-full h-full object-cover select-none"
-												src={ytThumbnailLink(song.id, "sddefault")}
+												src={song.thumbnail}
 												width={1920}
-												fallbackSrc={song.thumbnail}
 												height={1080}
 												alt="thumbnail"
 												draggable={false}
@@ -256,11 +254,10 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 								return (
 									<div className="flex gap-1 p-3" key={index}>
 										<div className="w-[5rem] sm:w-[7rem]">
-											<ImageWithFallback
+											<Image
 												className="w-full h-full object-cover select-none"
-												src={ytThumbnailLink(song.id, "sddefault")}
+												src={song.thumbnail}
 												width={1920}
-												fallbackSrc={song.thumbnail}
 												height={1080}
 												alt="thumbnail"
 												draggable={false}
