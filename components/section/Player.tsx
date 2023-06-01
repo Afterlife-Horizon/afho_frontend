@@ -223,12 +223,17 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 			/>
 			<div className={playerInfoClasses} style={{ zIndex: 1 }}>
 				<div className="text-white">
-					<a
-						className="text-blue-400 hover:text-blue-600"
-						href={createYTLinkFromId(fetchInfo.queue[0]?.tracks[0]?.id)}
-					>{`${fetchInfo.queue[0]?.tracks[0]?.channel.name} - ${fetchInfo.queue[0]?.tracks[0]?.title}`}</a>
+					<a className="text-blue-400 hover:text-blue-600" href={createYTLinkFromId(fetchInfo.queue[0]?.tracks[0]?.id)}>
+						{fetchInfo.queue[0]?.tracks[0]
+							? `${fetchInfo.queue[0]?.tracks[0]?.channel.name} - ${fetchInfo.queue[0]?.tracks[0]?.title}`
+							: ""}
+					</a>
 					<div className="invert-0">
-						Requested by: {fetchInfo.queue[0]?.tracks[0]?.requester.username ? fetchInfo.queue[0]?.tracks[0]?.requester.username : "None"}
+						{fetchInfo.queue[0]?.tracks[0]
+							? `Requested by: ${
+									fetchInfo.queue[0]?.tracks[0]?.requester.username ? fetchInfo.queue[0]?.tracks[0]?.requester.username : "None"
+							  }`
+							: ""}
 					</div>
 				</div>
 				<div className="self-end">
