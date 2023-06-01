@@ -21,7 +21,7 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 	const [isRemoving, setIsRemoving] = useState<Map<number, boolean>>(new Map())
 	const [isSkipping, setIsSkipping] = useState<Map<number, boolean>>(new Map())
 
-	const queue = fetchInfo.queue[0]?.tracks || []
+	const queue = fetchInfo.queue[0]?.tracks.slice(1) || []
 
 	function handleAdd() {
 		async function addSong() {
@@ -347,7 +347,7 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 				</div>
 			</div>
 			<ScrollArea className={`flex overflow-auto`} id="queue">
-				{queue.slice(1).map((song, index) => {
+				{queue.map((song, index) => {
 					return (
 						<div className={`flex gap-2 p-3`} key={index}>
 							<div className="w-[5rem] sm:w-[7rem]">
