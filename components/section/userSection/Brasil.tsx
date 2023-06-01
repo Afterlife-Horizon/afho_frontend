@@ -1,13 +1,13 @@
-import useBrasilCounts from "@/hooks/useBrasilCounts"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Autocomplete, TextField } from "@mui/material"
-import React, { useState } from "react"
-import useConnectedMembers from "@/hooks/useConnectedMembers"
-import { Button } from "@/components/ui/button"
-import parseRank from "@/functions/parseRank"
 import Spinner from "@/components/ui/Spinner"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import parseRank from "@/functions/parseRank"
+import useBrasilCounts from "@/hooks/useBrasilCounts"
+import useConnectedMembers from "@/hooks/useConnectedMembers"
+import { Autocomplete, TextField } from "@mui/material"
 import axios, { AxiosError } from "axios"
+import React, { useState } from "react"
 
 const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, setToastOpen, setToastTitle, user }) => {
 	const { data: brasils, isLoading, error } = useBrasilCounts()
@@ -33,7 +33,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 		return option === newValue || newValue === ""
 	}
 
-	function handleChangeCurrentPlayer(event: any, values: any) {
+	function handleChangeCurrentPlayer(_event: any, values: any) {
 		setCurrentPlayer(values)
 	}
 
@@ -78,27 +78,6 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 			<div className="flex flex-row gap-3 p-3 justify-between">
 				<Autocomplete
 					className="w-[78%]"
-					sx={{
-						"& .MuiAutocomplete-inputRoot": {
-							color: "white",
-							backgroundColor: "rgba(255,255,255,0.1)"
-						},
-						"& .MuiAutocomplete-popper": {
-							backgroundColor: "rgba(255,255,255,0.1)"
-						},
-						"& .MuiAutocomplete-option": {
-							color: "white"
-						},
-						"& .MuiAutocomplete-option[data-focus='true']": {
-							backgroundColor: "rgba(255,255,255,0.1)"
-						},
-						"& .MuiAutocomplete-option[data-selected='true']": {
-							backgroundColor: "rgba(255,255,255,0.1)"
-						},
-						"& .MuiAutocomplete-input": {
-							color: "white"
-						}
-					}}
 					disableClearable
 					freeSolo
 					disablePortal
@@ -106,19 +85,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 					value={currentPlayer}
 					options={memberNames}
 					onChange={handleChangeCurrentPlayer}
-					renderInput={params => (
-						<TextField
-							className="h-[4rem] text-white"
-							{...params}
-							sx={{
-								"& .MuiFormLabel-root": {
-									color: "white"
-								}
-							}}
-							variant="filled"
-							label="Member"
-						/>
-					)}
+					renderInput={params => <TextField className="h-[4rem] text-white" {...params} variant="filled" label="Member" />}
 				/>
 
 				<Button className="w-[30%] h-[3.3rem] bg-accent2 hover:bg-accent1" onClick={handleBresilClicked}>

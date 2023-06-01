@@ -8,6 +8,8 @@ import { supabase } from "@/utils/supabaseUtils"
 import Spinner from "../ui/Spinner"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
 import createYTLinkFromId from "@/functions/createYTLinkFromId"
+import ytThumbnailLink from "@/functions/ytThumbnailLink"
+import ImageWithFallback from "../ui/ImageWithFallback"
 
 const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [playerInfoClasses, setPlayerInfoClasses] = useState<string>("hidden row-start-1 col-start-1 h-auto p-[1.5rem]")
@@ -204,14 +206,11 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 			onMouseEnter={() => handleMouseEnter()}
 			onMouseLeave={() => handleMouseLeave()}
 		>
-			<Image
+			<ImageWithFallback
 				className="row-start-1 rounded-lg col-start-1 select-none h-[100%] overflow-hidden object-cover"
-				src={
-					fetchInfo.queue[0]?.tracks[0]?.thumbnail.url
-						? fetchInfo.queue[0].tracks[0].thumbnail.url.replace("hqdefault", "maxresdefault")
-						: "https://cdn.tosavealife.com/wp-content/uploads/2018/05/Waiting-Memes-52918.jpg"
-				}
+				src={ytThumbnailLink(fetchInfo.queue[0]?.tracks[0]?.id, "maxresdefault")}
 				width={1920}
+				fallbackSrc={fetchInfo.queue[0]?.tracks[0]?.thumbnail.url}
 				height={1080}
 				alt="thumbnail"
 			/>

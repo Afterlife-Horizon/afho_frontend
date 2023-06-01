@@ -2,7 +2,7 @@
 const nextConfig = {
 	reactStrictMode: true,
 	images: {
-		domains: ["via.placeholder.com", "cdn.tosavealife.com", "i.ytimg.com"]
+		domains: ["via.placeholder.com", "cdn.tosavealife.com", "i.ytimg.com", "img.youtube.com"]
 	},
 	crossOrigin: "anonymous",
 	async rewrites() {

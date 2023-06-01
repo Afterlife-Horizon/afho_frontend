@@ -10,6 +10,8 @@ import { Input } from "../ui/input"
 import { ScrollArea } from "../ui/scroll-area"
 import { Separator } from "../ui/separator"
 import createYTLinkFromId from "@/functions/createYTLinkFromId"
+import ytThumbnailLink from "@/functions/ytThumbnailLink"
+import ImageWithFallback from "../ui/ImageWithFallback"
 
 const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [searchInput, setSearchInput] = useState<string>("")
@@ -350,10 +352,11 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 					return (
 						<div className={`flex gap-2 p-3`} key={index}>
 							<div className="w-[5rem] sm:w-[7rem]">
-								<Image
+								<ImageWithFallback
 									className="w-full h-full object-cover select-none"
-									src={song.thumbnail.url.replace("maxresdefault", "hqdefault")}
+									src={ytThumbnailLink(song.id, "sddefault")}
 									width={1920}
+									fallbackSrc={song.thumbnail.url}
 									height={1080}
 									alt="thumbnail"
 									draggable={false}
