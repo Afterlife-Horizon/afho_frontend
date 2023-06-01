@@ -2,7 +2,7 @@ import { supabase } from "@/utils/supabaseUtils"
 import axios, { AxiosError } from "axios"
 import { ChevronLastIcon, ListStart, Plus, ShuffleIcon, X } from "lucide-react"
 import React, { useState } from "react"
-import { LazyLoadImage } from "react-lazy-load-image-component"
+import Image from "next/image"
 import Spinner from "../ui/Spinner"
 import { Button } from "../ui/button"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
@@ -350,7 +350,7 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 					return (
 						<div className={`flex gap-2 p-3`} key={index}>
 							<div className="w-[5rem] sm:w-[7rem]">
-								<LazyLoadImage
+								<Image
 									className="w-full h-full object-cover select-none"
 									src={song.thumbnail.url.replace("maxresdefault", "hqdefault")}
 									width={1920}
