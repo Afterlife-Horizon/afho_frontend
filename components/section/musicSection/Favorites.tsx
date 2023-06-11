@@ -14,6 +14,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import createYTLinkFromId from "@/functions/createYTLinkFromId"
 import ytThumbnailLink from "@/functions/ytThumbnailLink"
+import ScrollDiv from "@/components/ui/ScrollDiv"
 
 const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, setToastDescription, setToastTitle }) => {
 	const { data: favorites, isLoading, error } = useFavorites("user")
@@ -187,8 +188,8 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 						Playlists
 					</TabsTrigger>
 				</TabsList>
-				<TabsContent value="video">
-					<ScrollArea className="overflow-auto rounded-b-lg h-[calc(100vh-2rem-10rem-11rem)] break-words" id="favorites">
+				<TabsContent value="video" className="scrollbar-thin scrollbar-thumb-accent2 scrollbar-track-transperent">
+					<ScrollDiv className="rounded-b-lg h-[calc(100vh-2rem-10rem-21.8rem)] break-words" id="favorites">
 						{favorites
 							.filter(vid => vid.type === "video")
 							.sort((a, b) => (new Date(a.date_added).getTime() < new Date(b.date_added).getTime() ? 1 : -1))
@@ -243,10 +244,10 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 									</div>
 								)
 							})}
-					</ScrollArea>
+					</ScrollDiv>
 				</TabsContent>
 				<TabsContent value="playlist">
-					<ScrollArea className="overflow-auto rounded-b-lg h-[calc(100vh-2rem-10rem-11rem)]" id="favorites">
+					<ScrollDiv className="overflow-auto rounded-b-lg h-[calc(100vh-2rem-10rem-11rem)]" id="favorites">
 						{favorites
 							.filter(vid => vid.type === "playlist")
 							.sort((a, b) => (new Date(b.date_added).getTime() < new Date(a.date_added).getTime() ? 1 : -1))
@@ -303,7 +304,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 									</div>
 								)
 							})}
-					</ScrollArea>
+					</ScrollDiv>
 				</TabsContent>
 			</Tabs>
 		</div>

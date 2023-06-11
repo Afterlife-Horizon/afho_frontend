@@ -1,15 +1,16 @@
 import { supabase } from "@/utils/supabaseUtils"
 import axios, { AxiosError } from "axios"
 import { ChevronLastIcon, ListStart, Plus, ShuffleIcon, X } from "lucide-react"
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import Image from "next/image"
-import Spinner from "../ui/Spinner"
-import { Button } from "../ui/button"
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
-import { Input } from "../ui/input"
-import { ScrollArea } from "../ui/scroll-area"
-import { Separator } from "../ui/separator"
+import Spinner from "../../ui/Spinner"
+import { Button } from "../../ui/button"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "../../ui/hover-card"
+import { Input } from "../../ui/input"
+import { Separator } from "../../ui/separator"
 import createYTLinkFromId from "@/functions/createYTLinkFromId"
+import ScrollDiv from "@/components/ui/ScrollDiv"
+
 
 const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [searchInput, setSearchInput] = useState<string>("")
@@ -19,8 +20,19 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 	const [isClearing, setIsClearing] = useState<boolean>(false)
 	const [isRemoving, setIsRemoving] = useState<Map<number, boolean>>(new Map())
 	const [isSkipping, setIsSkipping] = useState<Map<number, boolean>>(new Map())
+	const [count, setCount] = useState<number>(15)
 
-	const queue = fetchInfo.queue[0]?.tracks.slice(1) || []
+	const hasMore = useMemo(() => fetchInfo.queue[0]?.tracks.length > count, [count, fetchInfo.queue])
+	const queue = fetchInfo.queue[0]?.tracks.slice(1, hasMore ? count : fetchInfo.queue[0]?.tracks.length) || []
+	
+	const observer = useRef<IntersectionObserver>()
+	const lastRequestRef = useCallback((node: any) => {
+		if (observer.current) observer.current.disconnect()
+		observer.current = new IntersectionObserver(entries => {
+			if (entries[0].isIntersecting && hasMore) setCount(prevCount => prevCount + 10)
+		})
+		if (node) observer.current.observe(node)
+	}, [hasMore])
 
 	function handleAdd() {
 		async function addSong() {
@@ -293,10 +305,8 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 	}
 
 	return (
-		<section
-			className={`grid grid-rows-[8rem_auto] xl:grid-rows-[5rem_auto] w-full mx-auto shadow bg-pallete2 rounded-lg text-white max-h-[calc(100vh-3.2rem-20rem)]`}
-		>
-			<div className={`flex flex-col sm:flex-row m-[1rem] gap-2 p-2`}>
+		<>
+			<div className={`flex flex-col sm:flex-row gap-2 p-2`}>
 				<Input
 					className="rounded-full"
 					placeholder="Search for a song"
@@ -345,10 +355,10 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 					) : null}
 				</div>
 			</div>
-			<ScrollArea className={`flex overflow-auto`} id="queue">
+			<ScrollDiv className="h-[calc(100vh-31rem)]">
 				{queue.map((song, index) => {
 					return (
-						<div className={`flex gap-2 p-3`} key={index}>
+						<div ref={index + 1 === queue.length ? lastRequestRef : undefined} className={`flex gap-2 p-3`} key={index}>
 							<div className="w-[5rem] sm:w-[7rem]">
 								<Image
 									className="w-full h-full object-cover select-none"
@@ -393,8 +403,8 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 						</div>
 					)
 				})}
-			</ScrollArea>
-		</section>
+			</ScrollDiv>
+		</>
 	)
 }
 

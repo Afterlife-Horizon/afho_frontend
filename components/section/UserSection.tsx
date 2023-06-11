@@ -1,7 +1,5 @@
 import { supabase } from "@/utils/supabaseUtils"
 import Brasil from "./userSection/Brasil"
-import Favorites from "./userSection/Favorites"
-import Filters from "./userSection/Filters"
 import Levels from "./userSection/levels"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 import { Badge } from "../ui/badge"
@@ -43,18 +41,10 @@ const UserSection: React.FC<defaultProps> = props => {
 					</Button>
 				</div>
 			</div>
-			<Tabs defaultValue="favorites" className="h-[calc(100vh-2rem-10rem)] max-h-[calc(100vh-2rem-10rem)]">
+			<Tabs defaultValue="brasilboard" className="h-[calc(100vh-2rem-10rem)] max-h-[calc(100vh-2rem-10rem)]">
 				<TabsList
 					className={`w-full md:rounded-none p[0.5rem] gap-1 md:gap-3 md:p-[2rem] h-[4rem] bg-pallete2 [&>*:hover]:bg-accent1 text-white`}
 				>
-					<TabsTrigger value="favorites" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
-						Favorites
-					</TabsTrigger>
-					{isAdmin ? (
-						<TabsTrigger value="filters" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
-							Filters
-						</TabsTrigger>
-					) : null}
 					<TabsTrigger value="brasilboard" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
 						Brasilboard
 					</TabsTrigger>
@@ -65,14 +55,6 @@ const UserSection: React.FC<defaultProps> = props => {
 						Time
 					</TabsTrigger>
 				</TabsList>
-				<TabsContent value="favorites" className="mt-0">
-					<Favorites {...props} />
-				</TabsContent>
-				{isAdmin ? (
-					<TabsContent value="filters" className="mt-0">
-						<Filters {...props} />
-					</TabsContent>
-				) : null}
 				<TabsContent value="brasilboard" className="mt-0">
 					<Brasil {...props} />
 				</TabsContent>

@@ -6,6 +6,7 @@ import parseRank from "@/functions/parseRank"
 import Spinner from "@/components/ui/Spinner"
 import React from "react"
 import { User } from "lucide-react"
+import ScrollDiv from "@/components/ui/ScrollDiv"
 
 const Levels: React.FC<defaultProps> = ({}) => {
 	const { data: levels, isLoading, error } = useLevels()
@@ -22,7 +23,7 @@ const Levels: React.FC<defaultProps> = ({}) => {
 	const filteredLevels = levels.filter(level => level.user && level.user.displayAvatarURL)
 
 	return (
-		<ScrollArea className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-4rem)]">
+		<ScrollDiv className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-4rem)]">
 			<table className="w-full p-[5rem]">
 				<thead>
 					<tr className="[&>*]:px-[0.5rem] bg-pallete3 sticky top-0 z-10">
@@ -60,7 +61,7 @@ const Levels: React.FC<defaultProps> = ({}) => {
 					})}
 				</tbody>
 			</table>
-		</ScrollArea>
+		</ScrollDiv>
 	)
 }
 

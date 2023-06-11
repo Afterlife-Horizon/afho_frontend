@@ -1,5 +1,4 @@
 import Player from "@/components/section/Player"
-import Queue from "@/components/section/Queue"
 import UserSection from "@/components/section/UserSection"
 import useFetchInfo from "@/hooks/useFetchInfo"
 import useUser from "@/hooks/useUser"
@@ -9,6 +8,7 @@ import React, { useState } from "react"
 import Spinner from "@/components/ui/Spinner"
 import useWindowSize from "@/hooks/useWindowSize"
 import type { NextPage } from "next"
+import MusicSection from "@/components/section/MusicSection"
 
 const Home: NextPage = () => {
 	const [toastOpen, setToastOpen] = useState(false)
@@ -59,7 +59,7 @@ const Home: NextPage = () => {
 		<main className={`w-full grid gap-5 p-[1rem] mb-[3rem] xl:mb-0 xl:grid-cols-2 xl:h-[100vh] xl:max-h-[100vh] bg-pallete1`}>
 			<div className={`grid gap-5 grid-flow-row grid-rows-[20rem_1fr] xl:max-h-[calc(100vh-2rem)]`}>
 				<Player {...props} />
-				<Queue {...props} />
+				<MusicSection {...props} />
 			</div>
 			<div className={`w-full max-h-[calc(100vh-2rem)]`}>
 				<UserSection {...props} />

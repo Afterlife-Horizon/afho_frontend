@@ -1,3 +1,4 @@
+import ScrollDiv from "@/components/ui/ScrollDiv"
 import Spinner from "@/components/ui/Spinner"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -20,7 +21,7 @@ const Times: React.FC<defaultProps> = ({}) => {
 	const filteredTimes = times.filter(time => time.user && time.user.displayAvatarURL)
 
 	return (
-		<ScrollArea className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-4rem)]">
+		<ScrollDiv className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-4rem)]">
 			<table className="w-full p-[5rem]">
 				<thead>
 					<tr className="[&>*]:px-[0.5rem] bg-pallete3 sticky top-0 z-10">
@@ -58,7 +59,7 @@ const Times: React.FC<defaultProps> = ({}) => {
 					})}
 				</tbody>
 			</table>
-		</ScrollArea>
+		</ScrollDiv>
 	)
 }
 
