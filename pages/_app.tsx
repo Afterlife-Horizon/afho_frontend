@@ -11,11 +11,34 @@ const theme = createTheme({
 		MuiAutocomplete: {
 			styleOverrides: {
 				option: {
-					color: "#ffffff"
+					color: "#ffffff",
 				},
 				popper: {
 					backgroundColor: "#2d2d2d",
 					color: "#ffffff"
+				},
+				listbox: {
+					backgroundColor: "#2d2d2d",
+					color: "#ffffff"
+				},
+				inputRoot: {
+					"&:before": {
+						borderBottom: "1px solid #1d1d1d"
+					},
+					"&:hover": {
+						"&:before": {
+							borderBottom: "1px solid #bb86fc !important"
+						}
+					},
+				}
+			}
+		},
+		MuiFilledInput: {
+			styleOverrides: {
+				root: {
+					"&:after": {
+						borderBottom: "2px solid #bb86fc"
+					}
 				}
 			}
 		}
@@ -26,7 +49,7 @@ const theme = createTheme({
 			contrastText: "#000000"
 		},
 		secondary: {
-			main: "#000000",
+			main: "#121212",
 			contrastText: "#ffffff"
 		},
 		background: {

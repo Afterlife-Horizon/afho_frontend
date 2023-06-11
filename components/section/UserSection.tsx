@@ -30,7 +30,7 @@ const UserSection: React.FC<defaultProps> = props => {
 						</AvatarFallback>
 					</Avatar>
 					<div className={`text-xl text-white text-[1rem]`}>{user.user_metadata.full_name}</div>
-					{isAdmin ? <Badge className="bg-accent1 hover:bg-accent2 text-slate-800">admin</Badge> : null}
+					{isAdmin ? <Badge className="bg-accent2 hover:bg-accent1 text-slate-100">admin</Badge> : null}
 				</div>
 				<div className={`grid place-items-center w-full sm:w-[20%] mr-5 sm:mr-10`}>
 					<Button
