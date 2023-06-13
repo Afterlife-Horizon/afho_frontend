@@ -27,7 +27,8 @@ const theme = createTheme({
 					},
 					"&:hover": {
 						"&:before": {
-							borderBottom: "1px solid #bb86fc !important"
+							borderBottom: "1px solid",
+							borderBottomColor: "var(--twc-accent-dark) !important"
 						}
 					},
 				}
@@ -37,7 +38,8 @@ const theme = createTheme({
 			styleOverrides: {
 				root: {
 					"&:after": {
-						borderBottom: "2px solid #bb86fc"
+						borderBottom: "2px solid",
+						borderBottomColor: "var(--twc-accent-dark) !important"
 					}
 				}
 			}

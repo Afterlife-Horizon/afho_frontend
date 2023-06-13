@@ -85,7 +85,7 @@ const Filters: React.FC<defaultProps> = ({ isAdmin, setToastColor, setToastDescr
 	return (
 		<div className="grid grid-rows-[3rem_3rem_3rem_1fr] gap-[0.2rem] mx-auto rounded-b-lg">
 			<div className="w-full p-2">
-				<Button className="w-full bg-accent2 hover:bg-accent1 rounded-full active:scale-95" onClick={handlefilterSubmitted}>
+				<Button className="w-full bg-accent-dark hover:bg-accent-light rounded-full active:scale-95" onClick={handlefilterSubmitted}>
 					Apply
 				</Button>
 			</div>
@@ -123,11 +123,11 @@ const Filters: React.FC<defaultProps> = ({ isAdmin, setToastColor, setToastDescr
 									{effect}
 								</label>
 								{effects[effect as keyof effects] ? (
-									<Button className="w-full bg-accent2 hover:bg-accent1" onClick={() => handleEffectChange(effect)}>
+									<Button className="w-full bg-accent-dark hover:bg-accent-light" onClick={() => handleEffectChange(effect)}>
 										ON
 									</Button>
 								) : (
-									<Button className="w-full bg-pallete1  hover:bg-accent1 " onClick={() => handleEffectChange(effect)}>
+									<Button className="w-full bg-background-dark  hover:bg-accent-light " onClick={() => handleEffectChange(effect)}>
 										OFF
 									</Button>
 								)}

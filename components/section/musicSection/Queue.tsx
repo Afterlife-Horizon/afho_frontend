@@ -321,27 +321,27 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 				<div className="flex flex-row gap-2">
 					<HoverCard openDelay={150} closeDelay={50}>
 						<HoverCardTrigger>
-							<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleAdd}>
+							<Button className="bg-accent-dark hover:bg-accent-light rounded-full hover:scale-105 active:scale-95" onClick={handleAdd}>
 								{isAdding ? <Spinner size={20} /> : <Plus />}
 							</Button>
 						</HoverCardTrigger>
-						<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Add song</HoverCardContent>
+						<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Add song</HoverCardContent>
 					</HoverCard>
 					<HoverCard openDelay={150} closeDelay={50}>
 						<HoverCardTrigger>
-							<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleAddFirst}>
+							<Button className="bg-accent-dark hover:bg-accent-light rounded-full hover:scale-105 active:scale-95" onClick={handleAddFirst}>
 								{isAddingFirst ? <Spinner size={20} /> : <ListStart />}
 							</Button>
 						</HoverCardTrigger>
-						<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Add song at the top of the queue</HoverCardContent>
+						<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Add song at the top of the queue</HoverCardContent>
 					</HoverCard>
 					<HoverCard openDelay={150} closeDelay={50}>
 						<HoverCardTrigger>
-							<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={handleShuffle}>
+							<Button className="bg-accent-dark hover:bg-accent-light rounded-full hover:scale-105 active:scale-95" onClick={handleShuffle}>
 								{isShuffling ? <Spinner size={20} /> : <ShuffleIcon />}
 							</Button>
 						</HoverCardTrigger>
-						<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Shuffle the queue</HoverCardContent>
+						<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Shuffle the queue</HoverCardContent>
 					</HoverCard>
 					{isAdmin ? (
 						<HoverCard openDelay={150} closeDelay={50}>
@@ -350,7 +350,7 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 									{isClearing ? <Spinner size={20} /> : <X />}
 								</Button>
 							</HoverCardTrigger>
-							<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Clear queue</HoverCardContent>
+							<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Clear queue</HoverCardContent>
 						</HoverCard>
 					) : null}
 				</div>
@@ -386,18 +386,18 @@ const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setT
 											{isRemoving.get(index + 1) ? <Spinner size={20} /> : <X />}
 										</Button>
 									</HoverCardTrigger>
-									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Remove from queue</HoverCardContent>
+									<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Remove from queue</HoverCardContent>
 								</HoverCard>
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button
-											className="bg-accent2 hover:bg-accent1 rounded-full scale-[85%] md:scale-100 hover:scale-105 active:scale-95"
+											className="bg-accent-dark hover:bg-accent-light rounded-full scale-[85%] md:scale-100 hover:scale-105 active:scale-95"
 											onClick={e => handleskipto(index + 1)}
 										>
 											{isSkipping.get(index + 1) ? <Spinner size={20} /> : <ChevronLastIcon />}
 										</Button>
 									</HoverCardTrigger>
-									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Skip to song</HoverCardContent>
+									<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Skip to song</HoverCardContent>
 								</HoverCard>
 							</div>
 						</div>

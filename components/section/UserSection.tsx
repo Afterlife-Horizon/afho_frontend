@@ -8,9 +8,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import { useRouter } from "next/router"
 import { User } from "lucide-react"
 import Times from "./userSection/Times"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
+import { capitalize } from "@/functions/capitalize"
 
-const UserSection: React.FC<defaultProps> = props => {
-	const { user, isAdmin } = props
+interface props extends defaultProps {
+	theme: string
+	setTheme: React.Dispatch<React.SetStateAction<string>>
+}
+
+const UserSection: React.FC<props> = props => {
+	const { user, isAdmin, theme, setTheme } = props
 	const router = useRouter()
 
 	async function handleSignOut() {
@@ -19,9 +26,14 @@ const UserSection: React.FC<defaultProps> = props => {
 		router.push("/auth")
 	}
 
+	function handleThemeChange(theme: string) {
+		setTheme(theme)
+		localStorage.setItem("theme", theme)
+	}
+
 	return (
-		<section className="grid grid-rows-[10rem_1fr] w-full mx-auto shadow bg-pallete2 rounded-lg text-white">
-			<div className={`flex flex-col sm:flex-row justify-between w-full bg-pallete3 rounded-t-lg`}>
+		<section className="grid grid-rows-[10rem_1fr] w-full mx-auto shadow bg-background-medium rounded-lg text-dark">
+			<div className={`flex flex-col sm:flex-row justify-between w-full bg-background-light rounded-t-lg`}>
 				<div className="flex gap-3 w-full items-center p-[2rem]">
 					<Avatar className={`rounded-full h-[3rem] w-[3rem] md:h-[5rem] md:w-[5rem] select-none`}>
 						<AvatarImage draggable={false} src={user.user_metadata.avatar_url} />
@@ -29,12 +41,30 @@ const UserSection: React.FC<defaultProps> = props => {
 							<User />
 						</AvatarFallback>
 					</Avatar>
-					<div className={`text-xl text-white text-[1rem]`}>{user.user_metadata.full_name}</div>
-					{isAdmin ? <Badge className="bg-accent2 hover:bg-accent1 text-slate-100">admin</Badge> : null}
+					<div className={`text-xl text-dark text-[1rem]`}>{user.user_metadata.full_name}</div>
+					{isAdmin ? <Badge className="bg-accent-dark hover:bg-accent-light text-dark">admin</Badge> : null}
 				</div>
-				<div className={`grid place-items-center w-full sm:w-[20%] mr-5 sm:mr-10`}>
+				<div className={`grid sm:grid-flow-col sm:gap-3 place-items-center w-full sm:w-[70%] mr-5 sm:mr-10`}>
+					<Select onValueChange={theme => handleThemeChange(theme)}>
+						<SelectTrigger className="bg-accent-dark hover:bg-accent-light border-0 px-10 py-5 w-full sm:rounded-full select-none text-bold">
+							<SelectValue placeholder={capitalize(theme)} />
+						</SelectTrigger>
+						<SelectContent>
+							<SelectGroup>
+								<SelectLabel>light</SelectLabel>
+								{/* <SelectItem value="light-default">Default</SelectItem> */}
+							</SelectGroup>
+							<SelectGroup>
+								<SelectLabel>dark</SelectLabel>
+								<SelectItem value="default">Default</SelectItem>
+								<SelectItem value="blush">Blush</SelectItem>
+								<SelectItem value="mountain-meadow">Mountain Meadow</SelectItem>
+								<SelectItem value="java">Java</SelectItem>
+							</SelectGroup>
+						</SelectContent>
+					</Select>
 					<Button
-						className={`bg-red-500 hover:bg-red-500 hover:scale-105 active:scale-95 px-10 py-5 w-full sm:rounded-full`}
+						className={`bg-red-500 hover:bg-red-400 px-10 py-5 w-full sm:rounded-full`}
 						onClick={handleSignOut}
 					>
 						Logout
@@ -43,15 +73,15 @@ const UserSection: React.FC<defaultProps> = props => {
 			</div>
 			<Tabs defaultValue="brasilboard" className="h-[calc(100vh-2rem-10rem)] max-h-[calc(100vh-2rem-10rem)]">
 				<TabsList
-					className={`w-full md:rounded-none p[0.5rem] gap-1 md:gap-3 md:p-[2rem] h-[4rem] bg-pallete2 [&>*:hover]:bg-accent1 text-white`}
+					className={`w-full md:rounded-none p[0.5rem] gap-1 md:gap-3 md:p-[2rem] h-[4rem] bg-background-medium [&>*:hover]:bg-accent-light text-dark`}
 				>
-					<TabsTrigger value="brasilboard" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
+					<TabsTrigger value="brasilboard" className="w-full data-[state=active]:bg-accent-dark data-[state=active]:text-dark">
 						Brasilboard
 					</TabsTrigger>
-					<TabsTrigger value="levels" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
+					<TabsTrigger value="levels" className="w-full data-[state=active]:bg-accent-dark data-[state=active]:text-dark">
 						Levels
 					</TabsTrigger>
-					<TabsTrigger value="times" className="w-full data-[state=active]:bg-accent2 data-[state=active]:text-white">
+					<TabsTrigger value="times" className="w-full data-[state=active]:bg-accent-dark data-[state=active]:text-dark">
 						Time
 					</TabsTrigger>
 				</TabsList>

@@ -85,17 +85,17 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 					value={currentPlayer}
 					options={memberNames}
 					onChange={handleChangeCurrentPlayer}
-					renderInput={params => <TextField className="h-[4rem] text-white" {...params} variant="filled" label="Member" />}
+					renderInput={params => <TextField className="h-[4rem] text-dark" {...params} variant="filled" label="Member" />}
 				/>
 
-				<Button className="w-[30%] h-[3.3rem] bg-accent2 hover:bg-accent1" onClick={handleBresilClicked}>
+				<Button className="w-[30%] h-[3.3rem] bg-accent-dark hover:bg-accent-light" onClick={handleBresilClicked}>
 					{isMoving ? <Spinner size={30} /> : "Bresil"}
 				</Button>
 			</div>
 			<ScrollDiv className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-9rem)] ">
 				<table className="w-full p-[5rem]">
 					<thead>
-						<tr className="[&>*]:px-[0.5rem] bg-pallete3 sticky top-0 z-10">
+						<tr className="[&>*]:px-[0.5rem] bg-background-light sticky top-0 z-10">
 							<th className="text-right mt-0 ">Rank</th>
 							<th className="text-start">Username</th>
 							<th className="text-start">Count</th>
@@ -104,7 +104,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 					</thead>
 					<tbody>
 						{filteredBrasils.map((brasil, index) => (
-							<tr key={brasil.user.userId} className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-pallete2" : "bg-pallete3"}`}>
+							<tr key={brasil.user.userId} className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-background-medium" : "bg-background-light"}`}>
 								<td className="text-right pr-[1rem]">
 									{index + 1}
 									{parseRank(index + 1)}

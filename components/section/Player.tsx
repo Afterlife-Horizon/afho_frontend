@@ -206,7 +206,7 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 	}
 	return (
 		<section
-			className={`bg-pallete2 rounded-lg grid h-[100%] w-full xl:w-auto mx-auto shadow hover:scale-[1.02] [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]`}
+			className={`bg-background-medium rounded-lg grid h-[100%] w-full xl:w-auto mx-auto shadow hover:scale-[1.02] [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]`}
 			onMouseEnter={() => handleMouseEnter()}
 			onMouseLeave={() => handleMouseLeave()}
 		>
@@ -222,7 +222,7 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 				alt="thumbnail"
 			/>
 			<div className={playerInfoClasses} style={{ zIndex: 1 }}>
-				<div className="text-white">
+				<div className="text-dark">
 					<a className="text-blue-400 hover:text-blue-600" href={createYTLinkFromId(fetchInfo.queue[0]?.tracks[0]?.id)}>
 						{fetchInfo.queue[0]?.tracks[0]
 							? `${fetchInfo.queue[0]?.tracks[0]?.channel.name} - ${fetchInfo.queue[0]?.tracks[0]?.title}`
@@ -243,56 +243,56 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button
-											className="rounded-full bg-accent2 hover:bg-accent1 hover:scale-105 active:scale-95"
+											className="rounded-full bg-accent-dark hover:bg-accent-light hover:scale-105 active:scale-95"
 											onClick={handleDisconnectClicked}
 										>
 											{isLeaving ? <Spinner size={20} /> : <PowerOffIcon />}
 										</Button>
 									</HoverCardTrigger>
-									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Disconnect</HoverCardContent>
+									<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Disconnect</HoverCardContent>
 								</HoverCard>
 								<HoverCard openDelay={150} closeDelay={50}>
 									<HoverCardTrigger>
 										<Button
-											className="rounded-full bg-accent2 hover:bg-accent1  hover:scale-105 active:scale-95"
+											className="rounded-full bg-accent-dark hover:bg-accent-light  hover:scale-105 active:scale-95"
 											onClick={handleStopClicked}
 										>
 											{isStopping ? <Spinner size={20} /> : <X />}
 										</Button>
 									</HoverCardTrigger>
-									<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Stop and clear queue</HoverCardContent>
+									<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Stop and clear queue</HoverCardContent>
 								</HoverCard>
 							</>
 						) : null}
 						<HoverCard openDelay={150} closeDelay={50}>
 							<HoverCardTrigger>
 								<Button
-									className="rounded-full bg-accent2 hover:bg-accent1  hover:scale-105 active:scale-95"
+									className="rounded-full bg-accent-dark hover:bg-accent-light  hover:scale-105 active:scale-95"
 									onClick={handlePauseClicked}
 								>
 									{isPausing ? <Spinner size={20} /> : fetchInfo.queue[0]?.paused ? <Play /> : <Pause />}
 								</Button>
 							</HoverCardTrigger>
-							<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">{isPausing ? "Play" : "Pause"}</HoverCardContent>
+							<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">{isPausing ? "Play" : "Pause"}</HoverCardContent>
 						</HoverCard>
 
 						<HoverCard openDelay={150} closeDelay={50}>
 							<HoverCardTrigger>
 								<Button
-									className="rounded-full bg-accent2 hover:bg-accent1  hover:scale-105 active:scale-95"
+									className="rounded-full bg-accent-dark hover:bg-accent-light  hover:scale-105 active:scale-95"
 									onClick={handleNextClicked}
 								>
 									{isSkipping ? <Spinner size={20} /> : <SkipForwardIcon />}
 								</Button>
 							</HoverCardTrigger>
-							<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Skip current song</HoverCardContent>
+							<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Skip current song</HoverCardContent>
 						</HoverCard>
 					</div>
 					<Progress
 						className="mt-2 h-[0.2rem]"
 						value={fetchInfo.queue[0]?.tracks[0] ? Math.floor(100 * (fetchInfo.prog / fetchInfo.queue[0]?.tracks[0].duration)) : 0}
 					/>
-					<div className="text-white">
+					<div className="text-dark">
 						{fetchInfo.queue[0]?.tracks[0]
 							? `${fetchInfo.formatedprog} / ${fetchInfo.queue[0]?.tracks[0].durationFormatted}`
 							: "00:00 / 00:00"}

@@ -13,7 +13,6 @@ import axios, { AxiosError } from "axios"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import createYTLinkFromId from "@/functions/createYTLinkFromId"
-import ytThumbnailLink from "@/functions/ytThumbnailLink"
 import ScrollDiv from "@/components/ui/ScrollDiv"
 
 const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, setToastDescription, setToastTitle }) => {
@@ -25,7 +24,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 
 	if (isLoading)
 		return (
-			<div className="h-[calc(100vh-2rem-10rem-4rem)]">
+			<div className="h-[calc(100vh-2rem-10rem-17.8rem)]">
 				<Spinner size={150} />
 			</div>
 		)
@@ -172,23 +171,23 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 				/>
 				<HoverCard openDelay={150} closeDelay={50}>
 					<HoverCardTrigger>
-						<Button className="bg-accent2 hover:bg-accent1 rounded-full hover:scale-105 active:scale-95" onClick={addFav}>
+						<Button className="bg-accent-dark hover:bg-accent-light rounded-full hover:scale-105 active:scale-95" onClick={addFav}>
 							{isAdding ? <Spinner size={20} /> : <Plus />}
 						</Button>
 					</HoverCardTrigger>
-					<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Add song or playlist to favorites</HoverCardContent>
+					<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Add song or playlist to favorites</HoverCardContent>
 				</HoverCard>
 			</div>
 			<Tabs defaultValue="video" className="grid grid-rows-[2rem_1fr]">
-				<TabsList className="[&>button]:w-[80%] gap-2 bg-pallete2 [&>*:hover]:bg-accent1 text-white">
-					<TabsTrigger value="video" className="data-[state=active]:bg-accent2 data-[state=active]:text-white">
+				<TabsList className="[&>button]:w-[80%] gap-2 bg-background-medium [&>*:hover]:bg-accent-light text-dark">
+					<TabsTrigger value="video" className="data-[state=active]:bg-accent-dark data-[state=active]:text-dark">
 						Videos
 					</TabsTrigger>
-					<TabsTrigger value="playlist" className=" data-[state=active]:bg-accent2 data-[state=active]:text-white">
+					<TabsTrigger value="playlist" className=" data-[state=active]:bg-accent-dark data-[state=active]:text-dark">
 						Playlists
 					</TabsTrigger>
 				</TabsList>
-				<TabsContent value="video" className="scrollbar-thin scrollbar-thumb-accent2 scrollbar-track-transperent">
+				<TabsContent value="video" className="scrollbar-thin scrollbar-thumb-accent-dark scrollbar-track-transperent">
 					<ScrollDiv className="rounded-b-lg h-[calc(100vh-2rem-10rem-21.8rem)] break-words" id="favorites">
 						{favorites
 							.filter(vid => vid.type === "video")
@@ -225,20 +224,20 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 														{isDeleting.get(song.id) ? <Spinner size={20} /> : <X />}
 													</Button>
 												</HoverCardTrigger>
-												<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">
+												<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">
 													Remove from favorites
 												</HoverCardContent>
 											</HoverCard>
 											<HoverCard openDelay={150} closeDelay={50}>
 												<HoverCardTrigger>
 													<Button
-														className="bg-accent2 hover:bg-accent1 rounded-full scale-[85%] md:scale-100 hover:scale-105 active:scale-95"
+														className="bg-accent-dark hover:bg-accent-light rounded-full scale-[85%] md:scale-100 hover:scale-105 active:scale-95"
 														onClick={() => playFav(song)}
 													>
 														{isPlaying.get(song.id) ? <Spinner size={20} /> : <PlayIcon />}
 													</Button>
 												</HoverCardTrigger>
-												<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">Add song to queue</HoverCardContent>
+												<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Add song to queue</HoverCardContent>
 											</HoverCard>
 										</div>
 									</div>
@@ -247,7 +246,7 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 					</ScrollDiv>
 				</TabsContent>
 				<TabsContent value="playlist">
-					<ScrollDiv className="overflow-auto rounded-b-lg h-[calc(100vh-2rem-10rem-11rem)]" id="favorites">
+					<ScrollDiv className="overflow-auto rounded-b-lg h-[calc(100vh-2rem-10rem-21.8rem)]" id="favorites">
 						{favorites
 							.filter(vid => vid.type === "playlist")
 							.sort((a, b) => (new Date(b.date_added).getTime() < new Date(a.date_added).getTime() ? 1 : -1))
@@ -283,20 +282,20 @@ const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, 
 														{isDeleting.get(song.id) ? <Spinner size={20} /> : <X />}
 													</Button>
 												</HoverCardTrigger>
-												<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">
+												<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">
 													Remove from favorites
 												</HoverCardContent>
 											</HoverCard>
 											<HoverCard openDelay={150} closeDelay={50}>
 												<HoverCardTrigger>
 													<Button
-														className="bg-accent2 hover:bg-accent1 rounded-full scale-[85%] md:scale-100 hover:scale-105 active:scale-95"
+														className="bg-accent-dark hover:bg-accent-light rounded-full scale-[85%] md:scale-100 hover:scale-105 active:scale-95"
 														onClick={() => playFav(song)}
 													>
 														{isPlaying.get(song.id) ? <Spinner size={20} /> : <PlayIcon />}
 													</Button>
 												</HoverCardTrigger>
-												<HoverCardContent className="bg-pallete2 text-white p-2 w-auto">
+												<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">
 													Add playlist to queue
 												</HoverCardContent>
 											</HoverCard>
