@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { Button } from "../ui/button"
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Progress } from "../ui/progress"
 import { Pause, Play, PowerOffIcon, SkipForwardIcon, X } from "lucide-react"
 import axios, { AxiosError } from "axios"

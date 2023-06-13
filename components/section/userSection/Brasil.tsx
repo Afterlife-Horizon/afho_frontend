@@ -92,7 +92,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 					{isMoving ? <Spinner size={30} /> : "Bresil"}
 				</Button>
 			</div>
-			<ScrollDiv className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-9rem)] ">
+			<ScrollDiv className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-9rem)]">
 				<table className="w-full p-[5rem]">
 					<thead>
 						<tr className="[&>*]:px-[0.5rem] bg-background-light sticky top-0 z-10">

@@ -10,6 +10,47 @@ import { User } from "lucide-react"
 import Times from "./userSection/Times"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
 import { capitalize } from "@/functions/capitalize"
+import Achievements from "./userSection/Achievements"
+
+type theme = {
+	name: string
+	displayName: string
+}
+
+const darkThemes: theme[] = [
+	{
+		name: "default",
+		displayName: "Purple",
+	},
+	{
+		name: "blush",
+		displayName: "Blush",
+	},
+	{
+		name: "mountain-meadow",
+		displayName: "Mountain Meadow",
+	},
+	{
+		name: "java",
+		displayName: "Java",
+	},
+]
+
+const themetypes = {
+	"dark": {
+		name: "Dark",
+		themes: darkThemes
+	}
+}
+
+const allThemes: theme[] = []
+
+Object.keys(themetypes).forEach(key => {
+	const type = themetypes[key as keyof typeof themetypes]
+	type.themes.forEach(theme => {
+		allThemes.push(theme)
+	})
+})
 
 interface props extends defaultProps {
 	theme: string
@@ -46,21 +87,25 @@ const UserSection: React.FC<props> = props => {
 				</div>
 				<div className={`grid sm:grid-flow-col sm:gap-3 place-items-center w-full sm:w-[70%] mr-5 sm:mr-10`}>
 					<Select onValueChange={(theme: string) => handleThemeChange(theme)}>
-						<SelectTrigger className="bg-accent-dark hover:bg-accent-light border-0 px-10 py-5 w-full sm:rounded-full select-none text-bold">
-							<SelectValue placeholder={capitalize(theme)} />
+						<SelectTrigger className="bg-accent-dark hover:bg-accent-light border-0 px-10 py-5 w-full sm:rounded-full select-none text-bold transition-colors font-medium">
+							<SelectValue placeholder={allThemes.find(th => th.name === theme)?.displayName || null} />
 						</SelectTrigger>
 						<SelectContent>
-							<SelectGroup>
-								<SelectLabel>light</SelectLabel>
-								{/* <SelectItem value="light-default">Default</SelectItem> */}
-							</SelectGroup>
-							<SelectGroup>
-								<SelectLabel>dark</SelectLabel>
-								<SelectItem value="default">Default</SelectItem>
-								<SelectItem value="blush">Blush</SelectItem>
-								<SelectItem value="mountain-meadow">Mountain Meadow</SelectItem>
-								<SelectItem value="java">Java</SelectItem>
-							</SelectGroup>
+							{Object.keys(themetypes).map((key) => {
+								const type = themetypes[key as keyof typeof themetypes]
+								const name = type.name
+								const themes = type.themes
+								return (
+									<SelectGroup key={name}>
+										<SelectLabel>{name}</SelectLabel>
+										{themes.map(theme => (
+											<SelectItem key={theme.name} value={theme.name}>
+												{theme.displayName}
+											</SelectItem>
+										))}
+									</SelectGroup>
+								)
+							})}
 						</SelectContent>
 					</Select>
 					<Button
@@ -84,6 +129,9 @@ const UserSection: React.FC<props> = props => {
 					<TabsTrigger value="times" className="w-full data-[state=active]:bg-accent-dark data-[state=active]:text-dark">
 						Time
 					</TabsTrigger>
+					<TabsTrigger value="achievements" className="w-full data-[state=active]:bg-accent-dark data-[state=active]:text-dark">
+						Achievements
+					</TabsTrigger>
 				</TabsList>
 				<TabsContent value="brasilboard" className="mt-0">
 					<Brasil {...props} />
@@ -93,6 +141,10 @@ const UserSection: React.FC<props> = props => {
 				</TabsContent>
 				<TabsContent value="times" className="mt-0">
 					<Times {...props} />
+				</TabsContent>
+				<TabsContent value="achievements" className="mt-0">
+					{/* <Achievements {...props} /> */}
+					
 				</TabsContent>
 			</Tabs>
 		</section>

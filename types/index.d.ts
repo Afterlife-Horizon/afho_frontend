@@ -12,3 +12,9 @@ interface ITime {
 	user: guildMember
 	time_spent: number
 }
+
+type Achievement = {
+	user: guildMember
+	currentTitle: string
+	type: string
+}
