@@ -45,7 +45,7 @@ const UserSection: React.FC<props> = props => {
 					{isAdmin ? <Badge className="bg-accent-dark hover:bg-accent-light text-dark">admin</Badge> : null}
 				</div>
 				<div className={`grid sm:grid-flow-col sm:gap-3 place-items-center w-full sm:w-[70%] mr-5 sm:mr-10`}>
-					<Select onValueChange={theme => handleThemeChange(theme)}>
+					<Select onValueChange={(theme: string) => handleThemeChange(theme)}>
 						<SelectTrigger className="bg-accent-dark hover:bg-accent-light border-0 px-10 py-5 w-full sm:rounded-full select-none text-bold">
 							<SelectValue placeholder={capitalize(theme)} />
 						</SelectTrigger>
