@@ -1,3 +1,5 @@
+import { type } from "os"
+
 interface defaultProps extends React.ComponentPropsWithoutRef<"div"> {
 	user: User
 	fetchInfo: IFetchData
@@ -13,8 +15,16 @@ interface ITime {
 	time_spent: number
 }
 
-type Achievement = {
-	user: guildMember
-	currentTitle: string
-	type: string
+type APIAchievement = {
+	id: string
+	username: string
+	achievements: Achievement[]
 }
+
+type Achievement = {
+	name: string
+	requirements: string
+	type: AchievementType
+}
+
+type AchievementType = "TIME" | "MESSAGE" | "BrasilRecieved" | "BrasilSent"

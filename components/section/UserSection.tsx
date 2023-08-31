@@ -11,6 +11,7 @@ import Times from "./userSection/Times"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "../ui/select"
 import { capitalize } from "@/functions/capitalize"
 import Achievements from "./userSection/Achievements"
+import { defaultProps } from "@/types"
 
 type theme = {
 	name: string
@@ -143,8 +144,7 @@ const UserSection: React.FC<props> = props => {
 					<Times {...props} />
 				</TabsContent>
 				<TabsContent value="achievements" className="mt-0">
-					{/* <Achievements {...props} /> */}
-					
+					<Achievements {...props} />
 				</TabsContent>
 			</Tabs>
 		</section>
