@@ -63,7 +63,15 @@ const Achievements: React.FC<defaultProps> = (props) => {
                             <tr key={achievement.name} className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-background-medium" : "bg-background-light"}`}>
                                 <td className="px-10">{achievement.type.toUpperCase()}</td>
                                 <td>{achievement.name}</td>
-                                <td>{achievement.requirements}</td>
+                                <td>
+                                    {achievement.requirements} 
+                                    {
+                                        achievement.type === "TIME" ? "s" : 
+                                        achievement.type === "MESSAGE" ? "xp" :
+                                        achievement.type === "BrasilRecieved" ? "received" :
+                                        achievement.type === "BrasilSent" ? "sent" : ""
+                                    }
+                                </td>
                             </tr>
                         ))}
                     </tbody>
