@@ -66,10 +66,10 @@ const Achievements: React.FC<defaultProps> = (props) => {
                                 <td>
                                     {achievement.requirements} 
                                     {
-                                        achievement.type === "TIME" ? "s" : 
-                                        achievement.type === "MESSAGE" ? "xp" :
-                                        achievement.type === "BrasilRecieved" ? "received" :
-                                        achievement.type === "BrasilSent" ? "sent" : ""
+                                        achievement.type === "TIME" ? " s" : 
+                                        achievement.type === "MESSAGE" ? " xp" :
+                                        achievement.type === "BrasilRecieved" ? " received" :
+                                        achievement.type === "BrasilSent" ? " sent" : ""
                                     }
                                 </td>
                             </tr>
