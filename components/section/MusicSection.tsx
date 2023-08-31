@@ -3,6 +3,7 @@ import React from "react";
 import Favorites from "./musicSection/Favorites";
 import Filters from "./musicSection/Filters";
 import Queue from "./musicSection/Queue";
+import { defaultProps } from "@/types";
 
 const MusicSection: React.FC<defaultProps> = (props) => {
     const { isAdmin } = props

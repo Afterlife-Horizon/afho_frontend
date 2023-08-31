@@ -6,6 +6,7 @@ import axios from "axios"
 import { supabase } from "@/utils/supabaseUtils"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import ScrollDiv from "@/components/ui/ScrollDiv"
+import { defaultProps } from "@/types"
 
 const Filters: React.FC<defaultProps> = ({ isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [isApplying, setIsApplying] = useState<boolean>(false)

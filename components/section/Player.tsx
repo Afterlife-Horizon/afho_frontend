@@ -9,6 +9,7 @@ import Spinner from "../ui/Spinner"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
 import createYTLinkFromId from "@/functions/createYTLinkFromId"
 import ytThumbnailLink from "@/functions/ytThumbnailLink"
+import { defaultProps } from "@/types"
 
 const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
 	const [playerInfoClasses, setPlayerInfoClasses] = useState<string>("hidden row-start-1 col-start-1 h-auto p-[1.5rem]")

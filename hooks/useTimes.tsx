@@ -1,5 +1,6 @@
 import { UseQueryResult, useQuery } from "@tanstack/react-query"
 import getTimes from "@/functions/getTimes"
+import { ITime } from "@/types"
 
 const useTimes = (): UseQueryResult<ITime[], Error> => {
 	return useQuery({

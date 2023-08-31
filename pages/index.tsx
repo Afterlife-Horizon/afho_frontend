@@ -9,6 +9,7 @@ import Spinner from "@/components/ui/Spinner"
 import useWindowSize from "@/hooks/useWindowSize"
 import type { NextPage } from "next"
 import MusicSection from "@/components/section/MusicSection"
+import { defaultProps } from "@/types"
 
 const Home: NextPage = () => {
 	const [toastOpen, setToastOpen] = useState(false)

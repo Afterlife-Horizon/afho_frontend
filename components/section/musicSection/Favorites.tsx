@@ -14,6 +14,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import createYTLinkFromId from "@/functions/createYTLinkFromId"
 import ScrollDiv from "@/components/ui/ScrollDiv"
+import { defaultProps } from "@/types"
 
 const Favorites: React.FC<defaultProps> = ({ user, setToastOpen, setToastColor, setToastDescription, setToastTitle }) => {
 	const { data: favorites, isLoading, error } = useFavorites("user")

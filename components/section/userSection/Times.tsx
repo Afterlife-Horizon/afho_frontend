@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import parseRank from "@/functions/parseRank"
 import useTimes from "@/hooks/useTimes"
+import { defaultProps } from "@/types"
 import { User } from "lucide-react"
 import React from "react"
 

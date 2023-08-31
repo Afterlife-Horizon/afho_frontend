@@ -10,6 +10,7 @@ import { Input } from "../../ui/input"
 import { Separator } from "../../ui/separator"
 import createYTLinkFromId from "@/functions/createYTLinkFromId"
 import ScrollDiv from "@/components/ui/ScrollDiv"
+import { defaultProps } from "@/types"
 
 
 const Queue: React.FC<defaultProps> = ({ fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {

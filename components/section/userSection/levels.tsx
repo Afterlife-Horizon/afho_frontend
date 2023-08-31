@@ -7,6 +7,7 @@ import Spinner from "@/components/ui/Spinner"
 import React from "react"
 import { User } from "lucide-react"
 import ScrollDiv from "@/components/ui/ScrollDiv"
+import { defaultProps } from "@/types"
 
 const Levels: React.FC<defaultProps> = ({}) => {
 	const { data: levels, isLoading, error } = useLevels()
