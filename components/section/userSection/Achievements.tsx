@@ -59,21 +59,25 @@ const Achievements: React.FC<defaultProps> = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {selectedMember && nonNullAchievements?.find(achievement => achievement.username === selectedMember)?.achievements?.map((achievement, index) => (
-                            <tr key={achievement.name} className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-background-medium" : "bg-background-light"}`}>
-                                <td className="px-10">{achievement.type.toUpperCase()}</td>
-                                <td>{achievement.name}</td>
-                                <td>
-                                    {achievement.requirements} 
-                                    {
-                                        achievement.type === "TIME" ? " s" : 
-                                        achievement.type === "MESSAGE" ? " xp" :
-                                        achievement.type === "BrasilRecieved" ? " received" :
-                                        achievement.type === "BrasilSent" ? " sent" : ""
-                                    }
-                                </td>
-                            </tr>
-                        ))}
+                        {selectedMember && nonNullAchievements?.find(achievement => achievement.username === selectedMember)?.achievements?.map((achievement, index) => {
+                            const days = achievement.type === "TIME" ? Math.floor(Number(achievement.requirements) / 86400) : 0
+                            const hours = achievement.type === "TIME" ? Math.floor((Number(achievement.requirements) % 86400) / 3600) : 0
+                            const minutes = achievement.type === "TIME" ? Math.floor(((Number(achievement.requirements) % 86400) % 3600) / 60) : 0
+                            return (
+                                <tr key={achievement.name} className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-background-medium" : "bg-background-light"}`}>
+                                    <td className="px-10">{achievement.type.toUpperCase()}</td>
+                                    <td>{achievement.name}</td>
+                                    <td>
+                                        {
+                                            achievement.type === "TIME" ? `${days}d ${hours}h ${minutes}m` :
+                                            achievement.type === "MESSAGE" ? `${achievement.requirements} messages` :
+                                            achievement.type === "BrasilRecieved" ? `${achievement.requirements} recieved` :
+                                            achievement.type === "BrasilSent" ? `${achievement.requirements} sent` : ""
+                                        }
+                                    </td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
                 </table>
             </ScrollDiv>

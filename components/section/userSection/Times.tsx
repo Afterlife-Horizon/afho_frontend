@@ -33,8 +33,9 @@ const Times: React.FC<defaultProps> = ({}) => {
 				</thead>
 				<tbody>
 					{filteredTimes.map((time, index) => {
-						const hours = Math.floor(time.time_spent / 3600)
-						const minutes = Math.floor((time.time_spent % 3600) / 60)
+						const days = Math.floor(time.time_spent / 86400)
+						const hours = Math.floor((time.time_spent % 86400) / 3600)
+						const minutes = Math.floor(((time.time_spent % 86400) % 3600) / 60)
 						return (
 							<tr key={time.user.userId} className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-background-medium" : "bg-background-light"}`}>
 								<td className="text-right pr-[1rem]">
@@ -54,7 +55,11 @@ const Times: React.FC<defaultProps> = ({}) => {
 										<div>{time.user.displayName}</div>
 									</div>
 								</td>
-								<td>{time.time_spent > 3599 ? hours + "h " + minutes + "m " : minutes + "m "}</td>
+								<td>{
+									time.time_spent > 86400 ? `${days}d ${hours}h ${minutes}m` 
+									: time.time_spent > 3600 ? `${hours}h ${minutes}m` 
+									: `${minutes}m`
+								}</td>
 							</tr>
 						)
 					})}
