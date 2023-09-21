@@ -55,11 +55,15 @@ const Times: React.FC<defaultProps> = ({}) => {
 										<div>{time.user.displayName}</div>
 									</div>
 								</td>
-								<td>{
-									time.time_spent > 86400 ? `${days}d ${hours}h ${minutes}m` 
-									: time.time_spent > 3600 ? `${hours}h ${minutes}m` 
-									: `${minutes}m`
-								}</td>
+								<td>
+									{
+										time.time_spent > 86400 ? `${days}d ${hours}h ${minutes}m` 
+										: time.time_spent > 3600 ? `${hours}h ${minutes}m` 
+										: `${minutes}m`
+									}{
+										time.time_spent > 86400 ? ` (${days * 24 + hours}h)` : ""
+									}
+								</td>
 							</tr>
 						)
 					})}
