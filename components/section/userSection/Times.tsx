@@ -61,7 +61,7 @@ const Times: React.FC<defaultProps> = ({}) => {
 										: time.time_spent > 3600 ? `${hours}h ${minutes}m` 
 										: `${minutes}m`
 									}{
-										time.time_spent > 86400 ? ` (${days * 24 + hours}h)` : ""
+										time.time_spent > 86400 ? <><br /><p className="text-gray-400">{`${days * 24 + hours}h ${minutes}m`}</p></> : ""
 									}
 								</td>
 							</tr>
