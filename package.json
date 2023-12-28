@@ -6,7 +6,7 @@
 		"dev": "next dev",
 		"prettier": "prettier --write .",
 		"build": "next build",
-		"start": "next start",
+		"start": "node server.js",
 		"lint": "next lint"
 	},
 	"dependencies": {
@@ -28,7 +28,6 @@
 		"@supabase/supabase-js": "^2.21.0",
 		"@tanstack/react-query": "^4.29.3",
 		"@tanstack/react-query-devtools": "^4.29.3",
-		"@types/node": "18.15.11",
 		"@types/react": "18.0.37",
 		"@types/react-dom": "18.0.11",
 		"autoprefixer": "10.4.14",
@@ -54,6 +53,7 @@
 		"typescript": "5.0.4"
 	},
 	"devDependencies": {
+		"@types/node": "^20.10.5",
 		"@types/react-lazy-load-image-component": "^1.5.3",
 		"@typescript-eslint/eslint-plugin": "^5.59.0",
 		"@typescript-eslint/parser": "^5.59.0",
