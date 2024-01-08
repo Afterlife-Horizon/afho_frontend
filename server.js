@@ -1,8 +1,10 @@
 const next = require("next")
 
+var sslRootCAs = require("ssl-root-cas")
+
 // note the "https" not "http" required module. You will get an error if trying to connect with https
 const https = require("https")
-
+const http = require("http")
 const fs = require("fs")
 
 const hostname = "localhost"
@@ -16,11 +18,19 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
 	let server
 	if (process.env.CERT && process.env.CERT_KEY) {
-		const sslOptions = {
-			key: fs.readFileSync(process.env.CERT_KEY || ""),
-			cert: fs.readFileSync(process.env.CERT || "")
+		let cas = sslRootCAs.create()
+		if (process.env.CA_CERT) cas.addFile(process.env.CA_CERT)
+
+		const hostname = "local.afterlifehorizon.net"
+
+		const tlsContext = {
+			key: fs.readFileSync(process.env.CERT_KEY),
+			cert: fs.readFileSync(process.env.CERT),
+			ca: cas,
+			servername: hostname
 		}
-		server = https.createServer(sslOptions, (req, res) => {
+
+		server = https.createServer(tlsContext, (req, res) => {
 			return handle(req, res)
 		})
 	} else
@@ -28,6 +38,6 @@ app.prepare().then(() => {
 			return handle(req, res)
 		})
 	server.listen(port, () => {
-		console.log("> Ready on https://localhost:" + port)
+		console.log("> Ready on https://local.afterlifehorizon.net")
 	})
 })
