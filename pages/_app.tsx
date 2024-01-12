@@ -11,7 +11,7 @@ const theme = createTheme({
 		MuiAutocomplete: {
 			styleOverrides: {
 				option: {
-					color: "#ffffff",
+					color: "#ffffff"
 				},
 				popper: {
 					backgroundColor: "#2d2d2d",
@@ -30,7 +30,7 @@ const theme = createTheme({
 							borderBottom: "1px solid",
 							borderBottomColor: "var(--twc-accent-dark) !important"
 						}
-					},
+					}
 				}
 			}
 		},
@@ -85,7 +85,7 @@ export default function App({ Component, pageProps }: AppProps) {
 					<Component {...pageProps} />
 				</ThemeProvider>
 			</ToastProvider>
-			<ReactQueryDevtools initialIsOpen={false} />
+			{process.env.NEXT_PUBLIC_NODE_ENV === "production" ? null : <ReactQueryDevtools initialIsOpen={false} />}
 		</QueryClientProvider>
 	)
 }
