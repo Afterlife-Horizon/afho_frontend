@@ -29,7 +29,7 @@ const Home: NextPage = () => {
 
 	if (isLoading)
 		return (
-			<div className="h-[100vh]">
+			<div className="h-[100dvh]">
 				<Spinner size={windowSize.width ? windowSize.width / 10 : 150} />
 			</div>
 		)
@@ -38,7 +38,7 @@ const Home: NextPage = () => {
 
 	if (isFetchingInfo)
 		return (
-			<div className="h-[100vh]">
+			<div className="h-[100dvh]">
 				<Spinner size={windowSize.width ? windowSize.width / 10 : 150} />
 			</div>
 		)
@@ -63,12 +63,14 @@ const Home: NextPage = () => {
 	}
 
 	return (
-		<main className={`theme-${theme} w-full grid gap-5 p-[1rem] mb-[3rem] xl:mb-0 xl:grid-cols-2 xl:h-[100vh] xl:max-h-[100vh] bg-background-dark`}>
-			<div className={`grid gap-5 grid-flow-row grid-rows-[20rem_1fr] xl:max-h-[calc(100vh-2rem)]`}>
+		<main
+			className={`theme-${theme} mb-[3rem] grid w-full gap-5 bg-background-dark p-[1rem] xl:mb-0 xl:h-[100dvh] xl:max-h-[100dvh] xl:grid-cols-2`}
+		>
+			<div className={`grid grid-flow-row grid-rows-[20rem_1fr] gap-5 xl:max-h-[calc(100dvh-2rem)]`}>
 				<Player {...props} />
 				<MusicSection {...props} />
 			</div>
-			<div className={`w-full max-h-[calc(100vh-2rem)]`}>
+			<div className={`max-h-[calc(100dvh-2rem)] w-full`}>
 				<UserSection {...props} theme={theme} setTheme={setTheme} />
 			</div>
 			<Toast className="flex flex-col items-start" variant={toastVariant} open={toastOpen} onOpenChange={setToastOpen}>

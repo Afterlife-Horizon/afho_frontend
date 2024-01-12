@@ -13,7 +13,7 @@ const Times: React.FC<defaultProps> = ({}) => {
 
 	if (isLoading)
 		return (
-			<div className="h-[calc(100vh-2rem-10rem-4rem)]">
+			<div className="h-[calc(100dvh-2rem-10rem-4rem)]">
 				<Spinner size={150} />
 			</div>
 		)
@@ -22,11 +22,11 @@ const Times: React.FC<defaultProps> = ({}) => {
 	const filteredTimes = times.filter(time => time.user && time.user.displayAvatarURL)
 
 	return (
-		<ScrollDiv className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-4rem)]">
+		<ScrollDiv className="flex max-h-[calc(100dvh-2rem-10rem-4rem)] flex-col gap-3 rounded-b-lg">
 			<table className="w-full p-[5rem]">
 				<thead>
-					<tr className="[&>*]:px-[0.5rem] bg-background-light sticky top-0 z-10">
-						<th className="text-right mt-0 ">Rank</th>
+					<tr className="sticky top-0 z-10 bg-background-light [&>*]:px-[0.5rem]">
+						<th className="mt-0 text-right ">Rank</th>
 						<th className="text-start">Username</th>
 						<th className="text-start">Time spent</th>
 					</tr>
@@ -37,13 +37,16 @@ const Times: React.FC<defaultProps> = ({}) => {
 						const hours = Math.floor((time.time_spent % 86400) / 3600)
 						const minutes = Math.floor(((time.time_spent % 86400) % 3600) / 60)
 						return (
-							<tr key={time.user.userId} className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-background-medium" : "bg-background-light"}`}>
-								<td className="text-right pr-[1rem]">
+							<tr
+								key={time.user.userId}
+								className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-background-medium" : "bg-background-light"}`}
+							>
+								<td className="pr-[1rem] text-right">
 									{index + 1}
 									{parseRank(index + 1)}
 								</td>
 								<td>
-									<div className="flex flex-row items-center gap-5 w-full h-full">
+									<div className="flex h-full w-full flex-row items-center gap-5">
 										{time.user.displayAvatarURL ? (
 											<Avatar>
 												<AvatarImage className="select-none" draggable={false} src={time.user.displayAvatarURL} />
@@ -56,13 +59,19 @@ const Times: React.FC<defaultProps> = ({}) => {
 									</div>
 								</td>
 								<td>
-									{
-										time.time_spent > 86400 ? `${days}d ${hours}h ${minutes}m` 
-										: time.time_spent > 3600 ? `${hours}h ${minutes}m` 
-										: `${minutes}m`
-									}{
-										time.time_spent > 86400 ? <><br /><p className="text-gray-400">{`${days * 24 + hours}h ${minutes}m`}</p></> : ""
-									}
+									{time.time_spent > 86400
+										? `${days}d ${hours}h ${minutes}m`
+										: time.time_spent > 3600
+										? `${hours}h ${minutes}m`
+										: `${minutes}m`}
+									{time.time_spent > 86400 ? (
+										<>
+											<br />
+											<p className="text-gray-400">{`${days * 24 + hours}h ${minutes}m`}</p>
+										</>
+									) : (
+										""
+									)}
 								</td>
 							</tr>
 						)

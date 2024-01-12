@@ -8,7 +8,8 @@ type fav = {
 	date_added: string
 }
 
-type effects = {
+type Effects = {
+	speed: number
 	bassboost: number
 	subboost: boolean
 	mcompand: boolean
@@ -23,7 +24,6 @@ type effects = {
 	nightcore: boolean
 	phaser: boolean
 	normalizer: boolean
-	speed: number
 	tremolo: boolean
 	vibrato: boolean
 	reverse: boolean

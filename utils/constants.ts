@@ -1,0 +1,21 @@
+export const baseFilters = {
+	bassboost: 0,
+	speed: 1,
+	subboost: false,
+	treble: false,
+	reverse: false,
+	nightcore: false,
+	mcompand: false,
+	haas: false,
+	gate: false,
+	karaoke: false,
+	flanger: false,
+	pulsator: false,
+	surrounding: false,
+	"3d": false,
+	vaporwave: false,
+	phaser: false,
+	normalizer: false,
+	tremolo: false,
+	vibrato: false
+}

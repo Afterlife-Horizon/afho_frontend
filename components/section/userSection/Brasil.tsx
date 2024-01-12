@@ -18,7 +18,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 
 	if (isLoading || isLoadingConnectedMembers)
 		return (
-			<div className="h-[calc(100vh-2rem-10rem-4rem)]">
+			<div className="h-[calc(100dvh-2rem-10rem-4rem)]">
 				<Spinner size={150} />
 			</div>
 		)
@@ -76,7 +76,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 
 	return (
 		<div className="grid grid-rows-[5rem_1fr]">
-			<div className="flex flex-row gap-3 p-3 justify-between">
+			<div className="flex flex-row justify-between gap-3 p-3">
 				<Autocomplete
 					className="w-[78%]"
 					disableClearable
@@ -89,15 +89,15 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 					renderInput={params => <TextField className="h-[4rem] text-dark" {...params} variant="filled" label="Member" />}
 				/>
 
-				<Button className="w-[30%] h-[3.3rem] bg-accent-dark hover:bg-accent-light" onClick={handleBresilClicked}>
+				<Button className="h-[3.3rem] w-[30%] bg-accent-dark hover:bg-accent-light" onClick={handleBresilClicked}>
 					{isMoving ? <Spinner size={30} /> : "Bresil"}
 				</Button>
 			</div>
-			<ScrollDiv className="flex flex-col gap-3 rounded-b-lg max-h-[calc(100vh-2rem-10rem-9rem)]">
+			<ScrollDiv className="flex max-h-[calc(100dvh-2rem-10rem-9rem)] flex-col gap-3 rounded-b-lg">
 				<table className="w-full p-[5rem]">
 					<thead>
-						<tr className="[&>*]:px-[0.5rem] bg-background-light sticky top-0 z-10">
-							<th className="text-right mt-0 ">Rank</th>
+						<tr className="sticky top-0 z-10 bg-background-light [&>*]:px-[0.5rem]">
+							<th className="mt-0 text-right ">Rank</th>
 							<th className="text-start">Username</th>
 							<th className="text-start">Count</th>
 							<th className="text-start">Given</th>
@@ -105,13 +105,16 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 					</thead>
 					<tbody>
 						{filteredBrasils.map((brasil, index) => (
-							<tr key={brasil.user.userId} className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-background-medium" : "bg-background-light"}`}>
-								<td className="text-right pr-[1rem]">
+							<tr
+								key={brasil.user.userId}
+								className={`h-[4rem] font-medium ${index % 2 == 0 ? "bg-background-medium" : "bg-background-light"}`}
+							>
+								<td className="pr-[1rem] text-right">
 									{index + 1}
 									{parseRank(index + 1)}
 								</td>
 								<td>
-									<div className="flex flex-row items-center gap-5 w-full h-full">
+									<div className="flex h-full w-full flex-row items-center gap-5">
 										{brasil.user.displayAvatarURL ? (
 											<Avatar>
 												<AvatarImage className="select-none" draggable={false} src={brasil.user.displayAvatarURL} />

@@ -3,27 +3,33 @@ import { Button } from "../ui/button"
 import React, { useEffect, useState } from "react"
 import { Progress } from "../ui/progress"
 import { Pause, Play, PowerOffIcon, SkipForwardIcon, X } from "lucide-react"
-import axios, { AxiosError } from "axios"
-import { supabase } from "@/utils/supabaseUtils"
 import Spinner from "../ui/Spinner"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
-import createYTLinkFromId from "@/functions/createYTLinkFromId"
+import { createYTLinkFromId } from "@/functions/createYTLinkFromId"
 import ytThumbnailLink from "@/functions/ytThumbnailLink"
 import { defaultProps } from "@/types"
+import usePlayerHandler from "@/hooks/handlers/usePlayerHandler"
 
-const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColor, setToastDescription, setToastOpen, setToastTitle }) => {
+const Player: React.FC<defaultProps> = props => {
+	const { fetchInfo, isAdmin } = props
 	const [playerInfoClasses, setPlayerInfoClasses] = useState<string>("hidden row-start-1 col-start-1 h-auto p-[1.5rem]")
-	const [isPausing, setIsPausing] = useState<boolean>(false)
-	const [isSkipping, setIsSkipping] = useState<boolean>(false)
-	const [isLeaving, setIsLeaving] = useState<boolean>(false)
-	const [isStopping, setIsStopping] = useState<boolean>(false)
 	const [usingFallback, setUsingFallback] = useState(false)
-	const queue = fetchInfo.queue[0]?.tracks || []
-	const id = queue[0]?.id
+	const {
+		isPausing,
+		isSkipping,
+		isLeaving,
+		isStopping,
+		queue,
+		currentSongId,
+		handleNextClicked,
+		handlePauseClicked,
+		handleStopClicked,
+		handleDisconnectClicked
+	} = usePlayerHandler(props)
 
 	useEffect(() => {
 		setUsingFallback(false)
-	}, [id])
+	}, [currentSongId])
 
 	function handleMouseEnter() {
 		setPlayerInfoClasses(prev => prev.replace("hidden", "grid"))
@@ -33,190 +39,16 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 		setPlayerInfoClasses(prev => prev.replace("grid", "hidden"))
 	}
 
-	async function handleNextClicked(_event: React.MouseEvent<HTMLButtonElement>) {
-		setIsSkipping(true)
-
-		if (!queue || queue.length < 2) {
-			setIsSkipping(false)
-			setToastOpen(true)
-			setToastTitle(``)
-			setToastDescription("No song to skip to!")
-			setToastColor("inform")
-			return
-		}
-		await axios
-			.post(
-				"/api/skip",
-				{
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
-				},
-				{
-					headers: { "Content-Type": "application/json" }
-				}
-			)
-			.then(() => {
-				setIsSkipping(false)
-			})
-			.catch((err: AxiosError) => {
-				const data = err.response?.data as { error: string }
-				setToastOpen(true)
-				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`)
-				setToastDescription(data.error)
-				setToastColor("destructive")
-				setIsSkipping(false)
-			})
-	}
-
-	async function handlePauseClicked(_event: React.MouseEvent<HTMLButtonElement>) {
-		setIsPausing(true)
-
-		if (!queue || queue.length < 1) {
-			setIsPausing(false)
-			setToastOpen(true)
-			setToastTitle(``)
-			setToastDescription("No song to pause!")
-			setToastColor("inform")
-			return
-		}
-
-		if (fetchInfo.queue[0].paused) {
-			await axios
-				.post(
-					"/api/unpause",
-					{
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
-					},
-					{
-						headers: { "Content-Type": "application/json" }
-					}
-				)
-				.then(() => {
-					setIsPausing(false)
-				})
-				.catch((err: AxiosError) => {
-					const data = err.response?.data as { error: string }
-					setToastOpen(true)
-					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`)
-					setToastDescription(data.error)
-					setToastColor("destructive")
-					setIsPausing(false)
-				})
-		} else {
-			await axios
-				.post(
-					"/api/pause",
-					{
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
-					},
-					{
-						headers: { "Content-Type": "application/json" }
-					}
-				)
-				.then(() => {
-					setIsPausing(false)
-				})
-				.catch((err: AxiosError) => {
-					const data = err.response?.data as { error: string }
-					setToastOpen(true)
-					setToastTitle(`${err.response?.status} - ${err.response?.statusText}`)
-					setToastDescription(data.error)
-					setToastColor("destructive")
-					setIsPausing(false)
-				})
-		}
-	}
-
-	async function handleStopClicked(_event: React.MouseEvent<HTMLButtonElement>) {
-		setIsStopping(true)
-
-		if (!isAdmin) {
-			setIsStopping(false)
-			setToastOpen(true)
-			setToastTitle(``)
-			setToastDescription("You need to be admin!")
-			setToastColor("inform")
-			return
-		}
-
-		if (!queue || queue.length < 1) {
-			setIsStopping(false)
-			setToastOpen(true)
-			setToastTitle(``)
-			setToastDescription("No song to stop!")
-			setToastColor("inform")
-			return
-		}
-
-		await axios
-			.post(
-				"/api/stop",
-				{
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
-				},
-				{
-					headers: { "Content-Type": "application/json" }
-				}
-			)
-			.then(() => {
-				setIsStopping(false)
-			})
-			.catch((err: AxiosError) => {
-				const data = err.response?.data as { error: string }
-				setToastOpen(true)
-				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`)
-				setToastDescription(data.error)
-				setToastColor("destructive")
-				setIsStopping(false)
-			})
-	}
-
-	async function handleDisconnectClicked(_event: React.MouseEvent<HTMLButtonElement>) {
-		if (isLeaving) return
-		setIsLeaving(true)
-
-		if (!isAdmin) {
-			setIsLeaving(false)
-			setToastOpen(true)
-			setToastTitle(``)
-			setToastDescription("You need to be admin!")
-			setToastColor("inform")
-			return
-		}
-
-		await axios
-			.post(
-				"/api/disconnect",
-				{
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
-				},
-				{
-					headers: { "Content-Type": "application/json" }
-				}
-			)
-			.then(() => {
-				setIsLeaving(false)
-			})
-			.catch((err: AxiosError) => {
-				const data = err.response?.data as { error: string }
-				setToastOpen(true)
-				setToastTitle(`${err.response?.status} - ${err.response?.statusText}`)
-				setToastDescription(data.error)
-				setToastColor("destructive")
-				setIsLeaving(false)
-			})
-	}
 	return (
 		<section
-			className={`bg-background-medium rounded-lg grid h-[100%] w-full xl:w-auto mx-auto shadow hover:scale-[1.02] [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]`}
+			className={`mx-auto grid h-[100%] w-full rounded-lg bg-background-medium shadow hover:scale-[1.02] xl:w-auto [&:hover>img]:blur-[5px] [&:hover>img]:brightness-[0.5]`}
 			onMouseEnter={() => handleMouseEnter()}
 			onMouseLeave={() => handleMouseLeave()}
 		>
 			<Image
-				className="row-start-1 rounded-lg col-start-1 select-none h-[100%] overflow-hidden object-cover"
+				className="col-start-1 row-start-1 h-[100%] select-none overflow-hidden rounded-lg object-cover"
 				priority
-				src={
-					usingFallback ? fetchInfo.queue[0]?.tracks[0]?.thumbnail.url : ytThumbnailLink(fetchInfo.queue[0]?.tracks[0]?.id, "maxresdefault")
-				}
+				src={usingFallback ? queue[0]?.thumbnail.url : ytThumbnailLink(queue[0]?.id, "maxresdefault")}
 				onError={() => setUsingFallback(true)}
 				width={1920}
 				height={1080}
@@ -224,83 +56,118 @@ const Player: React.FC<defaultProps> = ({ user, fetchInfo, isAdmin, setToastColo
 			/>
 			<div className={playerInfoClasses} style={{ zIndex: 1 }}>
 				<div className="text-dark">
-					<a className="text-blue-400 hover:text-blue-600" href={createYTLinkFromId(fetchInfo.queue[0]?.tracks[0]?.id)}>
-						{fetchInfo.queue[0]?.tracks[0]
-							? `${fetchInfo.queue[0]?.tracks[0]?.channel.name} - ${fetchInfo.queue[0]?.tracks[0]?.title}`
-							: ""}
+					<a className="text-blue-400 hover:text-blue-600" href={createYTLinkFromId(queue[0]?.id)}>
+						{queue[0] ? `${queue[0]?.channel.name} - ${queue[0]?.title}` : ""}
 					</a>
 					<div className="invert-0">
-						{fetchInfo.queue[0]?.tracks[0]
-							? `Requested by: ${
-									fetchInfo.queue[0]?.tracks[0]?.requester.username ? fetchInfo.queue[0]?.tracks[0]?.requester.username : "None"
-							  }`
-							: ""}
+						{queue[0] ? `Requested by: ${queue[0]?.requester.username ? queue[0]?.requester.username : "None"}` : ""}
 					</div>
 				</div>
 				<div className="self-end">
-					<div className="flex gap-2 select-none">
-						{isAdmin ? (
-							<>
-								<HoverCard openDelay={150} closeDelay={50}>
-									<HoverCardTrigger>
-										<Button
-											className="rounded-full bg-accent-dark hover:bg-accent-light hover:scale-105 active:scale-95"
-											onClick={handleDisconnectClicked}
-										>
-											{isLeaving ? <Spinner size={20} /> : <PowerOffIcon />}
-										</Button>
-									</HoverCardTrigger>
-									<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Disconnect</HoverCardContent>
-								</HoverCard>
-								<HoverCard openDelay={150} closeDelay={50}>
-									<HoverCardTrigger>
-										<Button
-											className="rounded-full bg-accent-dark hover:bg-accent-light  hover:scale-105 active:scale-95"
-											onClick={handleStopClicked}
-										>
-											{isStopping ? <Spinner size={20} /> : <X />}
-										</Button>
-									</HoverCardTrigger>
-									<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Stop and clear queue</HoverCardContent>
-								</HoverCard>
-							</>
-						) : null}
-						<HoverCard openDelay={150} closeDelay={50}>
-							<HoverCardTrigger>
-								<Button
-									className="rounded-full bg-accent-dark hover:bg-accent-light  hover:scale-105 active:scale-95"
-									onClick={handlePauseClicked}
-								>
-									{isPausing ? <Spinner size={20} /> : fetchInfo.queue[0]?.paused ? <Play /> : <Pause />}
-								</Button>
-							</HoverCardTrigger>
-							<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">{isPausing ? "Play" : "Pause"}</HoverCardContent>
-						</HoverCard>
-
-						<HoverCard openDelay={150} closeDelay={50}>
-							<HoverCardTrigger>
-								<Button
-									className="rounded-full bg-accent-dark hover:bg-accent-light  hover:scale-105 active:scale-95"
-									onClick={handleNextClicked}
-								>
-									{isSkipping ? <Spinner size={20} /> : <SkipForwardIcon />}
-								</Button>
-							</HoverCardTrigger>
-							<HoverCardContent className="bg-background-medium text-dark p-2 w-auto">Skip current song</HoverCardContent>
-						</HoverCard>
+					<div className="flex select-none gap-2">
+						<AdminButtons
+							isAdmin={isAdmin}
+							isLeaving={isLeaving}
+							isStopping={isStopping}
+							handleDisconnectClicked={handleDisconnectClicked}
+							handleStopClicked={handleStopClicked}
+						/>
+						<UserButtons
+							isPaused={fetchInfo.queue[0]?.paused}
+							isPausing={isPausing}
+							isSkipping={isSkipping}
+							handlePauseClicked={handlePauseClicked}
+							handleNextClicked={handleNextClicked}
+						/>
 					</div>
-					<Progress
-						className="mt-2 h-[0.2rem]"
-						value={fetchInfo.queue[0]?.tracks[0] ? Math.floor(100 * (fetchInfo.prog / fetchInfo.queue[0]?.tracks[0].duration)) : 0}
-					/>
-					<div className="text-dark">
-						{fetchInfo.queue[0]?.tracks[0]
-							? `${fetchInfo.formatedprog} / ${fetchInfo.queue[0]?.tracks[0].durationFormatted}`
-							: "00:00 / 00:00"}
-					</div>
+					<Progress className="mt-2 h-[0.2rem]" value={queue[0] ? Math.floor(100 * (fetchInfo.prog / queue[0].duration)) : 0} />
+					<div className="text-dark">{queue[0] ? `${fetchInfo.formatedprog} / ${queue[0].durationFormatted}` : "00:00 / 00:00"}</div>
 				</div>
 			</div>
 		</section>
+	)
+}
+
+const AdminButtons = ({
+	isAdmin,
+	isLeaving,
+	isStopping,
+	handleDisconnectClicked,
+	handleStopClicked
+}: {
+	isAdmin: boolean
+	isLeaving: boolean
+	isStopping: boolean
+	handleDisconnectClicked: (_event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>
+	handleStopClicked: (_event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>
+}) => {
+	if (!isAdmin) return null
+	return (
+		<>
+			<HoverCard openDelay={150} closeDelay={50}>
+				<HoverCardTrigger>
+					<Button
+						className="rounded-full bg-accent-dark hover:scale-105 hover:bg-accent-light active:scale-95"
+						onClick={handleDisconnectClicked}
+					>
+						{isLeaving ? <Spinner size={20} /> : <PowerOffIcon />}
+					</Button>
+				</HoverCardTrigger>
+				<HoverCardContent className="w-auto bg-background-medium p-2 text-dark">Disconnect</HoverCardContent>
+			</HoverCard>
+			<HoverCard openDelay={150} closeDelay={50}>
+				<HoverCardTrigger>
+					<Button
+						className="rounded-full bg-accent-dark hover:scale-105  hover:bg-accent-light active:scale-95"
+						onClick={handleStopClicked}
+					>
+						{isStopping ? <Spinner size={20} /> : <X />}
+					</Button>
+				</HoverCardTrigger>
+				<HoverCardContent className="w-auto bg-background-medium p-2 text-dark">Stop and clear queue</HoverCardContent>
+			</HoverCard>
+		</>
+	)
+}
+
+const UserButtons = ({
+	isPaused,
+	isSkipping,
+	isPausing,
+	handlePauseClicked,
+	handleNextClicked
+}: {
+	isPaused: boolean
+	isPausing: boolean
+	isSkipping: boolean
+	handlePauseClicked: (_event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>
+	handleNextClicked: (_event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => Promise<void>
+}) => {
+	return (
+		<>
+			<HoverCard openDelay={150} closeDelay={50}>
+				<HoverCardTrigger>
+					<Button
+						className="rounded-full bg-accent-dark hover:scale-105  hover:bg-accent-light active:scale-95"
+						onClick={handlePauseClicked}
+					>
+						{isPausing ? <Spinner size={20} /> : isPaused ? <Play /> : <Pause />}
+					</Button>
+				</HoverCardTrigger>
+				<HoverCardContent className="w-auto bg-background-medium p-2 text-dark">{isPausing ? "Play" : "Pause"}</HoverCardContent>
+			</HoverCard>
+			<HoverCard openDelay={150} closeDelay={50}>
+				<HoverCardTrigger>
+					<Button
+						className="rounded-full bg-accent-dark hover:scale-105  hover:bg-accent-light active:scale-95"
+						onClick={handleNextClicked}
+					>
+						{isSkipping ? <Spinner size={20} /> : <SkipForwardIcon />}
+					</Button>
+				</HoverCardTrigger>
+				<HoverCardContent className="w-auto bg-background-medium p-2 text-dark">Skip current song</HoverCardContent>
+			</HoverCard>
+		</>
 	)
 }
 
