@@ -26,12 +26,12 @@ const useFavoritesHandler = (props: defaultProps) => {
 			.post(
 				"/api/addFav",
 				{
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token,
 					url: favField
 				},
 				{
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
+						Authorization: (await supabase.auth.getSession()).data?.session?.access_token
 					}
 				}
 			)
@@ -64,8 +64,7 @@ const useFavoritesHandler = (props: defaultProps) => {
 			.delete("/api/delFav", {
 				data: {
 					userId,
-					id,
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
+					id
 				},
 				headers: {
 					"Content-Type": "application/json"
@@ -106,12 +105,12 @@ const useFavoritesHandler = (props: defaultProps) => {
 			.post(
 				"/api/play",
 				{
-					songs: fav.url,
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
+					songs: fav.url
 				},
 				{
 					headers: {
-						"Content-Type": "application/json"
+						"Content-Type": "application/json",
+						Authorization: (await supabase.auth.getSession()).data?.session?.access_token
 					}
 				}
 			)

@@ -24,14 +24,16 @@ const usePlayerHandler = (props: defaultProps) => {
 			setToastColor("inform")
 			return
 		}
+
 		await axios
 			.post(
 				"/api/skip",
+				{},
 				{
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
-				},
-				{
-					headers: { "Content-Type": "application/json" }
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+					}
 				}
 			)
 			.then(() => {
@@ -63,11 +65,12 @@ const usePlayerHandler = (props: defaultProps) => {
 			await axios
 				.post(
 					"/api/unpause",
+					{},
 					{
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
-					},
-					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {
@@ -85,11 +88,12 @@ const usePlayerHandler = (props: defaultProps) => {
 			await axios
 				.post(
 					"/api/pause",
+					{},
 					{
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
-					},
-					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {
@@ -130,11 +134,12 @@ const usePlayerHandler = (props: defaultProps) => {
 		await axios
 			.post(
 				"/api/stop",
+				{},
 				{
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
-				},
-				{
-					headers: { "Content-Type": "application/json" }
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+					}
 				}
 			)
 			.then(() => {
@@ -166,11 +171,12 @@ const usePlayerHandler = (props: defaultProps) => {
 		await axios
 			.post(
 				"/api/disconnect",
+				{},
 				{
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
-				},
-				{
-					headers: { "Content-Type": "application/json" }
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+					}
 				}
 			)
 			.then(() => {

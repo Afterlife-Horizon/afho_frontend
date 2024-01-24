@@ -31,23 +31,13 @@ type Effects = {
 }
 
 type track = {
-	channel: channel
-	description: any
+	author: string
 	duration: number
 	durationFormatted: string
 	id: string
-	likes: number
-	live: boolean
-	nsfw: string
-	private: boolean
-	requester: discordUser
-	thumbnail: thumbnail
+	requester: string
+	thumbnail: string
 	title: string
-	shorts: boolean
-	tags: string[]
-	unlisted: boolean
-	uploadedAt: string
-	views: number
 }
 
 type channel = {
@@ -68,11 +58,8 @@ type thumbnail = {
 }
 
 type queueItem = {
-	[x: number]: number
-	bitrate: number
-	creator: String
-	effects: effects
-	filtersChanged: boolean
+	[x: number]: Number
+	effects: Effects
 	paused: boolean
 	queueloop: boolean
 	skipped: boolean
@@ -83,10 +70,7 @@ type queueItem = {
 }
 
 interface IFetchData {
-	admins: {
-		admins: admin[]
-		usernames: string[]
-	}
+	admins: string[]
 	formatedprog: string
 	prog: number
 	queue: queueItem[]

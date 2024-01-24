@@ -10,6 +10,7 @@ import useWindowSize from "@/hooks/useWindowSize"
 import type { NextPage } from "next"
 import MusicSection from "@/components/section/MusicSection"
 import { defaultProps } from "@/types"
+import { Drawer } from "@/components/ui/drawer"
 
 const Home: NextPage = () => {
 	const [toastOpen, setToastOpen] = useState(false)
@@ -50,7 +51,7 @@ const Home: NextPage = () => {
 		return <div>{fetchingInfoError.message}</div>
 	}
 
-	const isAdmin = fetchInfo?.admins.usernames.includes(apiUser.user_metadata.full_name)
+	const isAdmin = fetchInfo?.admins.includes(apiUser.user_metadata.full_name)
 
 	const props: defaultProps = {
 		user: apiUser,

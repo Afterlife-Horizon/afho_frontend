@@ -35,11 +35,13 @@ const useQueueHandler = (props: defaultProps) => {
 				.post(
 					"/api/play",
 					{
-						songs: searchInput,
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
+						songs: searchInput
 					},
 					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {
@@ -75,11 +77,13 @@ const useQueueHandler = (props: defaultProps) => {
 				.post(
 					"/api/playfirst",
 					{
-						songs: searchInput,
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
+						songs: searchInput
 					},
 					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {
@@ -113,9 +117,16 @@ const useQueueHandler = (props: defaultProps) => {
 		async function shuffleSongs() {
 			const url = "/api/shuffle"
 			await axios
-				.post(url, {
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
-				})
+				.post(
+					url,
+					{},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
+					}
+				)
 				.then(() => {
 					setIsShuffling(false)
 				})
@@ -146,9 +157,16 @@ const useQueueHandler = (props: defaultProps) => {
 		async function clearSongs() {
 			const url = "/api/clearqueue"
 			await axios
-				.post(url, {
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
-				})
+				.post(
+					url,
+					{},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
+					}
+				)
 				.then(() => {
 					setIsClearing(false)
 				})
@@ -189,11 +207,13 @@ const useQueueHandler = (props: defaultProps) => {
 				.post(
 					url,
 					{
-						queuePos: id,
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
+						queuePos: id
 					},
 					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {
@@ -247,11 +267,13 @@ const useQueueHandler = (props: defaultProps) => {
 				.post(
 					"/api/skipto",
 					{
-						queuePos: id,
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
+						queuePos: id
 					},
 					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {
