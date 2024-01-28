@@ -3,7 +3,23 @@ const nextConfig = {
 	reactStrictMode: true,
 	images: {
 		minimumCacheTTL: 60,
-		domains: ["via.placeholder.com", "cdn.tosavealife.com", "i.ytimg.com", "img.youtube.com", "cdn.discordapp.com"]
+		remotePatterns: [
+			{
+				hostname: "cdn.tosavealife.com"
+			},
+			{
+				hostname: "via.placeholder.com"
+			},
+			{
+				hostname: "i.ytimg.com"
+			},
+			{
+				hostname: "img.youtube.com"
+			},
+			{
+				hostname: "cdn.discordapp.com"
+			}
+		]
 	},
 	crossOrigin: "anonymous",
 	async rewrites() {
@@ -34,10 +50,6 @@ const nextConfig = {
 					{
 						key: "Access-Control-Allow-Credentials",
 						value: "true"
-					},
-					{
-						key: "rejectUnauthorized",
-						value: "false"
 					}
 				]
 			}

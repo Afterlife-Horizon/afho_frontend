@@ -14,8 +14,8 @@ import { Drawer } from "@/components/ui/drawer"
 
 const Home: NextPage = () => {
 	const [toastOpen, setToastOpen] = useState(false)
-	const [toastTitle, setToastTitle] = useState("test")
-	const [toastDescription, setToastDescription] = useState("testtest")
+	const [toastTitle, setToastTitle] = useState("")
+	const [toastDescription, setToastDescription] = useState("")
 	const [toastVariant, setToastVariant] = useState<"default" | "destructive" | "inform">("default")
 	const [theme, setTheme] = useState("default")
 	const router = useRouter()

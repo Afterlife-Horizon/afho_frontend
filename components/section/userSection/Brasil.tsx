@@ -25,9 +25,9 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 		)
 	if (error) return <div>Error: {error.message}</div>
 	if (errorConnectedMembers) return <div>Error: {errorConnectedMembers.message}</div>
-	if (!brasils) return <div></div>
+	if (brasils === undefined) return <div></div>
 
-	const filteredBrasils = brasils.filter(brasil => brasil.user && brasil.user.displayAvatarURL)
+	let filteredBrasils = brasils === null ? [] : brasils.filter(brasil => brasil.user && brasil.user.displayAvatarURL)
 
 	const memberNames = connectedMembers ? connectedMembers.map(m => m.username) : []
 
@@ -37,6 +37,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 
 	function handleChangeCurrentPlayer(_event: any, values: any) {
 		setCurrentPlayer(values)
+		console.log(currentPlayer)
 	}
 
 	function handleBresilClicked() {
@@ -66,6 +67,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 		}
 
 		const movedMemberId = connectedMembers?.find(m => m.username === currentPlayer)?.id
+		console.log(currentPlayer, movedMemberId, connectedMembers, currentPlayer === "" || !movedMemberId)
 		if (currentPlayer === "" || !movedMemberId) {
 			setToastOpen(true)
 			setToastTitle("")

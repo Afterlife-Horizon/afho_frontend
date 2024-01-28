@@ -24,7 +24,7 @@ const useFavoritesHandler = (props: defaultProps) => {
 		setIsAdding(true)
 		await axios
 			.post(
-				"/api/addFav",
+				"/api/music/addFav",
 				{
 					url: favField
 				},
@@ -61,7 +61,7 @@ const useFavoritesHandler = (props: defaultProps) => {
 		})
 
 		await axios
-			.delete("/api/delFav", {
+			.delete("/api/music/delFav", {
 				data: {
 					userId,
 					id
@@ -103,7 +103,7 @@ const useFavoritesHandler = (props: defaultProps) => {
 
 		await axios
 			.post(
-				"/api/play",
+				"/api/music/play",
 				{
 					songs: fav.url
 				},

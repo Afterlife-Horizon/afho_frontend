@@ -27,7 +27,7 @@ const usePlayerHandler = (props: defaultProps) => {
 
 		await axios
 			.post(
-				"/api/skip",
+				"/api/music/skip",
 				{},
 				{
 					headers: {
@@ -64,7 +64,7 @@ const usePlayerHandler = (props: defaultProps) => {
 		if (fetchInfo.queue[0].paused) {
 			await axios
 				.post(
-					"/api/unpause",
+					"/api/music/unpause",
 					{},
 					{
 						headers: {
@@ -133,7 +133,7 @@ const usePlayerHandler = (props: defaultProps) => {
 
 		await axios
 			.post(
-				"/api/stop",
+				"/api/music/stop",
 				{},
 				{
 					headers: {
@@ -170,7 +170,7 @@ const usePlayerHandler = (props: defaultProps) => {
 
 		await axios
 			.post(
-				"/api/disconnect",
+				"/api/music/disconnect",
 				{},
 				{
 					headers: {

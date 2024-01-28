@@ -1,7 +1,6 @@
 const next = require("next")
 
 var sslRootCAs = require("ssl-root-cas")
-sslRootCAs.inject()
 
 // note the "https" not "http" required module. You will get an error if trying to connect with https
 const https = require("https")
@@ -28,6 +27,8 @@ app.prepare().then(() => {
 			ca: cas,
 			servername: hostname
 		}
+
+		// console.log(tlsContext)
 
 		server = https.createServer(tlsContext, (req, res) => {
 			return handle(req, res)

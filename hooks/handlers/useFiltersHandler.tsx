@@ -22,7 +22,7 @@ const useFiltersHandler = (props: defaultProps) => {
 
 	function handlefilterSubmitted(event: any) {
 		const changeSongFilter = async () => {
-			const url = "/api/filters"
+			const url = "/api/music/filters"
 			await axios
 				.post(
 					url,
