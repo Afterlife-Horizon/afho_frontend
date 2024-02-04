@@ -87,7 +87,7 @@ const usePlayerHandler = (props: defaultProps) => {
 		} else {
 			await axios
 				.post(
-					"/api/pause",
+					"/api/music/pause",
 					{},
 					{
 						headers: {

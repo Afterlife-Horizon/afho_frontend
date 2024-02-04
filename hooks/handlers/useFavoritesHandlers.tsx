@@ -52,7 +52,7 @@ const useFavoritesHandler = (props: defaultProps) => {
 			})
 	}
 
-	async function deleteFav(userId: string, id: string) {
+	async function deleteFav(id: string) {
 		if (isDeleting.get(id)) return
 		setIsDeleting(() => {
 			const newMap = new Map()
@@ -63,11 +63,11 @@ const useFavoritesHandler = (props: defaultProps) => {
 		await axios
 			.delete("/api/music/delFav", {
 				data: {
-					userId,
 					id
 				},
 				headers: {
-					"Content-Type": "application/json"
+					"Content-Type": "application/json",
+					Authorization: (await supabase.auth.getSession()).data?.session?.access_token
 				}
 			})
 			.then(() => {
