@@ -26,7 +26,7 @@ const nextConfig = {
 		return [
 			{
 				source: "/api/:path*",
-				destination: "https://api.local.afterlifehorizon.net/:path*" //https://api.afterlifehorizon.net
+				destination: "http://127.0.0.1:4000/:path*" //https://api.afterlifehorizon.net
 			}
 		]
 	},
