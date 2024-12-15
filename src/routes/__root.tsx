@@ -71,7 +71,6 @@ export const Route = createRootRoute({
 			<ToastProvider>
 				<ThemeProvider theme={theme}>
 					<Outlet />
-					<TanStackRouterDevtools />
 				</ThemeProvider>
 			</ToastProvider>
 		</QueryClientProvider>
