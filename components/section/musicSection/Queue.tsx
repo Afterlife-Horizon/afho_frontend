@@ -60,12 +60,13 @@ const Queue: React.FC<defaultProps> = props => {
 			</div>
 			<ScrollDiv className="h-[calc(100dvh-31rem)]">
 				{queue.map((song, index) => {
+					console.log(song.thumbnail)
 					return (
 						<div ref={index + 1 === queue.length ? lastRequestRef : undefined} className={`flex gap-2 p-3`} key={index}>
 							<div className="w-[5rem] sm:w-[7rem]">
 								<Image
 									className="h-full w-full select-none object-cover"
-									src={song.thumbnail.url}
+									src={song.thumbnail}
 									width={1920}
 									height={1080}
 									alt="thumbnail"
@@ -76,7 +77,7 @@ const Queue: React.FC<defaultProps> = props => {
 								<a href={createYTLinkFromId(song.id)} className="font-semibold text-blue-400 hover:text-blue-600">
 									{song.title}
 								</a>
-								<div className="text-slate-400">Requested by: {song.requester.username}</div>
+								<div className="text-slate-400">Requested by: {song.requester}</div>
 							</div>
 							<Separator className="h-auto" decorative orientation={"vertical"} />
 							<SpecificButtons

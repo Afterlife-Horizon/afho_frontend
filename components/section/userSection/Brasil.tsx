@@ -6,6 +6,7 @@ import parseRank from "@/functions/parseRank"
 import useBrasilCounts from "@/hooks/useBrasilCounts"
 import useConnectedMembers from "@/hooks/useConnectedMembers"
 import { defaultProps } from "@/types"
+import { supabase } from "@/utils/supabaseUtils"
 import { Autocomplete, TextField } from "@mui/material"
 import axios, { AxiosError } from "axios"
 import React, { useState } from "react"
@@ -24,9 +25,9 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 		)
 	if (error) return <div>Error: {error.message}</div>
 	if (errorConnectedMembers) return <div>Error: {errorConnectedMembers.message}</div>
-	if (!brasils) return <div></div>
+	if (brasils === undefined) return <div></div>
 
-	const filteredBrasils = brasils.filter(brasil => brasil.user && brasil.user.displayAvatarURL)
+	let filteredBrasils = brasils === null ? [] : brasils.filter(brasil => brasil.user && brasil.user.displayAvatarURL)
 
 	const memberNames = connectedMembers ? connectedMembers.map(m => m.username) : []
 
@@ -36,6 +37,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 
 	function handleChangeCurrentPlayer(_event: any, values: any) {
 		setCurrentPlayer(values)
+		console.log(currentPlayer)
 	}
 
 	function handleBresilClicked() {
@@ -45,7 +47,10 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 					"/api/bresilMember",
 					{ moverId: user?.user_metadata.provider_id, movedId: id },
 					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {
@@ -62,6 +67,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 		}
 
 		const movedMemberId = connectedMembers?.find(m => m.username === currentPlayer)?.id
+		console.log(currentPlayer, movedMemberId, connectedMembers, currentPlayer === "" || !movedMemberId)
 		if (currentPlayer === "" || !movedMemberId) {
 			setToastOpen(true)
 			setToastTitle("")

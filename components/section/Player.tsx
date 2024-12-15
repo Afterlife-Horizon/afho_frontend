@@ -48,7 +48,7 @@ const Player: React.FC<defaultProps> = props => {
 			<Image
 				className="col-start-1 row-start-1 h-[100%] select-none overflow-hidden rounded-lg object-cover"
 				priority
-				src={usingFallback ? queue[0]?.thumbnail.url : ytThumbnailLink(queue[0]?.id, "maxresdefault")}
+				src={usingFallback ? queue[0]?.thumbnail : ytThumbnailLink(queue[0]?.id, "maxresdefault")}
 				onError={() => setUsingFallback(true)}
 				width={1920}
 				height={1080}
@@ -57,11 +57,9 @@ const Player: React.FC<defaultProps> = props => {
 			<div className={playerInfoClasses} style={{ zIndex: 1 }}>
 				<div className="text-dark">
 					<a className="text-blue-400 hover:text-blue-600" href={createYTLinkFromId(queue[0]?.id)}>
-						{queue[0] ? `${queue[0]?.channel.name} - ${queue[0]?.title}` : ""}
+						{queue[0] ? `${queue[0]?.author} - ${queue[0]?.title}` : ""}
 					</a>
-					<div className="invert-0">
-						{queue[0] ? `Requested by: ${queue[0]?.requester.username ? queue[0]?.requester.username : "None"}` : ""}
-					</div>
+					<div className="invert-0">{queue[0] ? `Requested by: ${queue[0]?.requester ? queue[0]?.requester : "None"}` : ""}</div>
 				</div>
 				<div className="self-end">
 					<div className="flex select-none gap-2">

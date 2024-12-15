@@ -22,16 +22,18 @@ const useFiltersHandler = (props: defaultProps) => {
 
 	function handlefilterSubmitted(event: any) {
 		const changeSongFilter = async () => {
-			const url = "/api/filters"
+			const url = "/api/music/filters"
 			await axios
 				.post(
 					url,
 					{
-						filters: { ...effects },
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
+						filters: { ...effects }
 					},
 					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {

@@ -1,6 +1,5 @@
 import ScrollDiv from "@/components/ui/ScrollDiv"
 import Spinner from "@/components/ui/Spinner"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import useAchievements from "@/hooks/useAchievements"
 import { defaultProps } from "@/types"
 import { Autocomplete, TextField } from "@mui/material"

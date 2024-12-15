@@ -12,6 +12,9 @@ import Achievements from "./userSection/Achievements"
 import { defaultProps } from "@/types"
 import { User as LucidUser } from "lucide-react"
 import { User } from "@supabase/supabase-js"
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer"
+import { DatePickerWithConfirmButton } from "../ui/DatePicker"
+import { useState } from "react"
 
 type theme = {
 	name: string
@@ -39,12 +42,13 @@ const UserSection: React.FC<props> = props => {
 	}
 
 	return (
-		<section className="mx-auto grid w-full grid-rows-[10rem_1fr] rounded-lg bg-background-medium text-dark shadow">
-			<div className={`flex w-full flex-col justify-between rounded-t-lg bg-background-light sm:flex-row`}>
+		<section className="mx-auto grid w-full grid-rows-[15rem_1fr] gap-2 rounded-lg bg-background-medium text-dark shadow md:grid-rows-[10rem_1fr] md:gap-0">
+			<div className={`flex w-full flex-col justify-between rounded-t-lg bg-background-light md:flex-row`}>
 				<UserProfile user={user} isAdmin={isAdmin} />
-				<div className={`mr-5 grid w-full place-items-center sm:mr-10 sm:w-[70%] sm:grid-flow-col sm:gap-3`}>
+				<div className={`mr-5 grid w-full place-items-center gap-1 md:mr-10 md:w-[70%] md:grid-flow-col md:gap-3`}>
+					{/* <UserEdit {...props} /> */}
 					<ThemeSelector theme={theme} handleThemeChange={handleThemeChange} />
-					<Button className={`w-full bg-red-500 px-10 py-5 hover:bg-red-400 sm:rounded-full`} onClick={handleSignOut}>
+					<Button className={`w-full bg-red-500 px-10 py-5 hover:bg-red-400 md:rounded-full`} onClick={handleSignOut}>
 						Logout
 					</Button>
 				</div>
@@ -81,6 +85,14 @@ const UserSection: React.FC<props> = props => {
 			</Tabs>
 		</section>
 	)
+}
+
+const UserEdit = (props: defaultProps) => {
+	const defaultMonth = new Date(2015, 5)
+	const [date, setDate] = useState<Date | undefined>(undefined)
+
+	async function handleConfirm() {}
+	return <DatePickerWithConfirmButton date={date} setDate={setDate} onConfirm={handleConfirm} defaultMonth={defaultMonth} />
 }
 
 const UserProfile = ({ user, isAdmin }: { user: User; isAdmin: boolean }) => {
@@ -135,8 +147,8 @@ Object.keys(themetypes).forEach(key => {
 const ThemeSelector = ({ theme, handleThemeChange }: { theme: string; handleThemeChange: (theme: string) => void }) => {
 	return (
 		<Select onValueChange={(theme: string) => handleThemeChange(theme)}>
-			<SelectTrigger className="text-bold w-full select-none border-0 bg-accent-dark px-10 py-5 font-medium transition-colors hover:bg-accent-light sm:rounded-full">
-				<SelectValue placeholder={allThemes.find(th => th.name === theme)?.displayName || null} />
+			<SelectTrigger className="text-bold w-full select-none justify-center border-0 bg-accent-dark px-10 py-5 text-center font-medium transition-colors hover:bg-accent-light md:rounded-full">
+				<SelectValue className={`text-center`} placeholder={allThemes.find(th => th.name === theme)?.displayName || null} />
 			</SelectTrigger>
 			<SelectContent>
 				{Object.keys(themetypes).map(key => {
@@ -147,7 +159,7 @@ const ThemeSelector = ({ theme, handleThemeChange }: { theme: string; handleThem
 						<SelectGroup key={name}>
 							<SelectLabel>{name}</SelectLabel>
 							{themes.map(theme => (
-								<SelectItem key={theme.name} value={theme.name}>
+								<SelectItem key={theme.name} value={theme.name} className={`text-center`}>
 									{theme.displayName}
 								</SelectItem>
 							))}

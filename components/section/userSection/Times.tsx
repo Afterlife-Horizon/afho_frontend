@@ -18,6 +18,7 @@ const Times: React.FC<defaultProps> = ({}) => {
 			</div>
 		)
 	if (error) return <div>Error: {error.message}</div>
+	if (!times) return <div></div>
 
 	const filteredTimes = times.filter(time => time.user && time.user.displayAvatarURL)
 

@@ -24,14 +24,16 @@ const usePlayerHandler = (props: defaultProps) => {
 			setToastColor("inform")
 			return
 		}
+
 		await axios
 			.post(
-				"/api/skip",
+				"/api/music/skip",
+				{},
 				{
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
-				},
-				{
-					headers: { "Content-Type": "application/json" }
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+					}
 				}
 			)
 			.then(() => {
@@ -62,12 +64,13 @@ const usePlayerHandler = (props: defaultProps) => {
 		if (fetchInfo.queue[0].paused) {
 			await axios
 				.post(
-					"/api/unpause",
+					"/api/music/unpause",
+					{},
 					{
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
-					},
-					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {
@@ -84,12 +87,13 @@ const usePlayerHandler = (props: defaultProps) => {
 		} else {
 			await axios
 				.post(
-					"/api/pause",
+					"/api/music/pause",
+					{},
 					{
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
-					},
-					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {
@@ -129,12 +133,13 @@ const usePlayerHandler = (props: defaultProps) => {
 
 		await axios
 			.post(
-				"/api/stop",
+				"/api/music/stop",
+				{},
 				{
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
-				},
-				{
-					headers: { "Content-Type": "application/json" }
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+					}
 				}
 			)
 			.then(() => {
@@ -165,12 +170,13 @@ const usePlayerHandler = (props: defaultProps) => {
 
 		await axios
 			.post(
-				"/api/disconnect",
+				"/api/music/disconnect",
+				{},
 				{
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
-				},
-				{
-					headers: { "Content-Type": "application/json" }
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+					}
 				}
 			)
 			.then(() => {

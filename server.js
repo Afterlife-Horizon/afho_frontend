@@ -7,7 +7,7 @@ const https = require("https")
 const http = require("http")
 const fs = require("fs")
 
-const hostname = "localhost"
+const hostname = "local.afterlifehorizon.net"
 const port = Number(process.env.PORT) || 3000
 const dev = process.env.NODE_ENV !== "production"
 
@@ -21,14 +21,14 @@ app.prepare().then(() => {
 		let cas = sslRootCAs.create()
 		if (process.env.CA_CERT) cas.addFile(process.env.CA_CERT)
 
-		const hostname = "local.afterlifehorizon.net"
-
 		const tlsContext = {
 			key: fs.readFileSync(process.env.CERT_KEY),
 			cert: fs.readFileSync(process.env.CERT),
 			ca: cas,
 			servername: hostname
 		}
+
+		// console.log(tlsContext)
 
 		server = https.createServer(tlsContext, (req, res) => {
 			return handle(req, res)
@@ -38,6 +38,6 @@ app.prepare().then(() => {
 			return handle(req, res)
 		})
 	server.listen(port, () => {
-		console.log("> Ready on https://local.afterlifehorizon.net")
+		console.log(`> Ready on ${hostname}`)
 	})
 })

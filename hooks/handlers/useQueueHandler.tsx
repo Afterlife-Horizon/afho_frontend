@@ -33,13 +33,15 @@ const useQueueHandler = (props: defaultProps) => {
 		async function addSong() {
 			await axios
 				.post(
-					"/api/play",
+					"/api/music/play",
 					{
-						songs: searchInput,
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
+						songs: searchInput
 					},
 					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {
@@ -73,13 +75,15 @@ const useQueueHandler = (props: defaultProps) => {
 		async function AddFirst() {
 			await axios
 				.post(
-					"/api/playfirst",
+					"/api/music/playfirst",
 					{
-						songs: searchInput,
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
+						songs: searchInput
 					},
 					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {
@@ -111,11 +115,18 @@ const useQueueHandler = (props: defaultProps) => {
 
 	function handleShuffle() {
 		async function shuffleSongs() {
-			const url = "/api/shuffle"
+			const url = "/api/music/shuffle"
 			await axios
-				.post(url, {
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
-				})
+				.post(
+					url,
+					{},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
+					}
+				)
 				.then(() => {
 					setIsShuffling(false)
 				})
@@ -144,11 +155,18 @@ const useQueueHandler = (props: defaultProps) => {
 
 	function handleClear() {
 		async function clearSongs() {
-			const url = "/api/clearqueue"
+			const url = "/api/music/clearqueue"
 			await axios
-				.post(url, {
-					access_token: (await supabase.auth.getSession()).data?.session?.access_token
-				})
+				.post(
+					url,
+					{},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
+					}
+				)
 				.then(() => {
 					setIsClearing(false)
 				})
@@ -184,16 +202,18 @@ const useQueueHandler = (props: defaultProps) => {
 
 	function handleRemove(id: number) {
 		async function remove() {
-			const url = "/api/remove"
+			const url = "/api/music/remove"
 			await axios
 				.post(
 					url,
 					{
-						queuePos: id,
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
+						queuePos: id
 					},
 					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {
@@ -245,13 +265,15 @@ const useQueueHandler = (props: defaultProps) => {
 		async function skipto() {
 			await axios
 				.post(
-					"/api/skipto",
+					"/api/music/skipto",
 					{
-						queuePos: id,
-						access_token: (await supabase.auth.getSession()).data?.session?.access_token
+						queuePos: id
 					},
 					{
-						headers: { "Content-Type": "application/json" }
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+						}
 					}
 				)
 				.then(() => {

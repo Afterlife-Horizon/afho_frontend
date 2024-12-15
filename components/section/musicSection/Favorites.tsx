@@ -26,6 +26,12 @@ const Favorites: React.FC<defaultProps> = props => {
 			</div>
 		)
 	if (error) return <div>Error: {error.message}</div>
+	if (!favorites)
+		return (
+			<div className="grid grid-rows-[4rem_1fr]">
+				<SearchBar isAdding={isAdding} favField={favField} addFav={addFav} setFavField={setFavField} />
+			</div>
+		)
 
 	return (
 		<div className="grid grid-rows-[4rem_1fr]">
@@ -117,7 +123,7 @@ const FavoriteList = ({
 	favorites: fav[]
 	user: User
 	playFav: (fav: fav) => Promise<void>
-	deleteFav: (userId: string, id: string) => Promise<void>
+	deleteFav: (id: string) => Promise<void>
 }) => {
 	return (
 		<ScrollDiv className="h-[calc(100dvh-2rem-10rem-21.8rem)] overflow-auto rounded-b-lg" id="favorites">
@@ -176,7 +182,7 @@ const Buttons = ({
 	isDeleting: Map<string, boolean>
 	user: User
 	playFav: (fav: fav) => Promise<void>
-	deleteFav: (userId: string, id: string) => Promise<void>
+	deleteFav: (id: string) => Promise<void>
 }) => {
 	return (
 		<div className="flex flex-row items-center gap-2 px-3">
@@ -184,7 +190,7 @@ const Buttons = ({
 				<HoverCardTrigger>
 					<Button
 						className="scale-[85%] rounded-full bg-red-500 hover:scale-105 hover:bg-red-500 active:scale-95 md:scale-100"
-						onClick={() => deleteFav(user.user_metadata.provider_id, song.id)}
+						onClick={() => deleteFav(song.id)}
 					>
 						{isDeleting.get(song.id) ? <Spinner size={20} /> : <X />}
 					</Button>
