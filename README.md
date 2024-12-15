@@ -1,15 +1,15 @@
 # Afterlife Horizon Bot Project
 
-The website for the discord bot created in ReactJS and typescript
+The website for the discord bot created in ReactVite
 
 ## Requirements
 
--   NodeJS 18.15.0 or higher
+- NodeJS 22.10.1 or higher
 
 ## features
 
--   Ability to control the music played by the bot in a discord channel.
--   Check various leaderboards
+- Ability to control the music played by the bot in a discord channel.
+- Check various leaderboards
 
 ## Installation
 
@@ -22,19 +22,19 @@ The website for the discord bot created in ReactJS and typescript
     **`.env`**
 
     ```bash
-    VITE_REDIRECT_URI=""    # url of your website with / at the end
-    VITE_SUPABASE_URL=""    # url of your supabase project
-    VITE_SUPABASE_KEY=""    # public key from supabase
+    VITE_SUPABASE_REDIRECT_URI=""     # url of your website with / at the end
+    VITE_SUPABASE_URL=""              # url of your supabase project
+    VITE_SUPABASE_KEY=""              # public key from supabase
     ```
 
 2.  Install the dependencies:
 
     ```bash
-    npm install
+    bun install
     ```
 
 3.  Build the frontend:
 
     ```bash
-    npm run build
+    bun run build
     ```
