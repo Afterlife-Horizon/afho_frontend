@@ -129,7 +129,7 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 												<AvatarFallback></AvatarFallback>
 											</Avatar>
 										) : null}
-										<div>{brasil.user.nickname}</div>
+										<div>{brasil.user.displayName}</div>
 									</div>
 								</td>
 								<td>{brasil.bresil_received}</td>

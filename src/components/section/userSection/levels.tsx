@@ -54,7 +54,7 @@ const Levels: React.FC<defaultProps> = () => {
 												</AvatarFallback>
 											</Avatar>
 										) : null}
-										<div>{level.user.nickname}</div>
+										<div>{level.user.displayName}</div>
 									</div>
 								</td>
 								<td>{level.lvl}</td>

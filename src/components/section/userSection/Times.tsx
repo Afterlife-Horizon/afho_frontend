@@ -55,7 +55,7 @@ const Times: React.FC<defaultProps> = () => {
 												</AvatarFallback>
 											</Avatar>
 										) : null}
-										<div>{time.user.nickname}</div>
+										<div>{time.user.displayName}</div>
 									</div>
 								</td>
 								<td>
