@@ -65,10 +65,13 @@ const Index = () => {
 		<main
 			className={`theme-${theme} mb-[3rem] grid w-full gap-5 bg-background-dark p-[1rem] xl:mb-0 xl:h-[100dvh] xl:max-h-[100dvh] xl:grid-cols-2`}
 		>
-			<div className={`grid grid-flow-row grid-rows-[20rem_1fr] gap-5 xl:max-h-[calc(100dvh-2rem)]`}>
+			{/* <div className='rid grid-flow-row grid-rows-[20rem_1fr] gap-5 xl:max-h-[calc(100dvh-2rem)]'>
 				<Player {...props} />
 				<MusicSection {...props} />
-			</div>
+			</div> */}
+			<section className="mx-auto flex-row w-full gap-2 rounded-lg bg-background-medium text-dark shadow md:gap-0">
+				<div className="m-2 p-10 bg-red-500 text-center rounded-3xl">Temporarly disabled music features</div>
+			</section>
 			<div className={`max-h-[calc(100dvh-2rem)] w-full`}>
 				<UserSection {...props} theme={theme} setTheme={setTheme} />
 			</div>
