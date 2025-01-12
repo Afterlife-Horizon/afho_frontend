@@ -6,9 +6,9 @@ import useUser from "hooks/useUser"
 import useWindowSize from "hooks/useWindowSize"
 import { useState, useEffect } from "react"
 import { defaultProps } from "types"
-import { createLazyFileRoute, useNavigate } from "@tanstack/react-router"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
 
-const Index = () => {
+const IndexRouteComponent = () => {
 	const [toastOpen, setToastOpen] = useState(false)
 	const [toastTitle, setToastTitle] = useState("")
 	const [toastDescription, setToastDescription] = useState("")
@@ -36,7 +36,12 @@ const Index = () => {
 			</div>
 		)
 	if (error) navigate({ to: "/auth" })
-	if (!apiUser) return <div></div>
+
+	if (!apiUser) {
+		console.log("Failed to get user")
+		localStorage.removeItem("token")
+		navigate({ to: "/auth" })
+	}
 
 	if (isFetchingInfo)
 		return (
@@ -87,6 +92,6 @@ const Index = () => {
 	)
 }
 
-export const Route = createLazyFileRoute("/")({
-	component: Index
+export const Route = createFileRoute("/")({
+	component: IndexRouteComponent
 })
