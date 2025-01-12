@@ -1,8 +1,7 @@
-import { createLazyFileRoute } from "@tanstack/react-router"
 import { Button } from "../../components/ui/button"
 import { FaDiscord } from "react-icons/fa"
 
-const AuthPage = () => {
+const AuthPageRouteComponent = () => {
 	async function handleLogin() {
 		window.location.href = window.location.origin + "/api/discord/login?redirect_uri=" + window.location.origin + "/auth/callback"
 	}
@@ -19,6 +18,4 @@ const AuthPage = () => {
 	)
 }
 
-export const Route = createLazyFileRoute("/auth/")({
-	component: AuthPage
-})
+export default AuthPageRouteComponent

@@ -1,11 +1,6 @@
-import { createLazyFileRoute } from "@tanstack/react-router"
 import { useEffect } from "react"
 
-export const Route = createLazyFileRoute("/auth/callback")({
-	component: RouteComponent
-})
-
-function RouteComponent() {
+export default function CallbackRouteComponent() {
 	useEffect(() => {
 		async function handleCode(code: string) {
 			await fetch("/api/discord/callback?code=" + code + "&redirect_uri=" + window.location.origin + "/auth/callback")

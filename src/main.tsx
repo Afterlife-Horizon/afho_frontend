@@ -1,10 +1,31 @@
 import { StrictMode } from "react"
 import ReactDOM from "react-dom/client"
-import { RouterProvider, createRouter } from "@tanstack/react-router"
+import { RouterProvider, createRoute, createRouter } from "@tanstack/react-router"
 import "./index.css"
+import { rootRoute } from "routes/__root"
+import CallbackRouteComponent from "routes/auth/callback.lazy"
+import AuthPageRouteComponent from "routes/auth/index.lazy"
+import IndexRouteComponent from "routes/index.lazy"
 
-// Import the generated route tree
-import { routeTree } from "./routeTree.gen"
+const indexRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/",
+	component: IndexRouteComponent
+})
+
+const authIndexRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/auth",
+	component: AuthPageRouteComponent
+})
+
+const authCallbackRoute = createRoute({
+	getParentRoute: () => rootRoute,
+	path: "/auth/callback",
+	component: CallbackRouteComponent
+})
+
+const routeTree = rootRoute.addChildren([indexRoute, authIndexRoute, authCallbackRoute])
 
 // Create a new router instance
 const router = createRouter({ routeTree })

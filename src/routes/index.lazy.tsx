@@ -6,9 +6,9 @@ import useUser from "hooks/useUser"
 import useWindowSize from "hooks/useWindowSize"
 import { useState, useEffect } from "react"
 import { defaultProps } from "types"
-import { createLazyFileRoute, useNavigate } from "@tanstack/react-router"
+import { useNavigate } from "@tanstack/react-router"
 
-const Index = () => {
+const IndexRouteComponent = () => {
 	const [toastOpen, setToastOpen] = useState(false)
 	const [toastTitle, setToastTitle] = useState("")
 	const [toastDescription, setToastDescription] = useState("")
@@ -87,6 +87,4 @@ const Index = () => {
 	)
 }
 
-export const Route = createLazyFileRoute("/")({
-	component: Index
-})
+export default IndexRouteComponent
