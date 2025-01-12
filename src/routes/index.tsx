@@ -36,7 +36,12 @@ const IndexRouteComponent = () => {
 			</div>
 		)
 	if (error) navigate({ to: "/auth" })
-	if (!apiUser) return <div></div>
+
+	if (!apiUser) {
+		console.log("Failed to get user")
+		localStorage.removeItem("token")
+		navigate({ to: "/auth" })
+	}
 
 	if (isFetchingInfo)
 		return (
