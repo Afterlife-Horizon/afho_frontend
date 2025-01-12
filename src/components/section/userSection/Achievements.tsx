@@ -6,19 +6,19 @@ import { Autocomplete, TextField } from "@mui/material"
 import React from "react"
 
 const Achievements: React.FC<defaultProps> = props => {
-	const [selectedMember, setSelectedMember] = React.useState<string>(props.user.user_metadata.full_name)
+	const [selectedMember, setSelectedMember] = React.useState<string>(props.user.username)
 	const { data: achievements, isLoading, error } = useAchievements()
 
 	const nonNullAchievements = achievements?.filter(achievement => achievement.achievements?.length > 0)
 	const selectMemberList = nonNullAchievements?.map(achievement => achievement.username) || []
 
-	if (props.user.user_metadata.full_name && !selectMemberList?.includes(props.user.user_metadata.full_name)) {
+	if (props.user.username && !selectMemberList?.includes(props.user.username)) {
 		nonNullAchievements?.push({
 			id: props.user.id,
-			username: props.user.user_metadata.full_name,
+			username: props.user.username,
 			achievements: []
 		})
-		selectMemberList?.push(props.user.user_metadata.full_name)
+		selectMemberList?.push(props.user.username)
 	}
 
 	if (isLoading)

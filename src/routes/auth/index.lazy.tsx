@@ -1,18 +1,12 @@
 import { createLazyFileRoute } from "@tanstack/react-router"
-import { supabase } from "../utils/supabaseUtils"
-import { Button } from "../components/ui/button"
+import { Button } from "../../components/ui/button"
 import { FaDiscord } from "react-icons/fa"
 
 const AuthPage = () => {
 	async function handleLogin() {
-		await supabase.auth.signInWithOAuth({
-			provider: "discord",
-			options: {
-				scopes: "identify",
-				redirectTo: import.meta.env.VITE_SUPABASE_REDIRECT_URI || "http://localhost:5173"
-			}
-		})
+		window.location.href = window.location.origin + "/api/discord/login?redirect_uri=" + window.location.origin + "/auth/callback"
 	}
+
 	return (
 		<div className="discord-login">
 			<div>
@@ -25,6 +19,6 @@ const AuthPage = () => {
 	)
 }
 
-export const Route = createLazyFileRoute("/auth")({
+export const Route = createLazyFileRoute("/auth/")({
 	component: AuthPage
 })

@@ -6,7 +6,6 @@ import parseRank from "functions/parseRank"
 import useBrasilCounts from "hooks/useBrasilCounts"
 import useConnectedMembers from "hooks/useConnectedMembers"
 import { defaultProps } from "types"
-import { supabase } from "utils/supabaseUtils"
 import { Autocomplete, TextField } from "@mui/material"
 import axios, { AxiosError } from "axios"
 import React, { useState } from "react"
@@ -47,11 +46,11 @@ const Brasil: React.FC<defaultProps> = ({ setToastColor, setToastDescription, se
 			await axios
 				.post(
 					"/api/bresilMember",
-					{ moverId: user?.user_metadata.provider_id, movedId: id },
+					{ moverId: user.id, movedId: id },
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: (await supabase.auth.getSession()).data?.session?.access_token
+							Authorization: localStorage.getItem("token")
 						}
 					}
 				)

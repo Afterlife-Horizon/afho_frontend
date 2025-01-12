@@ -1,16 +1,14 @@
 import { UseQueryResult, useQuery } from "@tanstack/react-query"
-import { getUser } from "../utils/supabaseUtils"
-import { User } from "@supabase/supabase-js"
+import getUser from "functions/GetUser"
+import { APIUser } from "discord-api-types/v10"
 
-const useUser = (): UseQueryResult<User, Error> => {
+const useUser = (jwt: string | null): UseQueryResult<APIUser, Error> => {
 	return useQuery({
 		queryKey: ["user"],
-		queryFn: getUser,
+		queryFn: () => getUser(jwt),
 		select: data => data.user,
-		retry(failureCount, error) {
-			if (error.message === "invalid claim: missing sub claim") {
-				return false
-			}
+		enabled: jwt !== null,
+		retry(failureCount) {
 			if (failureCount < 2) {
 				return true
 			}

@@ -1,6 +1,4 @@
 import { Toast, ToastTitle, ToastDescription, ToastViewport } from "components/ui/toast"
-import MusicSection from "components/section/MusicSection"
-import Player from "components/section/Player"
 import UserSection from "components/section/UserSection"
 import Spinner from "components/ui/Spinner"
 import useFetchInfo from "hooks/useFetchInfo"
@@ -18,7 +16,12 @@ const Index = () => {
 	const [theme, setTheme] = useState("default")
 	const navigate = useNavigate()
 	const windowSize = useWindowSize()
-	const { data: apiUser, isLoading, error } = useUser()
+
+	const jwt = localStorage.getItem("token")
+	if (jwt === null || jwt === "undefined") {
+		navigate({ to: "/auth" })
+	}
+	const { data: apiUser, isLoading, error } = useUser(jwt)
 	const { data: fetchInfo, isLoading: isFetchingInfo, error: fetchingInfoError } = useFetchInfo()
 
 	useEffect(() => {
@@ -49,7 +52,7 @@ const Index = () => {
 		return <div>{fetchingInfoError.message}</div>
 	}
 
-	const isAdmin = fetchInfo?.admins.includes(apiUser.user_metadata.full_name)
+	const isAdmin = fetchInfo?.admins.includes(apiUser.username)
 
 	const props: defaultProps = {
 		user: apiUser,
