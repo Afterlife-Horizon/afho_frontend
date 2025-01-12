@@ -1,10 +1,10 @@
-import { User } from "@supabase/supabase-js"
 import { Dispatch, SetStateAction } from "react"
 import { guildMember } from "./discord"
 import { IFetchData } from "./music"
+import { APIUser } from "discord-api-types/v10"
 
 export interface defaultProps extends React.ComponentPropsWithoutRef<"div"> {
-	user: User
+	user: APIUser
 	fetchInfo: IFetchData
 	isAdmin: boolean
 	setToastOpen: Dispatch<SetStateAction<boolean>>

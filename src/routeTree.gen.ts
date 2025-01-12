@@ -16,29 +16,29 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
-const AuthLazyImport = createFileRoute('/auth')()
-const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
+const AuthIndexLazyImport = createFileRoute('/auth/')()
+const AuthCallbackLazyImport = createFileRoute('/auth/callback')()
 
 // Create/Update Routes
-
-const AuthLazyRoute = AuthLazyImport.update({
-  id: '/auth',
-  path: '/auth',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/auth.lazy').then((d) => d.Route))
-
-const AboutLazyRoute = AboutLazyImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
 
 const IndexLazyRoute = IndexLazyImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const AuthIndexLazyRoute = AuthIndexLazyImport.update({
+  id: '/auth/',
+  path: '/auth/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/auth/index.lazy').then((d) => d.Route))
+
+const AuthCallbackLazyRoute = AuthCallbackLazyImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/auth/callback.lazy').then((d) => d.Route))
 
 // Populate the FileRoutesByPath interface
 
@@ -51,18 +51,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutLazyImport
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackLazyImport
       parentRoute: typeof rootRoute
     }
-    '/auth': {
-      id: '/auth'
+    '/auth/': {
+      id: '/auth/'
       path: '/auth'
       fullPath: '/auth'
-      preLoaderRoute: typeof AuthLazyImport
+      preLoaderRoute: typeof AuthIndexLazyImport
       parentRoute: typeof rootRoute
     }
   }
@@ -72,42 +72,42 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
-  '/auth': typeof AuthLazyRoute
+  '/auth/callback': typeof AuthCallbackLazyRoute
+  '/auth': typeof AuthIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
-  '/auth': typeof AuthLazyRoute
+  '/auth/callback': typeof AuthCallbackLazyRoute
+  '/auth': typeof AuthIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/about': typeof AboutLazyRoute
-  '/auth': typeof AuthLazyRoute
+  '/auth/callback': typeof AuthCallbackLazyRoute
+  '/auth/': typeof AuthIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/auth'
+  fullPaths: '/' | '/auth/callback' | '/auth'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/auth'
-  id: '__root__' | '/' | '/about' | '/auth'
+  to: '/' | '/auth/callback' | '/auth'
+  id: '__root__' | '/' | '/auth/callback' | '/auth/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  AboutLazyRoute: typeof AboutLazyRoute
-  AuthLazyRoute: typeof AuthLazyRoute
+  AuthCallbackLazyRoute: typeof AuthCallbackLazyRoute
+  AuthIndexLazyRoute: typeof AuthIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  AboutLazyRoute: AboutLazyRoute,
-  AuthLazyRoute: AuthLazyRoute,
+  AuthCallbackLazyRoute: AuthCallbackLazyRoute,
+  AuthIndexLazyRoute: AuthIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -121,18 +121,18 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/about",
-        "/auth"
+        "/auth/callback",
+        "/auth/"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
     },
-    "/about": {
-      "filePath": "about.lazy.tsx"
+    "/auth/callback": {
+      "filePath": "auth/callback.lazy.tsx"
     },
-    "/auth": {
-      "filePath": "auth.lazy.tsx"
+    "/auth/": {
+      "filePath": "auth/index.lazy.tsx"
     }
   }
 }

@@ -1,4 +1,3 @@
-import { supabase } from "utils/supabaseUtils"
 import Brasil from "./userSection/Brasil"
 import Levels from "./userSection/levels"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
@@ -10,10 +9,11 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import Achievements from "./userSection/Achievements"
 import { defaultProps } from "types"
 import { User as LucidUser } from "lucide-react"
-import { User } from "@supabase/supabase-js"
 import { DatePickerWithConfirmButton } from "../ui/DatePicker"
 import { useState } from "react"
 import { useNavigate } from "@tanstack/react-router"
+import { APIUser } from "discord-api-types/v10"
+import avatarURL from "functions/avatarURL"
 
 type theme = {
 	name: string
@@ -30,8 +30,7 @@ const UserSection: React.FC<props> = props => {
 	const navigate = useNavigate()
 
 	async function handleSignOut() {
-		const { error } = await supabase.auth.signOut()
-		if (error) return
+		localStorage.removeItem("token")
 		navigate({ to: "/auth" })
 	}
 
@@ -94,16 +93,16 @@ const UserEdit = (props: defaultProps) => {
 	return <DatePickerWithConfirmButton date={date} setDate={setDate} onConfirm={handleConfirm} defaultMonth={defaultMonth} />
 }
 
-const UserProfile = ({ user, isAdmin }: { user: User; isAdmin: boolean }) => {
+const UserProfile = ({ user, isAdmin }: { user: APIUser; isAdmin: boolean }) => {
 	return (
 		<div className="flex w-full items-center gap-3 p-[2rem]">
 			<Avatar className={`h-[3rem] w-[3rem] select-none rounded-full md:h-[5rem] md:w-[5rem]`}>
-				<AvatarImage draggable={false} src={user.user_metadata.avatar_url} />
+				<AvatarImage draggable={false} src={avatarURL(user)} />
 				<AvatarFallback>
 					<LucidUser />
 				</AvatarFallback>
 			</Avatar>
-			<div className={`text-[1rem] text-xl text-dark`}>{user.user_metadata.full_name}</div>
+			<div className={`text-[1rem] text-xl text-dark`}>{user.username}</div>
 			<AdminBadge isAdmin={isAdmin} />
 		</div>
 	)
