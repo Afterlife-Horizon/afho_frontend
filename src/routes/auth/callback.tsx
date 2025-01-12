@@ -1,6 +1,7 @@
+import { createFileRoute } from "@tanstack/react-router"
 import { useEffect } from "react"
 
-export default function CallbackRouteComponent() {
+function CalbackRouteComponent() {
 	useEffect(() => {
 		async function handleCode(code: string) {
 			await fetch("/api/discord/callback?code=" + code + "&redirect_uri=" + window.location.origin + "/auth/callback")
@@ -29,3 +30,7 @@ export default function CallbackRouteComponent() {
 
 	return <div></div>
 }
+
+export const Route = createFileRoute("/auth/callback")({
+	component: CalbackRouteComponent
+})

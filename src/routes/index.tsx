@@ -6,7 +6,7 @@ import useUser from "hooks/useUser"
 import useWindowSize from "hooks/useWindowSize"
 import { useState, useEffect } from "react"
 import { defaultProps } from "types"
-import { useNavigate } from "@tanstack/react-router"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
 
 const IndexRouteComponent = () => {
 	const [toastOpen, setToastOpen] = useState(false)
@@ -87,4 +87,6 @@ const IndexRouteComponent = () => {
 	)
 }
 
-export default IndexRouteComponent
+export const Route = createFileRoute("/")({
+	component: IndexRouteComponent
+})

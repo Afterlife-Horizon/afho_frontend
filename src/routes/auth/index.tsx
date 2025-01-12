@@ -1,7 +1,8 @@
+import { createFileRoute } from "@tanstack/react-router"
 import { Button } from "../../components/ui/button"
 import { FaDiscord } from "react-icons/fa"
 
-const AuthPageRouteComponent = () => {
+const AuthRouteComponent = () => {
 	async function handleLogin() {
 		window.location.href = window.location.origin + "/api/discord/login?redirect_uri=" + window.location.origin + "/auth/callback"
 	}
@@ -18,4 +19,7 @@ const AuthPageRouteComponent = () => {
 	)
 }
 
-export default AuthPageRouteComponent
+
+export const Route = createFileRoute("/auth/")({
+	component: AuthRouteComponent
+})

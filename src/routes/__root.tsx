@@ -75,3 +75,5 @@ export const rootRoute = createRootRoute({
 		</QueryClientProvider>
 	)
 })
+
+export const Route = rootRoute
